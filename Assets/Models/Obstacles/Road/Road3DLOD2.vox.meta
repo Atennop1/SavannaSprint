@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: 2ceb18a47788b384a9fa0d603e271c8a
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: eeb34f3ead148d04e8630fc3f79cbc1a, type: 3}
+  dataVersion: 6
+  fileType: 0
+  gameObjectName: doroga1_LOD2
+  meshMode: 0
+  importMode: 0
+  importScale: {x: 0.1, y: 0.02243007, z: 0.1}
+  importOffset: {x: 0, y: 0, z: 0}
+  combineFaces: 1
+  ignoreCavity: 1
+  shareSameFace: 1
+  removeUnusedPalettes: 0
+  outputStructure: 0
+  generateLightmapUVs: 0
+  generateLightmapUVsAngleError: 8
+  generateLightmapUVsAreaError: 15
+  generateLightmapUVsHardAngle: 88
+  generateLightmapUVsPackMargin: 4
+  generateTangents: 0
+  meshFaceVertexOffset: 0
+  loadFromVoxelFile: 1
+  generateMipMaps: 0
+  colliderType: 0
+  createContactChunkFaces: 0
+  materialMode: 0
+  materials:
+  - {instanceID: 0}
+  materialNames:
+  - Road3DLOD2_0
+  remappedMaterials:
+  - name: Road3DLOD2_0
+    material: {fileID: 2100000, guid: 6b1ff51fdb7f53c408bce95f9a5ba3d2, type: 2}
+  export: 0
+  legacyVoxImport: 0
+  legacyAssetNaming: 0

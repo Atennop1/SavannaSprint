@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: c7008e4721c176943a3a11bccf34efa5
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: eeb34f3ead148d04e8630fc3f79cbc1a, type: 3}
+  dataVersion: 6
+  fileType: 0
+  gameObjectName: WallUpLOD1
+  meshMode: 0
+  importMode: 0
+  importScale: {x: 1, y: 1, z: 1}
+  importOffset: {x: 0, y: 0, z: 0}
+  combineFaces: 1
+  ignoreCavity: 1
+  shareSameFace: 1
+  removeUnusedPalettes: 0
+  outputStructure: 0
+  generateLightmapUVs: 0
+  generateLightmapUVsAngleError: 8
+  generateLightmapUVsAreaError: 15
+  generateLightmapUVsHardAngle: 88
+  generateLightmapUVsPackMargin: 4
+  generateTangents: 0
+  meshFaceVertexOffset: 0
+  loadFromVoxelFile: 1
+  generateMipMaps: 0
+  colliderType: 0
+  createContactChunkFaces: 0
+  materialMode: 0
+  materials:
+  - {fileID: -156486658544998735, guid: c7008e4721c176943a3a11bccf34efa5, type: 3}
+  materialNames:
+  - WallUpLOD1_0
+  remappedMaterials:
+  - name: WallUpLOD1_0
+    material: {fileID: 2100000, guid: 84290147af28dd546a8eeaf9e03655b2, type: 2}
+  export: 0
+  legacyVoxImport: 0
+  legacyAssetNaming: 0

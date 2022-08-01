@@ -1,0 +1,283 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e22b2c30b1805c409c487c4b0cb2354, type: 3}
+  m_Name: ObstaclesData3D
+  m_EditorClassIdentifier: 
+  data:
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 8458700925273873844, guid: c7281ba2e1f3dbb429a95f8c253d3afe,
+      type: 3}
+    obstacleLOD1: {fileID: 4285619260555967255, guid: c0f00c2dce26ca644a448e177a6948fc,
+      type: 3}
+    obstacleLOD2: {fileID: 2382624414245636998, guid: 5658bc00e9304264b822e7042c69d2da,
+      type: 3}
+    isDependsPlayerSpeed: 1
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 0
+    coinsOffset: {x: 0, y: 0, z: -2}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 01000000
+    coinsStyle: 1
+    obstaclePosition: {x: -3.3, y: 0, z: 31.114996}
+    coinsPosition: {x: -3.3, y: 0, z: 29.026995}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 6211471498930076181, guid: 824d3dcd17fd06c4fa021e6f1dd95fa5,
+      type: 3}
+    obstacleLOD1: {fileID: 6211471498930076181, guid: 824d3dcd17fd06c4fa021e6f1dd95fa5,
+      type: 3}
+    obstacleLOD2: {fileID: 6211471498930076181, guid: 824d3dcd17fd06c4fa021e6f1dd95fa5,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 0.3
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 00000000
+    coinsStyle: 0
+    obstaclePosition: {x: 0, y: 0.3, z: 30.84}
+    coinsPosition: {x: 0, y: 0.3, z: 30.84}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 8798944450028655386, guid: cac49d2c3180c884c84516296f10eaf3,
+      type: 3}
+    obstacleLOD1: {fileID: 7094574814032753433, guid: c60c2e15a25867848b8eaaf10b17758b,
+      type: 3}
+    obstacleLOD2: {fileID: 7094574814032753433, guid: c60c2e15a25867848b8eaaf10b17758b,
+      type: 3}
+    isDependsPlayerSpeed: 1
+    isForOneLine: 0
+    isSphereRock: 0
+    positionY: 0.8
+    coinsOffset: {x: 0, y: -0.7, z: -2}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 0000000001000000
+    coinsStyle: 1
+    obstaclePosition: {x: 0, y: 0.8, z: 31.214994}
+    coinsPosition: {x: -3.3, y: 0.100000024, z: 29.094994}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 562192206735477598, guid: 87eadb4df4faef248b9da7365a705929,
+      type: 3}
+    obstacleLOD1: {fileID: 6444530129108180235, guid: f7704a8fc526ff04ba5572f4e81a3ab6,
+      type: 3}
+    obstacleLOD2: {fileID: 6444530129108180235, guid: f7704a8fc526ff04ba5572f4e81a3ab6,
+      type: 3}
+    isDependsPlayerSpeed: 1
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 0
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: 3.3, y: 0, z: 31.164995}
+    coinsPosition: {x: 3.3, y: 0, z: 31.164995}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 2475485633712135786, guid: d1f79f703ddb83442912700a735f33cc,
+      type: 3}
+    obstacleLOD1: {fileID: 3890109506629485095, guid: ad7d9e035c33c6d4895200ea897d3ddc,
+      type: 3}
+    obstacleLOD2: {fileID: 3890109506629485095, guid: ad7d9e035c33c6d4895200ea897d3ddc,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 0
+    coinsOffset: {x: 0, y: 0.3, z: -8}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 02000000
+    coinsStyle: 2
+    obstaclePosition: {x: 3.3, y: 0, z: 31.114996}
+    coinsPosition: {x: 3.3, y: 0.3, z: 23.114996}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 563808633499694622, guid: c8d194d135f30cd47a1dc56c3bc821fc,
+      type: 3}
+    obstacleLOD1: {fileID: 2749923566939248693, guid: 80524884e6c7cdc4bb5cb301954a4468,
+      type: 3}
+    obstacleLOD2: {fileID: 2749923566939248693, guid: 80524884e6c7cdc4bb5cb301954a4468,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 0
+    isSphereRock: 0
+    positionY: 0.6
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 00000000
+    coinsStyle: 0
+    obstaclePosition: {x: 0, y: 0.6, z: 31.064997}
+    coinsPosition: {x: 0, y: 0.6, z: 31.064997}
+  - chance: 0.62696
+    obstacleLOD0: {fileID: 8033075898304068251, guid: 1599fb2f1705af14fba078dbfac779a9,
+      type: 3}
+    obstacleLOD1: {fileID: 8033075898304068251, guid: 1599fb2f1705af14fba078dbfac779a9,
+      type: 3}
+    obstacleLOD2: {fileID: 8033075898304068251, guid: 1599fb2f1705af14fba078dbfac779a9,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 1
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: -3.3, y: 1, z: 31.164995}
+    coinsPosition: {x: -3.3, y: 1, z: 31.164995}
+  - chance: 0.62696
+    obstacleLOD0: {fileID: 6077344023740586586, guid: fa7b513eb8a95d244bb45adf698f1176,
+      type: 3}
+    obstacleLOD1: {fileID: 6077344023740586586, guid: fa7b513eb8a95d244bb45adf698f1176,
+      type: 3}
+    obstacleLOD2: {fileID: 6077344023740586586, guid: fa7b513eb8a95d244bb45adf698f1176,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 1
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: -3.3, y: 1, z: 30.84}
+    coinsPosition: {x: -3.3, y: 1, z: 30.84}
+  - chance: 0.62696
+    obstacleLOD0: {fileID: 5205976408244487855, guid: c29ec19a1423ba24889b0b99f6f89a86,
+      type: 3}
+    obstacleLOD1: {fileID: 5205976408244487855, guid: c29ec19a1423ba24889b0b99f6f89a86,
+      type: 3}
+    obstacleLOD2: {fileID: 5205976408244487855, guid: c29ec19a1423ba24889b0b99f6f89a86,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 1
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: -3.3, y: 1, z: 30.69}
+    coinsPosition: {x: -3.3, y: 1, z: 30.69}
+  - chance: 0.62696
+    obstacleLOD0: {fileID: 8009395064385652544, guid: d449d51353fd12944b36cf1c9809457d,
+      type: 3}
+    obstacleLOD1: {fileID: 8009395064385652544, guid: d449d51353fd12944b36cf1c9809457d,
+      type: 3}
+    obstacleLOD2: {fileID: 8009395064385652544, guid: d449d51353fd12944b36cf1c9809457d,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 1
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: -3.3, y: 1, z: 30.84}
+    coinsPosition: {x: -3.3, y: 1, z: 30.84}
+  - chance: 0.62696
+    obstacleLOD0: {fileID: 6154047144695296189, guid: a078b66d80c65f2459d9a442617dad77,
+      type: 3}
+    obstacleLOD1: {fileID: 6154047144695296189, guid: a078b66d80c65f2459d9a442617dad77,
+      type: 3}
+    obstacleLOD2: {fileID: 6154047144695296189, guid: a078b66d80c65f2459d9a442617dad77,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 1
+    isSphereRock: 0
+    positionY: 1
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: 0, y: 1, z: 33.96009}
+    coinsPosition: {x: 0, y: 1, z: 33.96009}
+  - chance: 12.10815
+    obstacleLOD0: {fileID: 9072209178889321715, guid: 15b429b43a4a76243b11a141a5052e19,
+      type: 3}
+    obstacleLOD1: {fileID: 6202534214266987213, guid: bf2c94cc42505ee4fa09e8acca31b0e0,
+      type: 3}
+    obstacleLOD2: {fileID: 6202534214266987213, guid: bf2c94cc42505ee4fa09e8acca31b0e0,
+      type: 3}
+    isDependsPlayerSpeed: 1
+    isForOneLine: 0
+    isSphereRock: 0
+    positionY: 0.2
+    coinsOffset: {x: 0, y: -0.2, z: -2}
+    sphereRockPosition: {x: 0, y: 0, z: 0}
+    coinsStyles: 01000000
+    coinsStyle: 1
+    obstaclePosition: {x: 0, y: 0.2, z: 31.264994}
+    coinsPosition: {x: 3.3, y: -0.5, z: 29.128992}
+  - chance: 6.054075
+    obstacleLOD0: {fileID: 4576970700743959542, guid: 09aa66d4ff3e5504b87ee87e6fd37532,
+      type: 3}
+    obstacleLOD1: {fileID: 4576970700743959542, guid: b55c16ef21531d04fafa247bf0349855,
+      type: 3}
+    obstacleLOD2: {fileID: 4576970700743959542, guid: 1c27aebe7387bdf41a0f7e8fb6801209,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 0
+    isSphereRock: 1
+    positionY: 0
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: -10.53, y: 23.53, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: -10.53, y: 23.53, z: 34.470123}
+    coinsPosition: {x: -10.53, y: 23.53, z: 34.470123}
+  - chance: 6.054075
+    obstacleLOD0: {fileID: 4576970700743959542, guid: b0ae99d2db0b0094d8740720053f0850,
+      type: 3}
+    obstacleLOD1: {fileID: 4576970700743959542, guid: c90901398180a9244b65c894f7fecaa7,
+      type: 3}
+    obstacleLOD2: {fileID: 4576970700743959542, guid: 7cdad7db7673a2c438cfce7b38f3af0e,
+      type: 3}
+    isDependsPlayerSpeed: 0
+    isForOneLine: 0
+    isSphereRock: 1
+    positionY: 0
+    coinsOffset: {x: 0, y: 0, z: 0}
+    sphereRockPosition: {x: 10.53, y: 23.53, z: 0}
+    coinsStyles: 03000000
+    coinsStyle: 3
+    obstaclePosition: {x: 10.53, y: 23.53, z: 30.84}
+    coinsPosition: {x: 10.53, y: 23.53, z: 30.84}
+  platformLOD0: {fileID: 4887826521768874116, guid: bc782d08fca81ce4f9272530991dd46e,
+    type: 3}
+  platformLOD1: {fileID: 7613043616290886829, guid: bc368099b2d24b9488a80797f5830952,
+    type: 3}
+  platformLOD2: {fileID: 550489131721895806, guid: e25577ec55d41fb429d3795892663b61,
+    type: 3}
+  canyonLeftLOD0: {fileID: 7296986161332053158, guid: 76465a7f5fef157408afbf1a168225fd,
+    type: 3}
+  canyonLeftLOD1: {fileID: 7296986161332053158, guid: 25ca7160522fab44eacf53fa44b5f18c,
+    type: 3}
+  canyonLeftLOD2: {fileID: 7296986161332053158, guid: 7e028d6afe197e74684a7bfd5d33cdde,
+    type: 3}
+  canyonRightLOD0: {fileID: 5711226281497048636, guid: 741e6be908c4aa843b8d46c3cefdbf9d,
+    type: 3}
+  canyonRightLOD1: {fileID: 5711226281497048636, guid: 00c57950a32c69342ad4a0975df0770f,
+    type: 3}
+  canyonRightLOD2: {fileID: 5711226281497048636, guid: 0f718cf7e1835cc48bec39b276863ba3,
+    type: 3}
+  coinLOD0: {fileID: 8263883717698601456, guid: 474fdd4ac3c64604d8bd2c2f41162675,
+    type: 3}
+  coinLOD1: {fileID: 4788265291475709237, guid: 002606acc2e7d094782e8fe3bba34875,
+    type: 3}
+  coinLOD2: {fileID: 3150372455695035909, guid: 9758897174a8f824383eb4a474018ac4,
+    type: 3}
+  platform: {fileID: 550489131721895806, guid: e25577ec55d41fb429d3795892663b61, type: 3}
+  coin: {fileID: 3150372455695035909, guid: 9758897174a8f824383eb4a474018ac4, type: 3}
+  canyonRight: {fileID: 5711226281497048636, guid: 0f718cf7e1835cc48bec39b276863ba3,
+    type: 3}
+  canyonLeft: {fileID: 7296986161332053158, guid: 7e028d6afe197e74684a7bfd5d33cdde,
+    type: 3}
