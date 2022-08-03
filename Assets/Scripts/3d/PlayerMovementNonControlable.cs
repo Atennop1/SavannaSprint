@@ -66,7 +66,7 @@ public class PlayerMovementNonControlable : MonoCache
         {
             transform.Translate(transform.forward * -speed * Time.fixedDeltaTime);
             if (PlayerController.playerState == PlayerState.Ramp)
-                transform.Translate(transform.up * 2 * Time.fixedDeltaTime * speed);
+                transform.Translate(transform.up * Time.fixedDeltaTime * speed);
             yield return new WaitForFixedUpdate();
         }
     }

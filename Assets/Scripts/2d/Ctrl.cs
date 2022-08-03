@@ -18,6 +18,7 @@ public class Ctrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (PlayerController2D.playerState != PlayerState.Jump && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
             PlayerController2D.playerState = PlayerState.Ctrl;
     }
+    
     public void OnPointerUp(PointerEventData a)
     {
         isClicked = false;

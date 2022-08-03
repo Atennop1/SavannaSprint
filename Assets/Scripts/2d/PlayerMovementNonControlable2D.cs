@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerMovementNonControlable2D : MonoCache
 {
-
     [SerializeField] private GameManager gameManager;
     [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private PlayerController2D _player;
 
     [Space]
     public ParticleSystem runDust;
@@ -22,11 +22,13 @@ public class PlayerMovementNonControlable2D : MonoCache
         spawnManager.InitValues2D();
         curScoreSpeed = -scoreSpeed * (10 / speed);
     }
+
     public override void OnTick()
     {
         jumpDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
         runDust.gameObject.transform.position = new Vector3(transform.position.x, 0.2f, transform.position.z);
     }
+
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None && PlayerController2D.playerState != PlayerState.Ctrl)
@@ -37,19 +39,27 @@ public class PlayerMovementNonControlable2D : MonoCache
                 jumpDust.Play();
                 Jump.canDust = false;
             }
+
             PlayerController2D.playerState = PlayerState.Run;
+            
+            if (_player.ctrl.isClicked)
+                _player.ctrl.OnPointerDown(null);
+
         }
     }
+
     public void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState == PlayerState.Jump)
             runDust.Stop();
     }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Coin"))
             gameManager.UpdateText();
     }
+
     public IEnumerator StartMethod()
     {
         gameManager.UpdateText();
@@ -63,6 +73,7 @@ public class PlayerMovementNonControlable2D : MonoCache
         StartCoroutine(ScoreAdder());
         StartCoroutine(SpeedAdder());
     }
+
     public IEnumerator Reborn()
     {
         runDust.Stop();
@@ -76,16 +87,19 @@ public class PlayerMovementNonControlable2D : MonoCache
         StartCoroutine(SpeedAdder());
         runDust.Play();
     }
+
     public IEnumerator Lose()
     {
         runDust.Stop();
         yield return null;
     }
+
     public IEnumerator Change()
     {
         runDust.Stop();
         yield return null;
     }
+
     public IEnumerator ScoreAdder()
     {
         while (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
@@ -105,6 +119,7 @@ public class PlayerMovementNonControlable2D : MonoCache
                 PlayerPrefsSafe.SetInt("isUnlocked2DKnight", 1);
         }
     }
+
     public IEnumerator Move()
     {
         while (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
@@ -113,6 +128,7 @@ public class PlayerMovementNonControlable2D : MonoCache
             transform.Translate(transform.forward * speed * Time.deltaTime);
         }
     }
+
     public IEnumerator SpeedAdder()
     {
         while (maxSpeed < speed && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None)

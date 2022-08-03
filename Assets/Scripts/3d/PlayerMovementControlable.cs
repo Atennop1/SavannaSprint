@@ -23,13 +23,14 @@ public class PlayerMovementControlable : MonoCache
     private PlayerController player;
     private Rigidbody playerRigidbody;
 
-    private float movementPointFinish;
     private float movementPointStart;
+    private float movementPointFinish;
     private readonly float lineChangeSpeed = 30;
     private readonly float lineDistance = 3.3f;
 
     private Coroutine ctrlCoroutine;
     public Coroutine moveHorizontalCoroutine;
+    private LinePosition _position;
 
     [HideInInspector] public bool canMoveRight;
     [HideInInspector] public bool canMoveLeft;
@@ -39,6 +40,7 @@ public class PlayerMovementControlable : MonoCache
 
     public void Start()
     {
+        _position = LinePosition.Center;
         player = PlayerController.instance;
         canMoveDown = canMoveLeft = canMoveRight = canMoveUp = true;
         playerRigidbody = GetComponent<Rigidbody>();
@@ -48,14 +50,23 @@ public class PlayerMovementControlable : MonoCache
     {
         if (PlayerController.playerState != PlayerState.Death && PlayerController.playerState != PlayerState.None && PlayerController.playerState != PlayerState.Changing)
         {
-            if (SwipeController.swipeLeft && !GameOverScript.isGameOver && Time.timeScale != 0 && movementPointFinish > -lineDistance && canMoveLeft)
+            if (SwipeController.swipeLeft && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveLeft && _position != LinePosition.Left)
             {
-                MoveHorizontal(-lineChangeSpeed);
+                if (_position == LinePosition.Center)
+                    MoveHorizontal(-lineChangeSpeed, -3.3f);
+                else if (_position == LinePosition.Right)
+                    MoveHorizontal(-lineChangeSpeed, 0);
+                
                 Obstacle.StopSlowMotion();
             }
-            if (SwipeController.swipeRight && !GameOverScript.isGameOver && Time.timeScale != 0 && movementPointFinish < lineDistance && canMoveRight)
+
+            if (SwipeController.swipeRight && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveRight && _position != LinePosition.Right)
             {
-                MoveHorizontal(lineChangeSpeed);
+                if (_position == LinePosition.Center)
+                    MoveHorizontal(lineChangeSpeed, 3.3f);
+                else if (_position == LinePosition.Left)
+                    MoveHorizontal(lineChangeSpeed, 0);
+
                 Obstacle.StopSlowMotion();
             }
 
@@ -68,10 +79,7 @@ public class PlayerMovementControlable : MonoCache
                         player.playerAnimations.shieldAnimator.SetTrigger("isNotCtrl");
 
                     if (moveHorizontalCoroutine != null)
-                    {
                         StopCoroutine(moveHorizontalCoroutine);
-                        transform.position = new Vector3(movementPointFinish, transform.position.y, transform.position.z);
-                    }
 
                     player.playerAnimations.playerAnimator.Play("Jump");
                     playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
@@ -109,27 +117,34 @@ public class PlayerMovementControlable : MonoCache
         }
     }
 
-    private void MoveHorizontal(float speed)
+    private void MoveHorizontal(float speed, float moveTo)
     {
-        movementPointStart = movementPointFinish;
-        movementPointFinish += Mathf.Sign(speed) * lineDistance;
-
         if (moveHorizontalCoroutine != null)
             StopCoroutine(moveHorizontalCoroutine);
 
-        moveHorizontalCoroutine = StartCoroutine(MoveCoroutine(speed));
+        moveHorizontalCoroutine = StartCoroutine(MoveCoroutine(speed, moveTo));
     }
-    public IEnumerator MoveCoroutine(float vectorX)
+
+    public void CancelMoveHorizontal()
+    {
+        Debug.Log("Point start: " + movementPointStart);
+        if (moveHorizontalCoroutine != null)
+            MoveHorizontal(movementPointStart - transform.position.x < 0 ? -lineChangeSpeed / 2.2f : lineChangeSpeed / 2.2f, movementPointStart);
+    }
+    public IEnumerator MoveCoroutine(float speed, float moveTo)
     {
         if (PlayerController.playerState == PlayerState.Jump)
             canDust = true;
 
         playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        _position = (LinePosition)(moveTo / 3.3f);
+        movementPointStart = transform.position.x;
+        movementPointFinish = moveTo;
 
-        while (Mathf.Abs(movementPointStart - transform.position.x) < lineDistance && !GameOverScript.isGameOver && !(PlayerController.playerState == PlayerState.Changing) && PlayerController.playerState != PlayerState.Death)
+        while (transform.position.x != movementPointFinish && !GameOverScript.isGameOver && PlayerController.playerState != PlayerState.Changing && PlayerController.playerState != PlayerState.Death)
         {
             yield return new WaitForFixedUpdate();
-            playerRigidbody.velocity = new Vector3(vectorX * 1.2f, -12, 0);
+            playerRigidbody.velocity = new Vector3(speed * 1.2f, -12, 0);
             float x = Mathf.Clamp(transform.position.x, Mathf.Min(movementPointStart, movementPointFinish), Mathf.Max(movementPointStart, movementPointFinish));
             transform.position = new Vector3(x, transform.position.y, transform.position.z);
         }

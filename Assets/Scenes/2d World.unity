@@ -21378,6 +21378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 821300078}
   spawnManager: {fileID: 821300080}
+  _player: {fileID: 1277214471}
   runDust: {fileID: 859888883}
   jumpDust: {fileID: 393972734}
 --- !u!114 &1277214481
