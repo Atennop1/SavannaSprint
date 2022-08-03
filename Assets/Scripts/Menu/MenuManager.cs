@@ -386,7 +386,7 @@ public class MenuManager : MonoCache
         GameManager.isShield = false;
         GameManager.isX2Coins = false;
 
-        PlayerMovementNonControlable.speed = 15;
+        PlayerMovementNonControlable._speed = 15;
         PlayerMovementNonControlable2D.speed = -10;
         Time.timeScale = 1;
 

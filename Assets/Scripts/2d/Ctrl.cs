@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Ctrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public PlayerController2D player;
+    [field: SerializeField] public PlayerController2D Player { get; private set; }
 
-    public GameObject runCol;
-    public GameObject ctrlCol;
+    [SerializeField] private GameObject _runCollider;
+    [SerializeField] private GameObject _ctrlCollider;
 
-    [HideInInspector] public bool isClicked;
+    public bool IsClicked { get; private set; }
 
     public void OnPointerDown(PointerEventData a)
     {
-        isClicked = true;
+        IsClicked = true;
         if (PlayerController2D.playerState != PlayerState.Jump && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
             PlayerController2D.playerState = PlayerState.Ctrl;
     }
     
     public void OnPointerUp(PointerEventData a)
     {
-        isClicked = false;
+        IsClicked = false;
         if (PlayerController2D.playerState == PlayerState.Ctrl && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
             PlayerController2D.playerState = PlayerState.Run;
     }
@@ -30,18 +28,18 @@ public class Ctrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing && (PlayerController2D.playerState == PlayerState.Run || PlayerController2D.playerState == PlayerState.Ctrl) && Time.timeScale != 0)
         {
-            if (isClicked && player.canCtrl && PlayerController2D.playerState == PlayerState.Ctrl)
+            if (IsClicked && Player.canCtrl && PlayerController2D.playerState == PlayerState.Ctrl)
             {
                 if (Obstacle.isShowing)
                     Obstacle.StopSlowMotion();
 
-                ctrlCol.SetActive(true);
-                runCol.SetActive(false);
+                _ctrlCollider.SetActive(true);
+                _runCollider.SetActive(false);
             }
             else if (PlayerController2D.playerState == PlayerState.Run)
             {
-                ctrlCol.SetActive(false);
-                runCol.SetActive(true);
+                _ctrlCollider.SetActive(false);
+                _runCollider.SetActive(true);
             }
         }
     }

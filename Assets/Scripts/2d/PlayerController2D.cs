@@ -12,25 +12,24 @@ public class PlayerController2D : MonoCache
     public static PlayerState playerState;
     public static PlayerController2D instance;
 
-    [HideInInspector] public PlayerMovementNonControlable2D playerMovementNonControlable;
-    [HideInInspector] public PlayerAnimations2D playerAnimations;
-    [HideInInspector] public PlayerBonuses playerBonuses;
-    [HideInInspector] public PlayerLose2D playerLose;
+    public PlayerMovementNonControlable2D PlayerMovementNonControlable { get; private set; }
+    public PlayerAnimations2D PlayerAnimations  {get; private set; }
+    public PlayerBonuses PlayerBonuses { get; private set; }
+    public PlayerLose2D PlayerLose { get; private set; }
 
-    [Header("Objects")]
-    public Image guideImage;
+    [field: SerializeField, Header("Objects")] public Image GuideImage { get; private set; }
 
     [Header("Source")]
-    [SerializeField] private AudioSource teleportSource;
-    [SerializeField] private AudioSource coinSource;
+    [SerializeField] private AudioSource _teleportSource;
+    [SerializeField] private AudioSource _coinSource;
 
     [Header("Particles")]
-    public ParticleSystem teleportParticle;
+    [SerializeField] private ParticleSystem _teleportParticle;
 
     [Header("Components")]
-    [SerializeField] private SceneChanger sceneChanger;
-    public Jump jump;
-    public Ctrl ctrl;
+    [SerializeField] private SceneChanger _sceneChanger;
+    [SerializeField] private Jump _jump;
+    [SerializeField] private Ctrl _ctrl;
 
     [Header("Move")]
     [SerializeField] private GameObject ctrlCol;
@@ -46,11 +45,10 @@ public class PlayerController2D : MonoCache
         canCtrl = canJump = true;
         playerState = PlayerState.None;
 
-        playerMovementNonControlable = GetComponent<PlayerMovementNonControlable2D>();
-        playerAnimations = GetComponent<PlayerAnimations2D>();
-        playerBonuses = GetComponent<PlayerBonuses>();
-        playerLose = GetComponent<PlayerLose2D>();
-        jump.playerRb = GetComponent<Rigidbody>();
+        PlayerMovementNonControlable = GetComponent<PlayerMovementNonControlable2D>();
+        PlayerAnimations = GetComponent<PlayerAnimations2D>();
+        PlayerBonuses = GetComponent<PlayerBonuses>();
+        PlayerLose = GetComponent<PlayerLose2D>();
 
         SkinInfo thisSkinInfo;
         if (PlayerPrefs.GetString("ActiveSkin2D") != "Cyberpunk")
@@ -59,29 +57,31 @@ public class PlayerController2D : MonoCache
             thisSkinInfo = Resources.Load<SkinInfo>("Skins/" + PlayerPrefs.GetString("ActiveSkin2D") + "2D");
 
         thisSkinInfo.Init();
-        playerAnimations.playerAnimator.runtimeAnimatorController = thisSkinInfo.skinAnimator;
+        PlayerAnimations.PlayerAnimator.runtimeAnimatorController = thisSkinInfo.skinAnimator;
 
         Material material = thisSkinInfo.skinMaterial;
         material.shader = thisSkinInfo.currentShader;
         GetComponent<VoxelImporter.VoxelFrameAnimationObject>().playMaterial0 = material;
 
-        playerMovementNonControlable.runDust.GetComponent<ParticleSystemRenderer>().material = playerMovementNonControlable.jumpDust.GetComponent<ParticleSystemRenderer>().material = thisSkinInfo.dustMaterial;
-        playerLose.gameOverParticles.GetComponent<ParticleSystemRenderer>().SetMeshes(thisSkinInfo.gameOverParticlesMeshes, thisSkinInfo.gameOverParticlesMeshes.Length);
-
+        PlayerMovementNonControlable.RunDust.GetComponent<ParticleSystemRenderer>().material = PlayerMovementNonControlable.JumpDust.GetComponent<ParticleSystemRenderer>().material = thisSkinInfo.dustMaterial;
+        //PlayerLose._gameOverParticles.GetComponent<ParticleSystemRenderer>().SetMeshes(thisSkinInfo.gameOverParticlesMeshes, thisSkinInfo.gameOverParticlesMeshes.Length);
     }
+    
     public override void OnTick()
     {
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
     }
+
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Changer")
         {
             collision.gameObject.GetComponentInParent<CoinsRotate>().speed = 0;
-            playerLose.pauseButton.gameObject.SetActive(false);
+            //PlayerLose._pauseButton.gameObject.SetActive(false);
             StartCoroutine(Change());
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Coin")
@@ -89,7 +89,7 @@ public class PlayerController2D : MonoCache
             SingletonManager.instance.redCoins += 1 + (GameManager.isX2Coins ? 1 : 0);
             GameManager.allRedCoins += 1 + (GameManager.isX2Coins ? 1 : 0);
             other.transform.parent.gameObject.SetActive(false);
-            coinSource.Play();
+            _coinSource.Play();
         }
 
         if (other.tag == "Lose" && playerState == PlayerState.Run && !other.transform.parent.GetComponent<Obstacle>().isGuided)
@@ -101,15 +101,16 @@ public class PlayerController2D : MonoCache
             Obstacle.CantMove();
         }
     }
+
     public IEnumerator StartMethod()
     {
-        StartCoroutine(playerMovementNonControlable.StartMethod());
-        StartCoroutine(playerBonuses.StartMethod());
-        StartCoroutine(playerLose.StartMethod());
-        StartCoroutine(playerAnimations.StartMethod());
+        StartCoroutine(PlayerMovementNonControlable.StartMethod());
+        StartCoroutine(PlayerBonuses.StartMethod());
+        StartCoroutine(PlayerLose.StartMethod());
+        StartCoroutine(PlayerAnimations.StartMethod());
 
-        playerLose.pauseButton.gameObject.SetActive(false);
-        Jump.canDust = false;
+        //PlayerLose._pauseButton.gameObject.SetActive(false);
+        //Jump.CanDust = false;
         PlayerController.playerState = PlayerState.Run;
 
         yield return new WaitForSeconds(1.5f);
@@ -122,19 +123,21 @@ public class PlayerController2D : MonoCache
         else
             SingletonManager.instance.musicSource.Play();
 
-        teleportSource.volume = 0.5f * SingletonManager.soundVolume;
-        coinSource.volume = 0.27f * SingletonManager.soundVolume;
+        _teleportSource.volume = 0.5f * SingletonManager.soundVolume;
+        
+        _coinSource.volume = 0.27f * SingletonManager.soundVolume;
     }
     public void RebornMethod(bool ad)
     {
         StartCoroutine(Reborn(ad));
     }
+
     public IEnumerator Reborn(bool ad)
     {
-        StartCoroutine(playerMovementNonControlable.Reborn());
-        StartCoroutine(playerBonuses.Reborn());
-        StartCoroutine(playerLose.Reborn());
-        StartCoroutine(playerAnimations.Reborn());
+        StartCoroutine(PlayerMovementNonControlable.Reborn());
+        StartCoroutine(PlayerBonuses.Reborn());
+        StartCoroutine(PlayerLose.Reborn());
+        StartCoroutine(PlayerAnimations.Reborn());
 
         if (!ad)
         {
@@ -148,7 +151,7 @@ public class PlayerController2D : MonoCache
 
         ctrlCol.SetActive(false);
         runCol.SetActive(true);
-        Jump.canDust = false;
+        //Jump.CanDust = false;
 
         yield return new WaitForSeconds(1.6f);
 
@@ -158,28 +161,29 @@ public class PlayerController2D : MonoCache
         playerState = PlayerState.Run;
         SingletonManager.instance.musicSource.UnPause();
     }
+
     public IEnumerator Change()
     {
-        StartCoroutine(playerMovementNonControlable.Change());
-        StartCoroutine(playerAnimations.Change());
+        StartCoroutine(PlayerMovementNonControlable.Change());
+        StartCoroutine(PlayerAnimations.Change());
 
         SingletonManager.canPlay = false;
         ctrlCol.SetActive(false);
         runCol.SetActive(true);
 
         playerState = PlayerState.Changing;
-        playerBonuses.magnetParticles.Stop();
+        //PlayerBonuses._magnetParticles.Stop();
         SingletonManager.instance.musicSource.Pause();
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
         yield return new WaitForSeconds(1.6f);
 
-        teleportSource.Play();
-        teleportParticle.Play();
+        _teleportSource.Play();
+        _teleportParticle.Play();
 
         yield return new WaitForSeconds(0.1f);
 
         SceneChanger.levelToLoad = 2;
-        sceneChanger.FadeToLevel();
+        _sceneChanger.FadeToLevel();
     }
 }

@@ -24,25 +24,24 @@ public class PlayerController : MonoCache
     public static PlayerState playerState;
     public static PlayerController instance;
 
-    [HideInInspector] public PlayerMovementNonControlable playerMovementNonControlable;
-    [HideInInspector] public PlayerMovementControlable playerMovementControlable;
-    [HideInInspector] public PlayerAnimations playerAnimations;
-    [HideInInspector] public PlayerBonuses playerBonuses;
-    [HideInInspector] public PlayerLose playerLose;
+    public PlayerMovementNonControlable PlayerMovementNonControlable { get; private set; }
+    public PlayerMovementControlable PlayerMovementControlable { get; private set; }
+    public PlayerAnimations PlayerAnimations { get; private set; }
+    public PlayerBonuses PlayerBonuses { get; private set; }
+    public PlayerLose PlayerLose { get; private set; }
 
-    [Header("Objects")]
-    public Image guideImage;
+    [field: SerializeField, Header("Objects")] public Image GuideImage { get; private set; }
 
     [Header("Source")]
-    [SerializeField] private AudioSource coinSource;
-    [SerializeField] private AudioSource teleportSource;
+    [SerializeField] private AudioSource _coinSource;
+    [SerializeField] private AudioSource _teleportSource;
 
     [Header("Particles")]
-    public ParticleSystem teleportParticles;
+    [SerializeField] private ParticleSystem _teleportParticles;
 
     [Header("Components")]
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private SceneChanger sceneChanger;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private SceneChanger _sceneChanger;
 
     private void Awake()
     {
@@ -50,11 +49,11 @@ public class PlayerController : MonoCache
         SingletonManager.canPlay = false;
         playerState = PlayerState.None;
 
-        playerMovementNonControlable = GetComponent<PlayerMovementNonControlable>();
-        playerMovementControlable = GetComponent<PlayerMovementControlable>();
-        playerAnimations = GetComponent<PlayerAnimations>();
-        playerBonuses = GetComponent<PlayerBonuses>();
-        playerLose = GetComponent<PlayerLose>();
+        PlayerMovementNonControlable = GetComponent<PlayerMovementNonControlable>();
+        PlayerMovementControlable = GetComponent<PlayerMovementControlable>();
+        PlayerAnimations = GetComponent<PlayerAnimations>();
+        PlayerBonuses = GetComponent<PlayerBonuses>();
+        PlayerLose = GetComponent<PlayerLose>();
 
         SkinInfo thisSkinInfo;
         if (PlayerPrefs.GetString("ActiveSkin3D") != "Cyberpunk")
@@ -63,25 +62,25 @@ public class PlayerController : MonoCache
             thisSkinInfo = Resources.Load<SkinInfo>("Skins/" + PlayerPrefs.GetString("ActiveSkin3D") + "3D");
 
         thisSkinInfo.Init();
-        playerAnimations.playerAnimator.runtimeAnimatorController = thisSkinInfo.skinAnimator;
+        PlayerAnimations.PlayerAnimator.runtimeAnimatorController = thisSkinInfo.skinAnimator;
 
         Material material = thisSkinInfo.skinMaterial;
         material.shader = thisSkinInfo.currentShader;
         GetComponent<VoxelImporter.VoxelFrameAnimationObject>().playMaterial0 = material;
 
-        playerMovementControlable.runDust.GetComponent<ParticleSystemRenderer>().material = playerMovementControlable.jumpDust.GetComponent<ParticleSystemRenderer>().material = thisSkinInfo.dustMaterial;
-        playerLose.gameOverParticles.GetComponent<ParticleSystemRenderer>().SetMeshes(thisSkinInfo.gameOverParticlesMeshes, thisSkinInfo.gameOverParticlesMeshes.Length);
+        //PlayerMovementControlable._runDust.GetComponent<ParticleSystemRenderer>().material = PlayerMovementControlable._jumpDust.GetComponent<ParticleSystemRenderer>().material = thisSkinInfo.dustMaterial;
+        //PlayerLose._gameOverParticles.GetComponent<ParticleSystemRenderer>().SetMeshes(thisSkinInfo.gameOverParticlesMeshes, thisSkinInfo.gameOverParticlesMeshes.Length);
     }
     
     public IEnumerator StartMethod()
     {
-        StartCoroutine(playerBonuses.StartMethod());
-        StartCoroutine(playerAnimations.StartMethod());
-        StartCoroutine(playerMovementControlable.StartMethod());
-        StartCoroutine(playerMovementNonControlable.StartMethod());
+        StartCoroutine(PlayerBonuses.StartMethod());
+        StartCoroutine(PlayerAnimations.StartMethod());
+        StartCoroutine(PlayerMovementControlable.StartMethod());
+        StartCoroutine(PlayerMovementNonControlable.StartMethod());
 
-        playerLose.pauseButton.gameObject.SetActive(false);
-        gameManager.UpdateText();
+        //PlayerLose.pauseButton.gameObject.SetActive(false);
+        _gameManager.UpdateText();
         PlayerController2D.playerState = PlayerState.Run;
 
         yield return new WaitForSeconds(1.3f);
@@ -94,10 +93,10 @@ public class PlayerController : MonoCache
 
         yield return new WaitForSeconds(0.2f);
 
-        playerLose.pauseButton.gameObject.SetActive(true);
-        teleportSource.volume = 0.5f * SingletonManager.soundVolume;
-        coinSource.volume = 0.27f * SingletonManager.soundVolume;
-        playerLose.gameOverSource.volume = SingletonManager.soundVolume;
+        //PlayerLose.pauseButton.gameObject.SetActive(true);
+        _teleportSource.volume = 0.5f * SingletonManager.soundVolume;
+        _coinSource.volume = 0.27f * SingletonManager.soundVolume;
+        //PlayerLose.gameOverSource.volume = SingletonManager.soundVolume;
     }
 
     public override void OnTick()
@@ -113,7 +112,7 @@ public class PlayerController : MonoCache
         if (collision.gameObject.tag == "Changer")
         {
             collision.gameObject.GetComponentInParent<CoinsRotate>().speed = 0;
-            playerLose.pauseButton.gameObject.SetActive(false);
+            //PlayerLose.pauseButton.gameObject.SetActive(false);
             StartCoroutine(Change());
         }
     }
@@ -121,10 +120,10 @@ public class PlayerController : MonoCache
     {
         if (other.gameObject.tag == "Coin")
         {
-            coinSource.Play();
+            _coinSource.Play();
             SingletonManager.instance.coins += 1 + (GameManager.isX2Coins ? 1 : 0);
             GameManager.allOrangeCoins += 1 + (GameManager.isX2Coins ? 1 : 0);
-            gameManager.UpdateText();
+            _gameManager.UpdateText();
             other.transform.parent.gameObject.SetActive(false);
         }
 
@@ -146,10 +145,10 @@ public class PlayerController : MonoCache
     }
     public IEnumerator Reborn(bool ad)
     {
-        StartCoroutine(playerBonuses.Reborn());
-        StartCoroutine(playerAnimations.Reborn());
-        StartCoroutine(playerMovementControlable.Reborn());
-        StartCoroutine(playerMovementNonControlable.Reborn());
+        StartCoroutine(PlayerBonuses.Reborn());
+        StartCoroutine(PlayerAnimations.Reborn());
+        StartCoroutine(PlayerMovementControlable.Reborn());
+        StartCoroutine(PlayerMovementNonControlable.Reborn());
 
         if (!ad)
         {
@@ -158,11 +157,11 @@ public class PlayerController : MonoCache
                 GameManager.lifesCount++;
         }
 
-        foreach (Transform child in playerLose.obstacleKiller)
-            child.gameObject.SetActive(false);
+        //foreach (Transform child in PlayerLose._obstacleKiller)
+        //    child.gameObject.SetActive(false);
 
-        playerLose.pauseButton.gameObject.SetActive(true);
-        playerLose.gameOverPanel.gameObject.SetActive(false);
+        //PlayerLose.pauseButton.gameObject.SetActive(true);
+        //PlayerLose._gameOverPanel.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1.6f);
 
@@ -171,22 +170,22 @@ public class PlayerController : MonoCache
     }
     public IEnumerator Change()
     {
-        StartCoroutine(playerAnimations.Change());
-        StartCoroutine(playerMovementControlable.Change());
-        StartCoroutine(playerMovementNonControlable.Change());
+        StartCoroutine(PlayerAnimations.Change());
+        StartCoroutine(PlayerMovementControlable.Change());
+        StartCoroutine(PlayerMovementNonControlable.Change());
 
         SingletonManager.canPlay = false;
         SingletonManager.instance.musicSource.Pause();
-        playerBonuses.magnetParticles.Stop();
+        //PlayerBonuses._magnetParticles.Stop();
 
         yield return new WaitForSeconds(1.6f);
 
-        teleportSource.Play();
-        teleportParticles.Play();
+        _teleportSource.Play();
+        _teleportParticles.Play();
 
         yield return new WaitForSeconds(0.1f);
 
         SceneChanger.levelToLoad = 1;
-        sceneChanger.FadeToLevel();
+        _sceneChanger.FadeToLevel();
     }
 }

@@ -4,32 +4,31 @@ using UnityEngine;
 
 public class PlayerMovementControlable : MonoCache
 {
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float ctrlForce;
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private float _ctrlForce;
 
     [Space]
-    [SerializeField] private GameObject ctrlCol;
-    [SerializeField] private GameObject runCol;
+    [SerializeField] private GameObject _ctrlCollider;
+    [SerializeField] private GameObject _runCollider;
 
     [Space]
-    [SerializeField] private AudioSource jumpSource;
+    [SerializeField] private AudioSource _jumpSource;
 
     [Space]
-    public ParticleSystem jumpDust;
-    public ParticleSystem runDust;
+    [SerializeField] private ParticleSystem _jumpDust;
+    [SerializeField] private ParticleSystem _runDust;
 
+    private PlayerController _player;
+    private Rigidbody _playerRigidbody;
 
+    private float _horizontalMovementStartPointX;
+    private float _horizontalMovementFinishPointX;
 
-    private PlayerController player;
-    private Rigidbody playerRigidbody;
+    private float _lineChangeSpeed = 30;
+    private float _lineDistance = 3.3f;
 
-    private float movementPointStart;
-    private float movementPointFinish;
-    private readonly float lineChangeSpeed = 30;
-    private readonly float lineDistance = 3.3f;
-
-    private Coroutine ctrlCoroutine;
-    public Coroutine moveHorizontalCoroutine;
+    private Coroutine _ctrlCoroutine;
+    public Coroutine _moveHorizontalCoroutine;
     private LinePosition _position;
 
     [HideInInspector] public bool canMoveRight;
@@ -41,173 +40,173 @@ public class PlayerMovementControlable : MonoCache
     public void Start()
     {
         _position = LinePosition.Center;
-        player = PlayerController.instance;
+        _player = PlayerController.instance;
         canMoveDown = canMoveLeft = canMoveRight = canMoveUp = true;
-        playerRigidbody = GetComponent<Rigidbody>();
+        _playerRigidbody = GetComponent<Rigidbody>();
     }
 
     public override void OnTick()
     {
         if (PlayerController.playerState != PlayerState.Death && PlayerController.playerState != PlayerState.None && PlayerController.playerState != PlayerState.Changing)
         {
-            if (SwipeController.swipeLeft && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveLeft && _position != LinePosition.Left)
+            if (SwipeController.SwipeLeft && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveLeft && _position != LinePosition.Left)
             {
                 if (_position == LinePosition.Center)
-                    MoveHorizontal(-lineChangeSpeed, -3.3f);
+                    MoveHorizontal(-_lineChangeSpeed, -3.3f);
                 else if (_position == LinePosition.Right)
-                    MoveHorizontal(-lineChangeSpeed, 0);
+                    MoveHorizontal(-_lineChangeSpeed, 0);
                 
                 Obstacle.StopSlowMotion();
             }
 
-            if (SwipeController.swipeRight && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveRight && _position != LinePosition.Right)
+            if (SwipeController.SwipeRight && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveRight && _position != LinePosition.Right)
             {
                 if (_position == LinePosition.Center)
-                    MoveHorizontal(lineChangeSpeed, 3.3f);
+                    MoveHorizontal(_lineChangeSpeed, 3.3f);
                 else if (_position == LinePosition.Left)
-                    MoveHorizontal(lineChangeSpeed, 0);
+                    MoveHorizontal(_lineChangeSpeed, 0);
 
                 Obstacle.StopSlowMotion();
             }
 
-            if (SwipeController.swipeUp && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveUp)
+            if (SwipeController.SwipeUp && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveUp)
             {
                 if (PlayerController.playerState == PlayerState.Run || PlayerController.playerState == PlayerState.Ctrl)
                 {
                     Obstacle.StopSlowMotion();
-                    if (player.playerAnimations.shieldAnimator.gameObject.activeInHierarchy)
-                        player.playerAnimations.shieldAnimator.SetTrigger("isNotCtrl");
+                    if (_player.PlayerAnimations.ShieldAnimator.gameObject.activeInHierarchy)
+                        _player.PlayerAnimations.ShieldAnimator.SetTrigger("isNotCtrl");
 
-                    if (moveHorizontalCoroutine != null)
-                        StopCoroutine(moveHorizontalCoroutine);
+                    if (_moveHorizontalCoroutine != null)
+                        StopCoroutine(_moveHorizontalCoroutine);
 
-                    player.playerAnimations.playerAnimator.Play("Jump");
-                    playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-                    playerRigidbody.velocity = Vector3.up * jumpForce;
-                    jumpSource.Play();
-                    runDust.Stop();
+                    _player.PlayerAnimations.PlayerAnimator.Play("Jump");
+                    _playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                    _playerRigidbody.velocity = Vector3.up * _jumpForce;
+                    _jumpSource.Play();
+                    _runDust.Stop();
                     canDust = true;
 
                     PlayerController.playerState = PlayerState.Jump;
-                    if (ctrlCoroutine != null)
+                    if (_ctrlCoroutine != null)
                     {
-                        ctrlCol.SetActive(false);
-                        runCol.SetActive(true);
-                        StopCoroutine(ctrlCoroutine);
+                        _ctrlCollider.SetActive(false);
+                        _runCollider.SetActive(true);
+                        StopCoroutine(_ctrlCoroutine);
                     }
                 }
             }
-            if (SwipeController.swipeDown && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveDown)
+            if (SwipeController.SwipeDown && !GameOverScript.isGameOver && Time.timeScale != 0 && canMoveDown)
             {
                 if (PlayerController.playerState != PlayerState.Ramp)
                 {
                     Obstacle.StopSlowMotion();
 
-                    if (ctrlCoroutine != null)
-                        StopCoroutine(ctrlCoroutine);
-                    ctrlCoroutine = StartCoroutine(Ctrl());
+                    if (_ctrlCoroutine != null)
+                        StopCoroutine(_ctrlCoroutine);
+                    _ctrlCoroutine = StartCoroutine(Ctrl());
                 }
             }
 
-            jumpDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
-            runDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
+            _jumpDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
+            _runDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
 
-            if (playerRigidbody.velocity.y > 1 && PlayerController.playerState == PlayerState.Ramp)
-                playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 1, playerRigidbody.velocity.z);
+            if (_playerRigidbody.velocity.y > 1 && PlayerController.playerState == PlayerState.Ramp)
+                _playerRigidbody.velocity = new Vector3(_playerRigidbody.velocity.x, 1, _playerRigidbody.velocity.z);
         }
     }
 
     private void MoveHorizontal(float speed, float moveTo)
     {
-        if (moveHorizontalCoroutine != null)
-            StopCoroutine(moveHorizontalCoroutine);
+        if (_moveHorizontalCoroutine != null)
+            StopCoroutine(_moveHorizontalCoroutine);
 
-        moveHorizontalCoroutine = StartCoroutine(MoveCoroutine(speed, moveTo));
+        _moveHorizontalCoroutine = StartCoroutine(MoveCoroutine(speed, moveTo));
     }
 
     public void CancelMoveHorizontal()
     {
-        Debug.Log("Point start: " + movementPointStart);
-        if (moveHorizontalCoroutine != null)
-            MoveHorizontal(movementPointStart - transform.position.x < 0 ? -lineChangeSpeed / 2.2f : lineChangeSpeed / 2.2f, movementPointStart);
+        Debug.Log("Point start: " + _horizontalMovementStartPointX);
+        if (_moveHorizontalCoroutine != null)
+            MoveHorizontal(_horizontalMovementStartPointX - transform.position.x < 0 ? -_lineChangeSpeed / 2.2f : _lineChangeSpeed / 2.2f, _horizontalMovementStartPointX);
     }
     public IEnumerator MoveCoroutine(float speed, float moveTo)
     {
         if (PlayerController.playerState == PlayerState.Jump)
             canDust = true;
 
-        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        _playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         _position = (LinePosition)(moveTo / 3.3f);
-        movementPointStart = transform.position.x;
-        movementPointFinish = moveTo;
+        _horizontalMovementStartPointX = transform.position.x;
+        _horizontalMovementFinishPointX = moveTo;
 
-        while (transform.position.x != movementPointFinish && !GameOverScript.isGameOver && PlayerController.playerState != PlayerState.Changing && PlayerController.playerState != PlayerState.Death)
+        while (transform.position.x != _horizontalMovementFinishPointX && !GameOverScript.isGameOver && PlayerController.playerState != PlayerState.Changing && PlayerController.playerState != PlayerState.Death)
         {
             yield return new WaitForFixedUpdate();
-            playerRigidbody.velocity = new Vector3(speed * 1.2f, -12, 0);
-            float x = Mathf.Clamp(transform.position.x, Mathf.Min(movementPointStart, movementPointFinish), Mathf.Max(movementPointStart, movementPointFinish));
+            _playerRigidbody.velocity = new Vector3(speed * 1.2f, -12, 0);
+            float x = Mathf.Clamp(transform.position.x, Mathf.Min(_horizontalMovementStartPointX, _horizontalMovementFinishPointX), Mathf.Max(_horizontalMovementStartPointX, _horizontalMovementFinishPointX));
             transform.position = new Vector3(x, transform.position.y, transform.position.z);
         }
 
-        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
-        transform.position = new Vector3(movementPointFinish, transform.position.y, transform.position.z);
-        playerRigidbody.velocity = Vector3.zero;
+        _playerRigidbody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
+        transform.position = new Vector3(_horizontalMovementFinishPointX, transform.position.y, transform.position.z);
+        _playerRigidbody.velocity = Vector3.zero;
     }
     public IEnumerator Ctrl()
     {
-        if (player.playerAnimations.shieldAnimator.gameObject.activeInHierarchy)
-            player.playerAnimations.shieldAnimator.SetTrigger("isCtrl");
+        if (_player.PlayerAnimations.ShieldAnimator.gameObject.activeInHierarchy)
+            _player.PlayerAnimations.ShieldAnimator.SetTrigger("isCtrl");
 
-        player.playerAnimations.playerAnimator.Play("Ctrl");
+        _player.PlayerAnimations.PlayerAnimator.Play("Ctrl");
 
-        playerRigidbody.AddForce(Vector3.down * ctrlForce, ForceMode.Impulse);
+        _playerRigidbody.AddForce(Vector3.down * _ctrlForce, ForceMode.Impulse);
         PlayerController.playerState = PlayerState.Ctrl;
-        ctrlCol.SetActive(true);
-        runCol.SetActive(false);
+        _ctrlCollider.SetActive(true);
+        _runCollider.SetActive(false);
 
         yield return new WaitForSeconds(1);
 
-        ctrlCol.SetActive(false);
-        runCol.SetActive(true);
+        _ctrlCollider.SetActive(false);
+        _runCollider.SetActive(true);
         PlayerController.playerState = PlayerState.Run;
 
-        if (player.playerAnimations.shieldAnimator.gameObject.activeInHierarchy)
-            player.playerAnimations.shieldAnimator.SetTrigger("isNotCtrl");
+        if (_player.PlayerAnimations.ShieldAnimator.gameObject.activeInHierarchy)
+            _player.PlayerAnimations.ShieldAnimator.SetTrigger("isNotCtrl");
 
-        player.playerAnimations.playerAnimator.Play("Run");
+        _player.PlayerAnimations.PlayerAnimator.Play("Run");
     }
     public IEnumerator StartMethod()
     {
         yield return new WaitForSeconds(1.5f);
 
-        runDust.Play();
-        jumpSource.volume = 0.5f * SingletonManager.soundVolume;
+        _runDust.Play();
+        _jumpSource.volume = 0.5f * SingletonManager.soundVolume;
     }
     public IEnumerator Reborn()
     {
-        transform.position = new Vector3(movementPointFinish, 0.3f, transform.position.z);
+        transform.position = new Vector3(_horizontalMovementFinishPointX, 0.3f, transform.position.z);
 
         yield return new WaitForSeconds(1.6f);
 
-        if (moveHorizontalCoroutine != null)
-            StopCoroutine(moveHorizontalCoroutine);
+        if (_moveHorizontalCoroutine != null)
+            StopCoroutine(_moveHorizontalCoroutine);
 
-        runDust.Play();
+        _runDust.Play();
     }
     public IEnumerator Lose()
     {
-        if (ctrlCoroutine != null)
-            StopCoroutine(ctrlCoroutine);
+        if (_ctrlCoroutine != null)
+            StopCoroutine(_ctrlCoroutine);
 
-        ctrlCol.SetActive(false);
-        runCol.SetActive(true);
+        _ctrlCollider.SetActive(false);
+        _runCollider.SetActive(true);
 
-        runDust.Stop();
+        _runDust.Stop();
         yield return null;
     }
     public IEnumerator Change()
     {
-        runDust.Stop();
+        _runDust.Stop();
         yield return null;
     }
     public void OnCollisionEnter(Collision collision)
@@ -215,29 +214,29 @@ public class PlayerMovementControlable : MonoCache
         if (collision.gameObject.CompareTag("Road"))
         {
             if (PlayerController.playerState != PlayerState.Death && PlayerController.playerState != PlayerState.None)
-                runDust.Play();
+                _runDust.Play();
         }
         if ((collision.gameObject.CompareTag("Lose") || collision.gameObject.CompareTag("RampLose")) && !GameOverScript.isGameOver)
         {
             if (!GameManager.isShield)
             {
-                runDust.Stop();
+                _runDust.Stop();
                 canDust = true;
             }
         }
         if (collision.gameObject.CompareTag("Ramp"))
         {
-            if (ctrlCoroutine != null)
+            if (_ctrlCoroutine != null)
             {
-                if (player.playerAnimations.shieldAnimator.gameObject.activeInHierarchy)
-                    player.playerAnimations.shieldAnimator.SetTrigger("isNotCtrl");
+                if (_player.PlayerAnimations.ShieldAnimator.gameObject.activeInHierarchy)
+                    _player.PlayerAnimations.ShieldAnimator.SetTrigger("isNotCtrl");
             }
         }
     }
     public void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ramp"))
-            runDust.Stop();
+            _runDust.Stop();
 
         if (collision.gameObject.CompareTag("NotLose"))
             canDust = true;
