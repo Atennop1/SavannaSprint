@@ -4,47 +4,48 @@ using UnityEngine;
 
 public class PlayerMovementNonControlable : MonoCache
 {
-    [SerializeField] private SpawnManager spawnManager;
-    [SerializeField] private GameManager gameManager;
-    private PlayerController player;
+    [SerializeField] private SpawnManager _spawnManager;
+    [SerializeField] private GameManager _gameManager;
+    private PlayerController _player;
 
-    private readonly float scoreSpeed = 0.2f;
-    private readonly float maxSpeed = 60;
-    public static float speed = 15;
-    private float curScoreSpeed;
+    private float _scoreSpeed = 0.2f;
+    private float _currentScoreSpeed;
 
-    private Rigidbody playerRigidbody;
+    private float _maxSpeed = 60;
+    public static float _speed = 15;
+
+    private Rigidbody _playerRigidbody;
 
     public void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody>();
-        spawnManager.InitValues3D();
-        curScoreSpeed = scoreSpeed * (15 / speed);
-        player = PlayerController.instance;
+        _playerRigidbody = GetComponent<Rigidbody>();
+        _spawnManager.InitValues3D();
+        _currentScoreSpeed = _scoreSpeed * (15 / _speed);
+        _player = PlayerController.instance;
     }
     public IEnumerator Change()
     {
-        playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         PlayerController.playerState = PlayerState.Changing;
         yield return new WaitForFixedUpdate();
     }
     public IEnumerator Lose()
     {
         PlayerController.playerState = PlayerState.Death;
-        playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        _playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         yield return new WaitForFixedUpdate();
     }
     public IEnumerator Reborn()
     {
-        playerRigidbody.constraints = RigidbodyConstraints.None;
-        playerRigidbody.freezeRotation = true;
+        _playerRigidbody.constraints = RigidbodyConstraints.None;
+        _playerRigidbody.freezeRotation = true;
 
         yield return new WaitForSeconds(1.6f);
 
         PlayerController.playerState = PlayerState.Run;
 
-        player.playerAnimations.playerAnimator.Play("Run");
+        _player.PlayerAnimations.PlayerAnimator.Play("Run");
         GameOverScript.isGameOver = false;
         StartCoroutine(Move());
         StartCoroutine(SpeedAdder());
@@ -55,7 +56,7 @@ public class PlayerMovementNonControlable : MonoCache
         yield return new WaitForSeconds(1.5f);
 
         PlayerController.playerState = PlayerState.Run;
-        curScoreSpeed = scoreSpeed;
+        _currentScoreSpeed = _scoreSpeed;
         StartCoroutine(Move());
         StartCoroutine(SpeedAdder());
         StartCoroutine(ScoreAdder());
@@ -64,21 +65,21 @@ public class PlayerMovementNonControlable : MonoCache
     {
         while (!GameOverScript.isGameOver && !(PlayerController.playerState == PlayerState.Changing))
         {
-            transform.Translate(transform.forward * -speed * Time.fixedDeltaTime);
+            transform.Translate(transform.forward * -_speed * Time.fixedDeltaTime);
             if (PlayerController.playerState == PlayerState.Ramp)
-                transform.Translate(transform.up * Time.fixedDeltaTime * speed);
+                transform.Translate(transform.up * Time.fixedDeltaTime * _speed);
             yield return new WaitForFixedUpdate();
         }
     }
     public IEnumerator SpeedAdder()
     {
-        while ((speed < maxSpeed) && !GameOverScript.isGameOver && PlayerController.playerState != PlayerState.Death)
+        while ((_speed < _maxSpeed) && !GameOverScript.isGameOver && PlayerController.playerState != PlayerState.Death)
         {
             yield return new WaitForSeconds(1);
             GameManager.speedAdderIterations++;
 
-            spawnManager.UpdateValues3D();
-            curScoreSpeed = scoreSpeed * (10 / speed);
+            _spawnManager.UpdateValues3D();
+            _currentScoreSpeed = _scoreSpeed * (10 / _speed);
         }
     }
     public IEnumerator ScoreAdder()
@@ -86,12 +87,12 @@ public class PlayerMovementNonControlable : MonoCache
         while (!GameOverScript.isGameOver && !(PlayerController.playerState == PlayerState.Changing))
         {
             if (GameManager.isX2)
-                yield return new WaitForSeconds(curScoreSpeed / 2);
+                yield return new WaitForSeconds(_currentScoreSpeed / 2);
             else
-                yield return new WaitForSeconds(curScoreSpeed);
+                yield return new WaitForSeconds(_currentScoreSpeed);
 
             GameManager.score += 1;
-            gameManager.UpdateText();
+            _gameManager.UpdateText();
 
             if (GameManager.score >= 6666 && !PlayerPrefsSafe.HasKey("ActiveSkin3DDemon"))
                 PlayerPrefsSafe.SetInt("isUnlocked3DDemon", 1);
@@ -104,40 +105,40 @@ public class PlayerMovementNonControlable : MonoCache
         if (collision.gameObject.CompareTag("NotLose"))
         {
             PlayerController.playerState = PlayerState.Run;
-            player.playerAnimations.playerAnimator.Play("Run");
+            _player.PlayerAnimations.PlayerAnimator.Play("Run");
         }
 
         if (collision.gameObject.CompareTag("Road"))
         {
-            if ((PlayerController.playerState == PlayerState.Jump || PlayerController.playerState == PlayerState.Ctrl) && player.playerMovementControlable.canDust)
+            if ((PlayerController.playerState == PlayerState.Jump || PlayerController.playerState == PlayerState.Ctrl) && _player.PlayerMovementControlable.canDust)
             {
-                player.playerMovementControlable.canDust = false;
-                player.playerMovementControlable.jumpDust.Play();
+                _player.PlayerMovementControlable.canDust = false;
+                //_player.PlayerMovementControlable._jumpDust.Play();
                 if (PlayerController.playerState != PlayerState.Ctrl)
                 {
                     PlayerController.playerState = PlayerState.Run;
-                    player.playerAnimations.playerAnimator.Play("Run");
+                    _player.PlayerAnimations.PlayerAnimator.Play("Run");
                 }
             }
         }
         if (collision.gameObject.CompareTag("Ramp"))
         {
             PlayerController.playerState = PlayerState.Ramp;
-            playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0, 1);
+            _playerRigidbody.velocity = new Vector3(_playerRigidbody.velocity.x, 0, 1);
         }
     }
     public void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ramp"))
         {
-            playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0, 1);
-            player.playerAnimations.playerAnimator.Play("Jump");
+            _playerRigidbody.velocity = new Vector3(_playerRigidbody.velocity.x, 0, 1);
+            _player.PlayerAnimations.PlayerAnimator.Play("Jump");
             PlayerController.playerState = PlayerState.Jump;
         }
         if (collision.gameObject.CompareTag("NotLose"))
         {
             PlayerController.playerState = PlayerState.Jump;
-            player.playerAnimations.playerAnimator.Play("Jump");
+            _player.PlayerAnimations.PlayerAnimator.Play("Jump");
         }
     }
 }

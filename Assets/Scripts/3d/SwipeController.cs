@@ -4,72 +4,73 @@ using UnityEngine;
 
 public class SwipeController : MonoBehaviour
 {
-    public static bool tap, swipeLeft, swipeRight, swipeUp, swipeDown;
-    private bool isDraging = false;
-    private Vector2 startTouch, swipeDelta;
+    public static bool Tap, SwipeLeft, SwipeRight, SwipeUp, SwipeDown;
+
+    private Vector2 _startTouch, _swipeDelta;
+    private bool _isDraging;
 
     private void Update()
     {
-        tap = swipeDown = swipeUp = swipeLeft = swipeRight = false;
-        #region ПК-версия
+        Tap = SwipeDown = SwipeUp = SwipeLeft = SwipeRight = false;
+        #region пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ
         if (Input.GetMouseButtonDown(0))
         {
-            tap = true;
-            isDraging = true;
-            startTouch = Input.mousePosition;
+            Tap = true;
+            _isDraging = true;
+            _startTouch = Input.mousePosition;
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            isDraging = false;
+            _isDraging = false;
             Reset();
         }
         #endregion
 
-        #region Мобильная версия
+        #region пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (Input.touches.Length > 0)
         {
             if (Input.touches[0].phase == TouchPhase.Began)
             {
-                tap = true;
-                isDraging = true;
-                startTouch = Input.touches[0].position;
+                Tap = true;
+                _isDraging = true;
+                _startTouch = Input.touches[0].position;
             }
             else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
-                isDraging = false;
+                _isDraging = false;
                 Reset();
             }
         }
         #endregion
 
-        //Просчитать дистанцию
-        swipeDelta = Vector2.zero;
-        if (isDraging)
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        _swipeDelta = Vector2.zero;
+        if (_isDraging)
         {
             if (Input.touches.Length < 0)
-                swipeDelta = Input.touches[0].position - startTouch;
+                _swipeDelta = Input.touches[0].position - _startTouch;
             else if (Input.GetMouseButton(0))
-                swipeDelta = (Vector2)Input.mousePosition - startTouch;
+                _swipeDelta = (Vector2)Input.mousePosition - _startTouch;
         }
-        //Проверка на пройденность расстояния
-        if (swipeDelta.magnitude > 50)
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        if (_swipeDelta.magnitude > 50)
         {
-            //Определение направления
-            float x = swipeDelta.x;
-            float y = swipeDelta.y;
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            float x = _swipeDelta.x;
+            float y = _swipeDelta.y;
             if (Mathf.Abs(x) > Mathf.Abs(y))
             {
                 if (x < 0)
-                    swipeLeft = true;
+                    SwipeLeft = true;
                 else
-                    swipeRight = true;
+                    SwipeRight = true;
             }
             else
             {
                 if (y < 0)
-                    swipeDown = true;
+                    SwipeDown = true;
                 else
-                    swipeUp = true;
+                    SwipeUp = true;
             }
             Reset();
         }
@@ -77,7 +78,7 @@ public class SwipeController : MonoBehaviour
 
     private void Reset()
     {
-        startTouch = swipeDelta = Vector2.zero;
-        isDraging = false;
+        _startTouch = _swipeDelta = Vector2.zero;
+        _isDraging = false;
     }
 }

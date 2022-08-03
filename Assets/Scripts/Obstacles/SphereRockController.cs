@@ -15,7 +15,7 @@ public class SphereRockController : MonoBehaviour
 
     public void OnEnable()
     {
-        triggerCollider.center = new Vector3(triggerCollider.center.x, triggerCollider.center.y, (isLeft ? -36 : 36) * PlayerMovementNonControlable.speed / 15);
+        triggerCollider.center = new Vector3(triggerCollider.center.x, triggerCollider.center.y, (isLeft ? -36 : 36) * PlayerMovementNonControlable._speed / 15);
         rockRigidbody.transform.localPosition = Vector3.zero;
     }
 

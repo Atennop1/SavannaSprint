@@ -1,67 +1,66 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Jump : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public PlayerController2D player;
-    [SerializeField] private float jumpForce;
+    [field: SerializeField] public PlayerController2D Player { get; private set; }
+    [SerializeField] private Rigidbody _playerRigidbody;
 
-    public AudioSource jumpSound;
+    [Space]
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private AudioSource _jumpSound;
 
-    public GameObject ctrlCol;
-    public GameObject runCol;
+    public bool IsJump { get; private set; }
+    public static bool CanDust { get; private set; }
 
-    public static bool canDust = false;
-    private Coroutine jumpCoroutine;
-
-    [HideInInspector] public bool isJump;
-    [HideInInspector] public Rigidbody playerRb;
+    private Coroutine _jumpCoroutine;
 
     public void OnPointerDown(PointerEventData a)
     {
-        if (PlayerController2D.playerState == PlayerState.Run && !GameOverScript.isGameOver && Time.timeScale != 0 && player.canJump)
+        if (PlayerController2D.playerState == PlayerState.Run && !GameOverScript.isGameOver && Time.timeScale != 0 && Player.canJump)
         {
             if (Obstacle.isShowing)
                 Obstacle.StopSlowMotion();
 
-            ctrlCol.SetActive(false);
-            runCol.SetActive(true);
+            //ctrlCol.SetActive(false);
+            //runCol.SetActive(true);
 
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            jumpSound.volume = 0.5f * SingletonManager.soundVolume;
-            jumpSound.Play();
+            _playerRigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            _jumpSound.volume = 0.5f * SingletonManager.soundVolume;
+            _jumpSound.Play();
 
-            isJump = true;
-            canDust = true;
+            IsJump = true;
+            CanDust = true;
 
-            player.playerMovementNonControlable.runDust.Stop();
+            Player.PlayerMovementNonControlable.RunDust.Stop();
             PlayerController2D.playerState = PlayerState.Jump;
-            player.playerAnimations.playerAnimator.Play("Jump");
+            Player.PlayerAnimations.PlayerAnimator.Play("Jump");
 
-            if (jumpCoroutine != null)
-                StopCoroutine(jumpCoroutine);
-            jumpCoroutine = StartCoroutine(JumpCoroutine());
+            if (_jumpCoroutine != null)
+                StopCoroutine(_jumpCoroutine);
+            _jumpCoroutine = StartCoroutine(JumpCoroutine());
         }
     }
+
     public void OnPointerUp(PointerEventData a)
     {
-        isJump = false;
+        IsJump = false;
     }
-    IEnumerator JumpCoroutine()
+
+    private IEnumerator JumpCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
         for (int i = 0; i < 79; i++)
         {
             yield return new WaitForFixedUpdate();
-            if (isJump)
+            if (IsJump)
             {
-                playerRb.AddForce(Vector3.up * jumpForce / 25, ForceMode.Impulse);
-                canDust = true;
+                _playerRigidbody.AddForce(Vector3.up * _jumpForce / 25, ForceMode.Impulse);
+                CanDust = true;
             }
             else break;
         }
-        isJump = false;
+        IsJump = false;
     }
 }

@@ -4,70 +4,69 @@ using UnityEngine;
 
 public class PlayerMovementNonControlable2D : MonoCache
 {
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private SpawnManager _spawnManager;
     [SerializeField] private PlayerController2D _player;
 
-    [Space]
-    public ParticleSystem runDust;
-    public ParticleSystem jumpDust;
+    [field: SerializeField, Space] public ParticleSystem RunDust { get; private set; }
+    [field: SerializeField] public ParticleSystem JumpDust { get; private set; }
 
-    private float curScoreSpeed;
-    private float scoreSpeed = 0.2f;
-    private readonly float maxSpeed = -40;
+    private float maxSpeed = -40;
     public static float speed = -10;
+
+    private float _currentScoreSpeed;
+    private float _scoreSpeed = 0.2f;
 
     public void Awake()
     {
-        spawnManager.InitValues2D();
-        curScoreSpeed = -scoreSpeed * (10 / speed);
+        _spawnManager.InitValues2D();
+        _currentScoreSpeed = -_scoreSpeed * (10 / speed);
     }
 
     public override void OnTick()
     {
-        jumpDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
-        runDust.gameObject.transform.position = new Vector3(transform.position.x, 0.2f, transform.position.z);
+        JumpDust.gameObject.transform.position = new Vector3(transform.position.x, 0.3f, transform.position.z);
+        RunDust.gameObject.transform.position = new Vector3(transform.position.x, 0.2f, transform.position.z);
     }
 
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None && PlayerController2D.playerState != PlayerState.Ctrl)
         {
-            runDust.Play();
-            if (Jump.canDust && PlayerController2D.playerState != PlayerState.Run)
+            RunDust.Play();
+            if (Jump.CanDust && PlayerController2D.playerState != PlayerState.Run)
             {
-                jumpDust.Play();
-                Jump.canDust = false;
+                JumpDust.Play();
+                //Jump.CanDust = false;
             }
 
             PlayerController2D.playerState = PlayerState.Run;
             
-            if (_player.ctrl.isClicked)
-                _player.ctrl.OnPointerDown(null);
-
+            //if (_player.ctrl.IsClicked)
+            //    _player.ctrl.OnPointerDown(null);
         }
     }
 
     public void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState == PlayerState.Jump)
-            runDust.Stop();
+            RunDust.Stop();
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Coin"))
-            gameManager.UpdateText();
+            _gameManager.UpdateText();
     }
 
     public IEnumerator StartMethod()
     {
-        gameManager.UpdateText();
+        _gameManager.UpdateText();
 
         yield return new WaitForSeconds(1.5f);
 
-        runDust.Play();
-        curScoreSpeed = scoreSpeed;
+        RunDust.Play();
+        _currentScoreSpeed = _scoreSpeed;
 
         StartCoroutine(Move());
         StartCoroutine(ScoreAdder());
@@ -76,7 +75,7 @@ public class PlayerMovementNonControlable2D : MonoCache
 
     public IEnumerator Reborn()
     {
-        runDust.Stop();
+        RunDust.Stop();
 
         yield return new WaitForSeconds(1.6f);
 
@@ -85,18 +84,18 @@ public class PlayerMovementNonControlable2D : MonoCache
         StartCoroutine(Move());
         StartCoroutine(ScoreAdder());
         StartCoroutine(SpeedAdder());
-        runDust.Play();
+        RunDust.Play();
     }
 
     public IEnumerator Lose()
     {
-        runDust.Stop();
+        RunDust.Stop();
         yield return null;
     }
 
     public IEnumerator Change()
     {
-        runDust.Stop();
+        RunDust.Stop();
         yield return null;
     }
 
@@ -105,12 +104,12 @@ public class PlayerMovementNonControlable2D : MonoCache
         while (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
         {
             if (GameManager.isX2)
-                yield return new WaitForSeconds(curScoreSpeed / 2);
+                yield return new WaitForSeconds(_currentScoreSpeed / 2);
             else
-                yield return new WaitForSeconds(curScoreSpeed);
+                yield return new WaitForSeconds(_currentScoreSpeed);
 
             GameManager.score += 1;
-            gameManager.UpdateText();
+            _gameManager.UpdateText();
 
             if (GameManager.score >= 6666 && !PlayerPrefsSafe.HasKey("ActiveSkin2DDemon"))
                 PlayerPrefsSafe.SetInt("isUnlocked2DDemon", 1);
@@ -136,8 +135,8 @@ public class PlayerMovementNonControlable2D : MonoCache
             yield return new WaitForSeconds(1);
             GameManager.speedAdderIterations++;
 
-            spawnManager.UpdateValues2D();
-            curScoreSpeed = -scoreSpeed * (10 / speed);
+            _spawnManager.UpdateValues2D();
+            _currentScoreSpeed = -_scoreSpeed * (10 / speed);
         }
     }
 }

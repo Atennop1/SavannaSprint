@@ -34,9 +34,9 @@ public class Obstacle : MonoBehaviour
         isGuided = PlayerPrefs.HasKey("isGuided" + obstacleAnimName + (player == null ? "2D" : "3D"));
 
         if (SceneManager.GetActiveScene().name == "3d World")
-            image = player.guideImage;
+            image = player.GuideImage;
         else
-            image = player2d.guideImage;
+            image = player2d.GuideImage;
 
         StopSlowMotion();
     }
@@ -75,10 +75,10 @@ public class Obstacle : MonoBehaviour
 
             if (player != null)
             {
-                player.playerMovementControlable.canMoveDown = canMoveDown;
-                player.playerMovementControlable.canMoveLeft = canMoveLeft;
-                player.playerMovementControlable.canMoveRight = canMoveRight;
-                player.playerMovementControlable.canMoveUp = canMoveUp;
+                player.PlayerMovementControlable.canMoveDown = canMoveDown;
+                player.PlayerMovementControlable.canMoveLeft = canMoveLeft;
+                player.PlayerMovementControlable.canMoveRight = canMoveRight;
+                player.PlayerMovementControlable.canMoveUp = canMoveUp;
             }
             else
             {
@@ -97,7 +97,7 @@ public class Obstacle : MonoBehaviour
             timer = 0;
             float slowMotionTime;
             if (player != null)
-                slowMotionTime = 0.25f / (PlayerMovementNonControlable.speed / 15);
+                slowMotionTime = 0.25f / (PlayerMovementNonControlable._speed / 15);
             else
                 slowMotionTime = 0.25f / (PlayerMovementNonControlable2D.speed / -10);
 
@@ -118,10 +118,10 @@ public class Obstacle : MonoBehaviour
 
         if (player != null)
         {
-            player.playerMovementControlable.canMoveDown = true;
-            player.playerMovementControlable.canMoveLeft = true;
-            player.playerMovementControlable.canMoveRight = true;
-            player.playerMovementControlable.canMoveUp = true;
+            player.PlayerMovementControlable.canMoveDown = true;
+            player.PlayerMovementControlable.canMoveLeft = true;
+            player.PlayerMovementControlable.canMoveRight = true;
+            player.PlayerMovementControlable.canMoveUp = true;
         }
         else
         {
@@ -134,21 +134,20 @@ public class Obstacle : MonoBehaviour
         cantMoveCollider.enabled = false;
         if (player != null)
         {
-            player.playerMovementControlable.canMoveDown = false;
-            player.playerMovementControlable.canMoveLeft = false;
-            player.playerMovementControlable.canMoveRight = false;
-            player.playerMovementControlable.canMoveUp = false;
+            player.PlayerMovementControlable.canMoveDown = false;
+            player.PlayerMovementControlable.canMoveLeft = false;
+            player.PlayerMovementControlable.canMoveRight = false;
+            player.PlayerMovementControlable.canMoveUp = false;
         }
         else
         {
             player2d.canJump = false;
             player2d.canCtrl = false;
+
             if (PlayerController2D.playerState == PlayerState.Ctrl)
-            {
-                player2d.ctrl.isClicked = false;
                 PlayerController2D.playerState = PlayerState.Run;
-            }
-            player2d.jump.isJump = false;
+
+            //player2d.jump.isJump = false;
         }
     }
 }

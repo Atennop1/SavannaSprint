@@ -4,57 +4,59 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoCache
 {
-    public Animator playerAnimator;
-    public Animator shieldAnimator;
+    [field: SerializeField] public Animator PlayerAnimator { get; private set; }
+    [field: SerializeField] public Animator ShieldAnimator { get; private set; }
 
     public override void OnTick()
     {
         if (PlayerController.playerState != PlayerState.Death)
         {
             if (!GameOverScript.isGameOver && (PlayerController.playerState == PlayerState.Run || PlayerController.playerState == PlayerState.Jump))
-                if (shieldAnimator.gameObject.activeInHierarchy)
-                    shieldAnimator.SetTrigger("isNotCtrl");
+                if (ShieldAnimator.gameObject.activeInHierarchy)
+                    ShieldAnimator.SetTrigger("isNotCtrl");
 
             if (PlayerController.playerState == PlayerState.Ctrl)
-                if (shieldAnimator.gameObject.activeInHierarchy)
-                    shieldAnimator.SetTrigger("isCtrl");
+                if (ShieldAnimator.gameObject.activeInHierarchy)
+                    ShieldAnimator.SetTrigger("isCtrl");
         }
     }
+
     public void OnCollisionEnter(Collision collision)
     {
         if ((collision.gameObject.tag == "Lose" || collision.gameObject.tag == "RampLose") && !GameOverScript.isGameOver)
         {
             if (!GameManager.isShield)
-                playerAnimator.Play("Lose");
+                PlayerAnimator.Play("Lose");
         }
     }
+    
     public IEnumerator Change()
     {
-        if (shieldAnimator.gameObject.activeInHierarchy)
-            shieldAnimator.SetTrigger("crush");
-        playerAnimator.Play("Lose");
+        if (ShieldAnimator.gameObject.activeInHierarchy)
+            ShieldAnimator.SetTrigger("crush");
+        PlayerAnimator.Play("Lose");
         yield return new WaitForFixedUpdate();
     }
 
     public IEnumerator Lose()
     {
-        playerAnimator.Play("Lose");
+        PlayerAnimator.Play("Lose");
         yield return new WaitForFixedUpdate();
     }
 
     public IEnumerator Reborn()
     {
-        playerAnimator.Play("Reborn");
+        PlayerAnimator.Play("Reborn");
         yield return new WaitForFixedUpdate();
     }
 
     public IEnumerator StartMethod()
     {
-        playerAnimator.Play("Reborn");
+        PlayerAnimator.Play("Reborn");
         yield return new WaitForSeconds(1.5f);
-        playerAnimator.Play("Run");
+        PlayerAnimator.Play("Run");
 
         if (GameManager.isShield)
-            shieldAnimator.gameObject.SetActive(true);
+            ShieldAnimator.gameObject.SetActive(true);
     }
 }

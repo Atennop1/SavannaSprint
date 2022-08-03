@@ -48,7 +48,7 @@ public class ObstacleData
         else
         {
             if (!is2d)
-                coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * PlayerMovementNonControlable.speed / 15);
+                coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * PlayerMovementNonControlable._speed / 15);
             else
                 coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * PlayerMovementNonControlable2D.speed / -10);
         }

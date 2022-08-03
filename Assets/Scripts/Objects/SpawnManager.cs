@@ -58,8 +58,8 @@ public class SpawnManager : MonoCache
 
         if (!is2d)
         {
-            currentCoinsInItem = coinsCountInItem * (int)(PlayerMovementNonControlable.speed / 15);
-            currentCoinsItemSpace = coinsItemSpace * (PlayerMovementNonControlable.speed / 15);
+            currentCoinsInItem = coinsCountInItem * (int)(PlayerMovementNonControlable._speed / 15);
+            currentCoinsItemSpace = coinsItemSpace * (PlayerMovementNonControlable._speed / 15);
         }
         else
         {
@@ -226,7 +226,7 @@ public class SpawnManager : MonoCache
         else
             currentItemSpace = 30;
 
-        PlayerMovementNonControlable.speed = -PlayerMovementNonControlable2D.speed / 10 * 15;
+        PlayerMovementNonControlable._speed = -PlayerMovementNonControlable2D.speed / 10 * 15;
         coinsInLine += 0.005f * GameManager.speedAdderIterations;
         currentItemSpace += 0.03f * GameManager.speedAdderIterations;
         currentCoinsInItem += 0.005f * GameManager.speedAdderIterations;
@@ -236,7 +236,7 @@ public class SpawnManager : MonoCache
 
     public void UpdateValues3D()
     {
-        PlayerMovementNonControlable.speed += 0.06f;
+        PlayerMovementNonControlable._speed += 0.06f;
         coinsInLine += 0.005f;
         currentItemSpace += 0.03f;
         PlayerPrefs.SetFloat("itemSpace", currentItemSpace);
@@ -248,7 +248,7 @@ public class SpawnManager : MonoCache
 
     private void CoinsUpdate3D()
     {
-        coinsWidth = 1 + (int)((PlayerMovementNonControlable.speed - 10) / 3f);
+        coinsWidth = 1 + (int)((PlayerMovementNonControlable._speed - 10) / 3f);
     }
 
     public void InitValues2D()
@@ -258,7 +258,7 @@ public class SpawnManager : MonoCache
         else
             currentItemSpace = 17;
 
-        PlayerMovementNonControlable2D.speed = -PlayerMovementNonControlable.speed / 15 * 10;
+        PlayerMovementNonControlable2D.speed = -PlayerMovementNonControlable._speed / 15 * 10;
         coinsInLine += 0.01f * GameManager.speedAdderIterations;
         currentItemSpace += 0.018f * GameManager.speedAdderIterations;
         CoinsUpdate2D(PlayerMovementNonControlable2D.speed);

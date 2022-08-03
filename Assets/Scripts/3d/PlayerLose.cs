@@ -5,37 +5,37 @@ using UnityEngine.UI;
 
 public class PlayerLose : MonoCache
 {
-    public ParticleSystem gameOverParticles;
+    [SerializeField] private ParticleSystem _gameOverParticles;
 
     [Space]
-    [SerializeField] private AudioSource shieldSource;
-    public AudioSource gameOverSource;
+    [SerializeField] private AudioSource _shieldSource;
+    [SerializeField] private AudioSource _gameOverSource;
 
     [Space]
-    public GameObject gameOverPanel;
-    public Button respawnButton;
-    public Button pauseButton;
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private Button _respawnButton;
+    [SerializeField] private Button _pauseButton;
 
     [Space]
-    [SerializeField] private Text coinsRebornText;
-    public Button respawnCoinsButton;
+    [SerializeField] private Text _coinsRebornText;
+    [SerializeField] private Button _respawnCoinsButton;
 
-    [HideInInspector] public Transform obstacleKiller;
-    private PlayerController player;
+    private Transform _obstacleKiller;
+    private PlayerController _player;
 
     public void Start()
     {
-        player = PlayerController.instance;
-        respawnButton.onClick.AddListener(delegate { player.RebornMethod(false); });
-        respawnCoinsButton.onClick.AddListener(delegate { player.RebornMethod(false); });
+        _player = PlayerController.instance;
+        _respawnButton.onClick.AddListener(delegate { _player.RebornMethod(false); });
+        _respawnCoinsButton.onClick.AddListener(delegate { _player.RebornMethod(false); });
     }
     public void OnCollisionEnter(Collision collision)
     {
         if ((collision.gameObject.CompareTag("Lose") || collision.gameObject.CompareTag("RampLose")) && !GameOverScript.isGameOver)
         {
-            obstacleKiller = collision.gameObject.transform.parent;
+            _obstacleKiller = collision.gameObject.transform.parent;
             if (collision.gameObject.CompareTag("RampLose"))
-                obstacleKiller = collision.gameObject.transform.parent.gameObject.transform.parent;
+                _obstacleKiller = collision.gameObject.transform.parent.gameObject.transform.parent;
 
             if (!GameManager.isShield)
             {
@@ -49,45 +49,45 @@ public class PlayerLose : MonoCache
     }
     public IEnumerator ShieldLose()
     {
-        foreach (Transform child in obstacleKiller)
+        foreach (Transform child in _obstacleKiller)
             child.gameObject.SetActive(false);
 
-        if (player.playerAnimations.shieldAnimator.gameObject.activeInHierarchy)
-            player.playerAnimations.shieldAnimator.SetTrigger("crush");
+        if (_player.PlayerAnimations.ShieldAnimator.gameObject.activeInHierarchy)
+            _player.PlayerAnimations.ShieldAnimator.SetTrigger("crush");
 
-        shieldSource.Play();
+        _shieldSource.Play();
 
         yield return new WaitForSeconds(0.7f);
 
-        player.playerAnimations.shieldAnimator.gameObject.SetActive(false);
+        _player.PlayerAnimations.ShieldAnimator.gameObject.SetActive(false);
         GameManager.isShield = false;
     }
     public IEnumerator Lose()
     {
         Obstacle.StopSlowMotion();
-        StartCoroutine(player.playerMovementControlable.Lose());
-        StartCoroutine(player.playerAnimations.Lose());
-        StartCoroutine(player.playerMovementNonControlable.Lose());
+        StartCoroutine(_player.PlayerMovementControlable.Lose());
+        StartCoroutine(_player.PlayerAnimations.Lose());
+        StartCoroutine(_player.PlayerMovementNonControlable.Lose());
 
-        if (player.playerMovementControlable.moveHorizontalCoroutine != null)
-            StopCoroutine(player.playerMovementControlable.moveHorizontalCoroutine);
+        if (_player.PlayerMovementControlable._moveHorizontalCoroutine != null)
+            StopCoroutine(_player.PlayerMovementControlable._moveHorizontalCoroutine);
 
         SingletonManager.instance.musicSource.Pause();
         SingletonManager.canPlay = false;
-        player.playerBonuses.magnetParticles.Stop();
-        pauseButton.gameObject.SetActive(false);
+        //_player.PlayerBonuses._magnetParticles.Stop();
+        _pauseButton.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1.5f);
 
-        gameOverParticles.Play();
-        gameOverSource.Play();
-        coinsRebornText.text = (500 * GameManager.lifesCount).ToString();
+        _gameOverParticles.Play();
+        _gameOverSource.Play();
+        _coinsRebornText.text = (500 * GameManager.lifesCount).ToString();
 
         yield return new WaitForSeconds(0.4f);
 
-        respawnCoinsButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
-        respawnButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
+        _respawnCoinsButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
+        _respawnButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
 
-        gameOverPanel.SetActive(true);
+        _gameOverPanel.SetActive(true);
     }
 }

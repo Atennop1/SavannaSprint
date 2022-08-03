@@ -101,7 +101,7 @@ public class GameManager : MonoCache
         PlayerPrefs.SetFloat("itemSpace2D", 17);
         PlayerPrefs.SetFloat("itemSpace", 30);
 
-        PlayerMovementNonControlable.speed = 15;
+        PlayerMovementNonControlable._speed = 15;
         PlayerMovementNonControlable2D.speed = -10;
 
         yield return new WaitForSeconds(1);
