@@ -5,14 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Coin : MonoBehaviour
 {
-    public static Transform playerTransform;
-    public static float moveSpeed = 40f;
+    [field: SerializeField] public Transform Player { get; private set; }
+    [field: SerializeField] public float MoveSpeed { get; private set; } = 40f;
 
-    void Start()
+    private void Init(Transform player)
     {
-        if (SceneManager.GetActiveScene().name == "3d World")
-            playerTransform = PlayerController.instance.transform;
-        else
-            playerTransform = PlayerController2D.instance.transform;
+        Player = player;
     }
 }

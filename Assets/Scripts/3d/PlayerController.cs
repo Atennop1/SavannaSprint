@@ -21,8 +21,7 @@ public enum PlayerState
 [RequireComponent(typeof(PlayerMovementNonControlable))]
 public class PlayerController : MonoCache
 {
-    public static PlayerState playerState;
-    public static PlayerController instance;
+    public PlayerState PlayerState;
 
     public PlayerMovementNonControlable PlayerMovementNonControlable { get; private set; }
     public PlayerMovementControlable PlayerMovementControlable { get; private set; }
@@ -39,15 +38,14 @@ public class PlayerController : MonoCache
     [Header("Particles")]
     [SerializeField] private ParticleSystem _teleportParticles;
 
-    [Header("Components")]
-    [SerializeField] private GameManager _gameManager;
+    [field: SerializeField, Header("Components")] public GameManager GameManager { get; private set; }
     [SerializeField] private SceneChanger _sceneChanger;
+    [field: SerializeField] public GameOverScript GameOver { get; private set; }
 
     private void Awake()
     {
-        instance = this;
-        SingletonManager.canPlay = false;
-        playerState = PlayerState.None;
+        SingletonManager.instance.canPlay = false;
+        PlayerState = PlayerState.None;
 
         PlayerMovementNonControlable = GetComponent<PlayerMovementNonControlable>();
         PlayerMovementControlable = GetComponent<PlayerMovementControlable>();
@@ -62,10 +60,10 @@ public class PlayerController : MonoCache
             thisSkinInfo = Resources.Load<SkinInfo>("Skins/" + PlayerPrefs.GetString("ActiveSkin3D") + "3D");
 
         thisSkinInfo.Init();
-        PlayerAnimations.PlayerAnimator.runtimeAnimatorController = thisSkinInfo.skinAnimator;
+        PlayerAnimations.PlayerAnimator.runtimeAnimatorController = thisSkinInfo.SkinAnimator;
 
-        Material material = thisSkinInfo.skinMaterial;
-        material.shader = thisSkinInfo.currentShader;
+        Material material = thisSkinInfo.SkinMaterial;
+        material.shader = thisSkinInfo.CurrentShader;
         GetComponent<VoxelImporter.VoxelFrameAnimationObject>().playMaterial0 = material;
 
         //PlayerMovementControlable._runDust.GetComponent<ParticleSystemRenderer>().material = PlayerMovementControlable._jumpDust.GetComponent<ParticleSystemRenderer>().material = thisSkinInfo.dustMaterial;
@@ -80,12 +78,11 @@ public class PlayerController : MonoCache
         StartCoroutine(PlayerMovementNonControlable.StartMethod());
 
         //PlayerLose.pauseButton.gameObject.SetActive(false);
-        _gameManager.UpdateText();
-        PlayerController2D.playerState = PlayerState.Run;
+        GameManager.UpdateText();
 
         yield return new WaitForSeconds(1.3f);
 
-        SingletonManager.canPlay = true;
+        SingletonManager.instance.canPlay = true;
         if (SingletonManager.instance.musicSource.isPlaying)
             SingletonManager.instance.musicSource.UnPause();
         else
@@ -94,28 +91,30 @@ public class PlayerController : MonoCache
         yield return new WaitForSeconds(0.2f);
 
         //PlayerLose.pauseButton.gameObject.SetActive(true);
-        _teleportSource.volume = 0.5f * SingletonManager.soundVolume;
-        _coinSource.volume = 0.27f * SingletonManager.soundVolume;
+        _teleportSource.volume = 0.5f * SingletonManager.instance.soundVolume;
+        _coinSource.volume = 0.27f * SingletonManager.instance.soundVolume;
         //PlayerLose.gameOverSource.volume = SingletonManager.soundVolume;
     }
 
     public override void OnTick()
     {
-        if (playerState != PlayerState.Death)
+        if (PlayerState != PlayerState.Death)
         {
             if (transform.position.y < -1)
                 transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Changer")
         {
-            collision.gameObject.GetComponentInParent<CoinsRotate>().speed = 0;
+            collision.gameObject.GetComponentInParent<CoinsRotate>().StopRotation();
             //PlayerLose.pauseButton.gameObject.SetActive(false);
             StartCoroutine(Change());
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Coin")
@@ -123,11 +122,11 @@ public class PlayerController : MonoCache
             _coinSource.Play();
             SingletonManager.instance.coins += 1 + (GameManager.isX2Coins ? 1 : 0);
             GameManager.allOrangeCoins += 1 + (GameManager.isX2Coins ? 1 : 0);
-            _gameManager.UpdateText();
+            GameManager.UpdateText();
             other.transform.parent.gameObject.SetActive(false);
         }
 
-        if (other.tag == "Lose" && playerState == PlayerState.Run && !other.transform.parent.GetComponent<Obstacle>().isGuided)
+        if (other.tag == "Lose" && PlayerState == PlayerState.Run && !other.transform.parent.GetComponent<Obstacle>().isGuided)
             other.transform.parent.GetComponent<Obstacle>().SlowMotionStart();
 
         if (other.tag == "GuideCantMove" && !other.transform.parent.GetComponent<Obstacle>().isGuided)
@@ -139,10 +138,12 @@ public class PlayerController : MonoCache
         if (other.GetComponent<SphereRockController>() != null)
             other.GetComponent<SphereRockController>().MoveRock();
     }
+
     public void RebornMethod(bool ad)
     {
         StartCoroutine(Reborn(ad));
     }
+
     public IEnumerator Reborn(bool ad)
     {
         StartCoroutine(PlayerBonuses.Reborn());
@@ -166,15 +167,16 @@ public class PlayerController : MonoCache
         yield return new WaitForSeconds(1.6f);
 
         SingletonManager.instance.musicSource.UnPause();
-        SingletonManager.canPlay = true;
+        SingletonManager.instance.canPlay = true;
     }
+
     public IEnumerator Change()
     {
         StartCoroutine(PlayerAnimations.Change());
         StartCoroutine(PlayerMovementControlable.Change());
         StartCoroutine(PlayerMovementNonControlable.Change());
 
-        SingletonManager.canPlay = false;
+        SingletonManager.instance.canPlay = false;
         SingletonManager.instance.musicSource.Pause();
         //PlayerBonuses._magnetParticles.Stop();
 
@@ -185,7 +187,7 @@ public class PlayerController : MonoCache
 
         yield return new WaitForSeconds(0.1f);
 
-        SceneChanger.levelToLoad = 1;
+        _sceneChanger.levelToLoad = 1;
         _sceneChanger.FadeToLevel();
     }
 }

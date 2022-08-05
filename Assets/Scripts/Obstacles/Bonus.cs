@@ -15,6 +15,15 @@ public class Bonus : MonoCache
     public BonusType bonusType;
     [SerializeField] private string bonusName;
 
+    private PlayerController _player;
+    private GameManager _gameManager;
+
+    public void Init(PlayerController player, GameManager gameManager)
+    {
+        _player = player;
+        _gameManager = gameManager;
+    }
+
     public IEnumerator Activate(GameObject bonusObject, ParticleSystem particles)
     {
         if (particles)
@@ -24,7 +33,8 @@ public class Bonus : MonoCache
         bonusSlider.value = 1;
         ChangeBonusActive(true);
         bonusObject.SetActive(true);
-        while (bonusSlider.value != 0 && !GameOverScript.isGameOver && !(PlayerController.playerState == PlayerState.Changing))
+
+        while (bonusSlider.value != 0 && !_player.GameOver.isGameOver && _player.PlayerState != PlayerState.Changing)
         {
             int bonusTime = PlayerPrefsSafe.GetInt(bonusName);
             if (PlayerPrefsSafe.GetInt(bonusName) % 2 != 0)
@@ -33,9 +43,9 @@ public class Bonus : MonoCache
             bonusSlider.value -= 0.001f * (3f / bonusTime);
             yield return new WaitForFixedUpdate();
         }
-        if (!GameOverScript.isGameOver && !(PlayerController.playerState == PlayerState.Changing))
-        {
 
+        if (!_player.GameOver.isGameOver && _player.PlayerState != PlayerState.Changing)
+        {
             ChangeBonusActive(false);
             bonusObject.SetActive(false);
             bonusSlider.value = 1;
@@ -44,18 +54,19 @@ public class Bonus : MonoCache
                 particles.Stop();
         }
     }
+
     public void ChangeBonusActive(bool active)
     {
         switch (bonusType)
         {
             case BonusType.Magnet:
-                GameManager.isMagnet = active;
+                _gameManager.isMagnet = active;
                 break;
             case BonusType.X2Coins:
-                GameManager.isX2Coins = active;
+                _gameManager.isX2Coins = active;
                 break;
             case BonusType.X2:
-                GameManager.isX2 = active;
+                _gameManager.isX2 = active;
                 break;
 
         }

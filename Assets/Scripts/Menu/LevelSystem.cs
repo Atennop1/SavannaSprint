@@ -38,6 +38,7 @@ public class LevelSystem : MonoBehaviour
     [Header("Objects")]
     [SerializeField] private GameObject moneyObject;
     [SerializeField] private MenuManager menu;
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private GameObject[] levels;
 
     private int curLevel;
@@ -95,40 +96,39 @@ public class LevelSystem : MonoBehaviour
 
         ChangeCurrency(is3d);
 
-        coins.text = GameManager.allOrangeCoins.ToString();
-        coins2.text = GameManager.allRedCoins.ToString();
+        coins.text = _gameManager.allOrangeCoins.ToString();
+        coins2.text = _gameManager.allRedCoins.ToString();
 
         UpdateButton();
     }
     public void Click()
     {
-        moneyText.text = MenuManager.orangeCoins.text = GameManager.allOrangeCoins.ToString();
-        moneyText2.text = MenuManager.redCoins.text = GameManager.allRedCoins.ToString();
+        moneyText.text = _gameManager.allOrangeCoins.ToString();
+        moneyText2.text = _gameManager.allRedCoins.ToString();
 
         if (curLevel < 8)
         {
-            if (GameManager.allOrangeCoins >= curLevel * 1000 && is3d)
-                GameManager.allOrangeCoins -= curLevel * 1000;
-            else if (GameManager.allRedCoins >= curLevel * 500 && !is3d)
-                GameManager.allRedCoins -= curLevel * 500;
+            if (_gameManager.allOrangeCoins >= curLevel * 1000 && is3d)
+                _gameManager.allOrangeCoins -= curLevel * 1000;
+            else if (_gameManager.allRedCoins >= curLevel * 500 && !is3d)
+                _gameManager.allRedCoins -= curLevel * 500;
             else
                 return;
 
             if (curLevel < 7)
             {
-                level_up.volume = SingletonManager.soundVolume;
+                level_up.volume = SingletonManager.instance.soundVolume;
                 level_up.Play();
             }
             else
             {
-                max_level.volume = SingletonManager.soundVolume;
+                max_level.volume = SingletonManager.instance.soundVolume;
                 max_level.Play();
             }
 
-            MenuManager.orangeCoins.text = GameManager.allOrangeCoins.ToString();
-            MenuManager.redCoins.text = GameManager.allRedCoins.ToString();
-            PlayerPrefsSafe.SetInt("allOrangeCoins", GameManager.allOrangeCoins);
-            PlayerPrefsSafe.SetInt("allRedCoins", GameManager.allRedCoins);
+            menu.UpdateText();
+            _gameManager.UpdateText();
+
             curLevel++;
             UpdateButton();
 
@@ -148,15 +148,15 @@ public class LevelSystem : MonoBehaviour
         else if (curLevel < 8)
         {
             GetComponent<Button>().enabled = false;
-            money.volume = SingletonManager.soundVolume;
+            money.volume = SingletonManager.instance.soundVolume;
 
             money.Play();
             moneyObject.SetActive(true);
             moneyObject.GetComponent<Animator>().Play("Money!");
         }
 
-        coins.text = GameManager.allOrangeCoins.ToString();
-        coins2.text = GameManager.allRedCoins.ToString();
+        coins.text = _gameManager.allOrangeCoins.ToString();
+        coins2.text = _gameManager.allRedCoins.ToString();
     }
     void UpdateButton()
     {

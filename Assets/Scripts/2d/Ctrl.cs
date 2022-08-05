@@ -13,22 +13,22 @@ public class Ctrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData a)
     {
         IsClicked = true;
-        if (PlayerController2D.playerState != PlayerState.Jump && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
-            PlayerController2D.playerState = PlayerState.Ctrl;
+        if (Player.PlayerState != PlayerState.Jump && !Player.GameOver.isGameOver && Player.PlayerState != PlayerState.Changing)
+            Player.PlayerState = PlayerState.Ctrl;
     }
     
     public void OnPointerUp(PointerEventData a)
     {
         IsClicked = false;
-        if (PlayerController2D.playerState == PlayerState.Ctrl && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
-            PlayerController2D.playerState = PlayerState.Run;
+        if (Player.PlayerState == PlayerState.Ctrl && !Player.GameOver.isGameOver && Player.PlayerState != PlayerState.Changing)
+            Player.PlayerState = PlayerState.Run;
     }
 
     private void Update()
     {
-        if (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing && (PlayerController2D.playerState == PlayerState.Run || PlayerController2D.playerState == PlayerState.Ctrl) && Time.timeScale != 0)
+        if (!Player.GameOver.isGameOver && Player.PlayerState != PlayerState.Changing && (Player.PlayerState == PlayerState.Run || Player.PlayerState == PlayerState.Ctrl) && Time.timeScale != 0)
         {
-            if (IsClicked && Player.canCtrl && PlayerController2D.playerState == PlayerState.Ctrl)
+            if (IsClicked && Player.canCtrl && Player.PlayerState == PlayerState.Ctrl)
             {
                 if (Obstacle.isShowing)
                     Obstacle.StopSlowMotion();
@@ -36,7 +36,7 @@ public class Ctrl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 _ctrlCollider.SetActive(true);
                 _runCollider.SetActive(false);
             }
-            else if (PlayerController2D.playerState == PlayerState.Run)
+            else if (Player.PlayerState == PlayerState.Run)
             {
                 _ctrlCollider.SetActive(false);
                 _runCollider.SetActive(true);

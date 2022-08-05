@@ -31,7 +31,7 @@ public class ObstacleData
     [HideInInspector] public Vector3 obstaclePosition;
     [HideInInspector] public Vector3 coinsPosition;
 
-    public void Setup(LinePosition linePosition, float z, bool is2d)
+    public void Setup(LinePosition linePosition, float z, float speedCoefficient)
     {
         coinsStyle = coinsStyles[Random.Range(0, coinsStyles.Count)];
 
@@ -46,12 +46,7 @@ public class ObstacleData
         if (!isDependsPlayerSpeed)
             coinsPosition = obstaclePosition + coinsOffset;
         else
-        {
-            if (!is2d)
-                coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * PlayerMovementNonControlable._speed / 15);
-            else
-                coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * PlayerMovementNonControlable2D.speed / -10);
-        }
+            coinsPosition = new Vector3(isForOneLine ? obstaclePosition.x + coinsOffset.x : 3.3f * Random.Range(1, -2), obstaclePosition.y + coinsOffset.y, obstaclePosition.z + coinsOffset.z * speedCoefficient);
     }
 }
 

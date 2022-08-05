@@ -6,14 +6,15 @@ using UnityEngine.SceneManagement;
 public class SingletonManager : MonoCache
 {
     public AudioSource musicSource;
+    [SerializeField] private GameOverScript _gameOver;
     [SerializeField] private AudioClip[] music;
 
     [HideInInspector] public int coins;
     [HideInInspector] public int redCoins;
 
     public static SingletonManager instance;
-    public static float soundVolume = 1;
-    public static bool canPlay = false;
+    public float soundVolume = 1;
+    public bool canPlay = false;
     private AudioClip playingNow;
 
     void Start()
@@ -56,7 +57,7 @@ public class SingletonManager : MonoCache
         else
             musicSource.mute = false;
 
-        if (!musicSource.isPlaying && !GameOverScript.isGameOver && canPlay)
+        if (!musicSource.isPlaying && !_gameOver.isGameOver && canPlay)
             UpdateMusic(playingNow);
     }
     private void UpdateMusic(AudioClip nowPlay)

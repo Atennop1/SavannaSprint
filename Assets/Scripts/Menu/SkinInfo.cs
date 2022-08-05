@@ -6,24 +6,22 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SkinInfo", fileName = "New SkinInfo")]
 public class SkinInfo : ScriptableObject
 {
-    public Material skinMaterial;
-    public RuntimeAnimatorController skinAnimator;
+    [field: SerializeField] public Material SkinMaterial { get; private set; }
+    [field: SerializeField] public RuntimeAnimatorController SkinAnimator { get; private set; }
 
-    [Space]
-    public Shader standartShader;
-    public Shader diffuseShader;
+    [SerializeField] private Shader _standartShader;
+    [SerializeField] private Shader _diffuseShader;
 
-    [Space]
-    public Material dustMaterial;
-    public Mesh[] gameOverParticlesMeshes;
+    [field: SerializeField, Space] public Material DustMaterial { get; private set; }
+    [field: SerializeField] public Mesh[] GameOverParticlesMeshes { get; private set; }
 
-    [HideInInspector] public Shader currentShader;
+    public Shader CurrentShader { get; private set; }
 
     public void Init()
     {
         if (PlayerPrefs.GetInt("shaderIntPP") == 0)
-            currentShader = diffuseShader;
+            CurrentShader = _diffuseShader;
         else
-            currentShader = standartShader;
+            CurrentShader = _standartShader;
     }
 }

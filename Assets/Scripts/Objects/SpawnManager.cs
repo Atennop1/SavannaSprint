@@ -21,8 +21,9 @@ public class SpawnManager : MonoCache
 {
     private bool is2d;
 
-    [HideInInspector] public PlayerController player;
-    [HideInInspector] public PlayerController2D player2D;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private PlayerController2D player2D;
+    [SerializeField] private GameManager _gameManager;
 
     [Header("Map Stuff")]
     public float lineDistance = 3.3f;
@@ -58,21 +59,18 @@ public class SpawnManager : MonoCache
 
         if (!is2d)
         {
-            currentCoinsInItem = coinsCountInItem * (int)(PlayerMovementNonControlable._speed / 15);
-            currentCoinsItemSpace = coinsItemSpace * (PlayerMovementNonControlable._speed / 15);
+            currentCoinsInItem = coinsCountInItem * (int)(player.PlayerMovementNonControlable.Speed / 15);
+            currentCoinsItemSpace = coinsItemSpace * (player.PlayerMovementNonControlable.Speed / 15);
         }
         else
         {
-            currentCoinsInItem = -coinsCountInItem * (int)(PlayerMovementNonControlable2D.speed / 10);
-            currentCoinsItemSpace = -coinsItemSpace * (PlayerMovementNonControlable2D.speed / 10);
+            currentCoinsInItem = -coinsCountInItem * (int)(player2D.PlayerMovementNonControlable.speed / 10);
+            currentCoinsItemSpace = -coinsItemSpace * (player2D.PlayerMovementNonControlable.speed / 10);
         }
     }
 
     public void Start()
     {
-        player = PlayerController.instance;
-        player2D = PlayerController2D.instance;
-
         if (!is2d)
             for (int i = 0; i < 15; i++)
                 AddActiveMap(MakeMap());
@@ -152,7 +150,7 @@ public class SpawnManager : MonoCache
                     else
                         randomLine = LinePosition.Center;
 
-                    obstaclesData.data[j].Setup(randomLine, currentItemSpace, false);
+                    obstaclesData.data[j].Setup(randomLine, currentItemSpace, player.PlayerMovementNonControlable.Speed / 15);
                     lastObstacle = obstacleObject;
 
                     int canCoins = UnityEngine.Random.Range(1, 5);
@@ -226,17 +224,17 @@ public class SpawnManager : MonoCache
         else
             currentItemSpace = 30;
 
-        PlayerMovementNonControlable._speed = -PlayerMovementNonControlable2D.speed / 10 * 15;
-        coinsInLine += 0.005f * GameManager.speedAdderIterations;
-        currentItemSpace += 0.03f * GameManager.speedAdderIterations;
-        currentCoinsInItem += 0.005f * GameManager.speedAdderIterations;
-        currentCoinsItemSpace += 0.05f * GameManager.speedAdderIterations;
+        //player.PlayerMovementNonControlable.Speed = -PlayerMovementNonControlable2D.speed / 10 * 15;
+        coinsInLine += 0.005f * _gameManager.speedAdderIterations;
+        currentItemSpace += 0.03f * _gameManager.speedAdderIterations;
+        currentCoinsInItem += 0.005f * _gameManager.speedAdderIterations;
+        currentCoinsItemSpace += 0.05f * _gameManager.speedAdderIterations;
         CoinsUpdate3D();
     }
 
     public void UpdateValues3D()
     {
-        PlayerMovementNonControlable._speed += 0.06f;
+        //player.PlayerMovementNonControlable.Speed += 0.06f;
         coinsInLine += 0.005f;
         currentItemSpace += 0.03f;
         PlayerPrefs.SetFloat("itemSpace", currentItemSpace);
@@ -248,7 +246,7 @@ public class SpawnManager : MonoCache
 
     private void CoinsUpdate3D()
     {
-        coinsWidth = 1 + (int)((PlayerMovementNonControlable._speed - 10) / 3f);
+        coinsWidth = 1 + (int)((player.PlayerMovementNonControlable.Speed - 10) / 3f);
     }
 
     public void InitValues2D()
@@ -258,19 +256,19 @@ public class SpawnManager : MonoCache
         else
             currentItemSpace = 17;
 
-        PlayerMovementNonControlable2D.speed = -PlayerMovementNonControlable._speed / 15 * 10;
-        coinsInLine += 0.01f * GameManager.speedAdderIterations;
-        currentItemSpace += 0.018f * GameManager.speedAdderIterations;
-        CoinsUpdate2D(PlayerMovementNonControlable2D.speed);
+        //player2D.PlayerMovementNonControlable.speed = -player.PlayerMovementNonControlable.Speed / 15 * 10;
+        coinsInLine += 0.01f * _gameManager.speedAdderIterations;
+        currentItemSpace += 0.018f * _gameManager.speedAdderIterations;
+        CoinsUpdate2D(player2D.PlayerMovementNonControlable.speed);
     }
 
     public void UpdateValues2D()
     {
-        PlayerMovementNonControlable2D.speed -= 0.04f;
+        //player2D.PlayerMovementNonControlable.speed -= 0.04f;
         coinsInLine += 0.01f;
         currentItemSpace += 0.018f;
         PlayerPrefs.SetFloat("itemSpace2D", currentItemSpace);
-        CoinsUpdate2D(PlayerMovementNonControlable2D.speed);
+        CoinsUpdate2D(player2D.PlayerMovementNonControlable.speed);
     }
 
     private void CoinsUpdate2D(float speed)

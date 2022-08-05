@@ -5,18 +5,16 @@ using Yodo1.MAS;
 
 public class AdsInitializer : MonoBehaviour
 {
-    [HideInInspector] public static PlayerController player;
-    [HideInInspector] public static PlayerController2D player2d;
+    [SerializeField] private PlayerController _player;
+    [SerializeField] private PlayerController2D _player2d;
 
     public void Start()
     {
-        player = PlayerController.instance;
-        player2d = PlayerController2D.instance;
-
         InitializeAge();
         Yodo1U3dMas.InitializeSdk();
         InitializeRewardedAds();
     }
+
     public void InitializeAge()
     {
         int age = PlayerPrefs.GetInt("age");
@@ -32,10 +30,12 @@ public class AdsInitializer : MonoBehaviour
         else
             Yodo1U3dMas.SetCOPPA(false);
     }
+
     public void ShowRewarded()
     {
         if (Yodo1U3dMas.IsRewardedAdLoaded()) Yodo1U3dMas.ShowRewardedAd();
     }
+
     private void InitializeRewardedAds()
     {
         Yodo1U3dMasCallback.Rewarded.OnAdOpenedEvent -= OnRewardedAdOpenedEvent;
@@ -48,15 +48,16 @@ public class AdsInitializer : MonoBehaviour
         Yodo1U3dMasCallback.Rewarded.OnAdErrorEvent += OnRewardedAdErorEvent;
         Yodo1U3dMasCallback.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
     }
-    private static void OnRewardedAdOpenedEvent() { Debug.Log("[Yodo1 Mas] Rewarded ad opened"); }
-    private static void OnRewardedAdClosedEvent() { Debug.Log("[Yodo1 Mas] Rewarded ad closed"); }
-    private static void OnRewardedAdErorEvent(Yodo1U3dAdError adError) { Debug.Log("[Yodo1 Mas] Rewarded ad error - " + adError.ToString()); }
-    private static void OnAdReceivedRewardEvent()
+
+    private void OnRewardedAdOpenedEvent() { Debug.Log("[Yodo1 Mas] Rewarded ad opened"); }
+    private void OnRewardedAdClosedEvent() { Debug.Log("[Yodo1 Mas] Rewarded ad closed"); }
+    private void OnRewardedAdErorEvent(Yodo1U3dAdError adError) { Debug.Log("[Yodo1 Mas] Rewarded ad error - " + adError.ToString()); }
+    private void OnAdReceivedRewardEvent()
     {
         Debug.Log("[Yodo1 Mas] Rewarded ad received reward");
-        if (SceneManager.GetActiveScene().name == "3d World" && player != null && GameOverScript.isGameOver)
-            player.RebornMethod(true);
-        if (SceneManager.GetActiveScene().name == "2d World" && player2d != null && GameOverScript.isGameOver)
-            player2d.RebornMethod(true);
+        if (SceneManager.GetActiveScene().name == "3d World" && _player != null && _player.GameOver.isGameOver)
+            _player.RebornMethod(true);
+        if (SceneManager.GetActiveScene().name == "2d World" && _player2d != null && _player2d.GameOver.isGameOver)
+            _player2d.RebornMethod(true);
     }
 }

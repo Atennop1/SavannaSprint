@@ -49,6 +49,8 @@ public class SkinSystem : MonoBehaviour
     [SerializeField] private GameObject buy_screen;
     [SerializeField] private GameObject moneyObject;
     [SerializeField] private Lean.Localization.LeanLocalization localization;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private MenuManager _menuManager;
 
     [SerializeField] private List<SkinSystem> otherSkins;
     public Coroutine checkCoroutine;
@@ -57,13 +59,13 @@ public class SkinSystem : MonoBehaviour
     {
         if (!is3d)
         {
-            balanceText.text = GameManager.allRedCoins.ToString();
+            balanceText.text = _gameManager.allRedCoins.ToString();
             if (PlayerPrefs.GetString("ActiveSkin2D") == skin.ToString())
                 Select(true);
         }
         else
         {
-            balanceText.text = GameManager.allOrangeCoins.ToString();
+            balanceText.text = _gameManager.allOrangeCoins.ToString();
             if (PlayerPrefs.GetString("ActiveSkin3D") == skin.ToString())
                 Select(true);
         }
@@ -88,7 +90,7 @@ public class SkinSystem : MonoBehaviour
         isSelected = true;
         if (!isStart)
         {
-            buttonSound.volume = SingletonManager.soundVolume;
+            buttonSound.volume = SingletonManager.instance.soundVolume;
             buttonSound.Play();
         }
         foreach (SkinSystem theSkin in otherSkins)
@@ -118,18 +120,17 @@ public class SkinSystem : MonoBehaviour
     {
         if (is3d)
         {
-            if (GameManager.allOrangeCoins >= cost)
+            if (_gameManager.allOrangeCoins >= cost)
             {
                 if (Social.localUser.authenticated && skin == Skin.Golden)
                     Social.ReportProgress(GPS.achievement_richer_than_midas, 101f, (bool success) => { });
                 if (buyButton != null)
                     buyButton.enabled = false;
-                unlockSound.volume = SingletonManager.soundVolume;
+                unlockSound.volume = SingletonManager.instance.soundVolume;
                 unlockSound.Play();
-                GameManager.allOrangeCoins -= cost;
-                balanceText.text = GameManager.allOrangeCoins.ToString();
-                MenuManager.orangeCoins.text = GameManager.allOrangeCoins.ToString();
-                PlayerPrefsSafe.SetInt("allOrangeCoins", GameManager.allOrangeCoins);
+                _gameManager.allOrangeCoins -= cost;
+                balanceText.text = _gameManager.allOrangeCoins.ToString();
+                PlayerPrefsSafe.SetInt("allOrangeCoins", _gameManager.allOrangeCoins);
                 isUnlocked = true;
                 if (is3d)
                     PlayerPrefsSafe.SetInt("isUnlocked3D" + skin.ToString(), isUnlocked ? 1 : 0);
@@ -140,7 +141,7 @@ public class SkinSystem : MonoBehaviour
             }
             else
             {
-                money.volume = SingletonManager.soundVolume;
+                money.volume = SingletonManager.instance.soundVolume;
                 money.Play();
                 moneyObject.SetActive(true);
                 moneyObject.GetComponent<Animator>().Play("Money!");
@@ -148,19 +149,17 @@ public class SkinSystem : MonoBehaviour
         }
         else
         {
-            if (GameManager.allRedCoins >= cost)
+            if (_gameManager.allRedCoins >= cost)
             {
                 if (Social.localUser.authenticated && skin == Skin.Golden)
                     Social.ReportProgress(GPS.achievement_richer_than_midas, 101f, (bool success) => { });
 
-                unlockSound.volume = SingletonManager.soundVolume;
+                unlockSound.volume = SingletonManager.instance.soundVolume;
                 unlockSound.Play();
 
-                GameManager.allRedCoins -= cost;
-                balanceText.text = GameManager.allRedCoins.ToString();
-                MenuManager.redCoins.text = GameManager.allRedCoins.ToString();
+                _gameManager.allRedCoins -= cost;
 
-                PlayerPrefsSafe.SetInt("allRedCoins", GameManager.allRedCoins);
+                PlayerPrefsSafe.SetInt("allRedCoins", _gameManager.allRedCoins);
                 isUnlocked = true;
 
                 if (is3d)
@@ -173,12 +172,13 @@ public class SkinSystem : MonoBehaviour
             }
             else
             {
-                money.volume = SingletonManager.soundVolume;
+                money.volume = SingletonManager.instance.soundVolume;
                 money.Play();
                 moneyObject.SetActive(true);
                 moneyObject.GetComponent<Animator>().Play("Money!");
             }
         }
+        _menuManager.UpdateText();
     }
     private IEnumerator UnlockCoroutine()
     {

@@ -19,24 +19,27 @@ public class Obstacle : MonoBehaviour
     public static Collider cantMoveCollider;
 
     private static Image image;
-    private static PlayerController player;
-    private static PlayerController2D player2d;
+    private static PlayerController _player;
+    private static PlayerController2D _player2d;
     private static float timer;
 
     [HideInInspector] public bool isGuided;
 
+    public void Init(PlayerController player, PlayerController2D player2d)
+    {
+        _player = player;
+        _player2d = player2d;
+    }
+
     public void Start()
     {
         isShowing = false;
-        player2d = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController2D>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
-        isGuided = PlayerPrefs.HasKey("isGuided" + obstacleAnimName + (player == null ? "2D" : "3D"));
+        isGuided = PlayerPrefs.HasKey("isGuided" + obstacleAnimName + (_player == null ? "2D" : "3D"));
 
         if (SceneManager.GetActiveScene().name == "3d World")
-            image = player.GuideImage;
+            image = _player.GuideImage;
         else
-            image = player2d.GuideImage;
+            image = _player2d.GuideImage;
 
         StopSlowMotion();
     }
@@ -73,20 +76,20 @@ public class Obstacle : MonoBehaviour
             else
                 imageAnimator.Play(obstacleAnimName);
 
-            if (player != null)
+            if (_player != null)
             {
-                player.PlayerMovementControlable.canMoveDown = canMoveDown;
-                player.PlayerMovementControlable.canMoveLeft = canMoveLeft;
-                player.PlayerMovementControlable.canMoveRight = canMoveRight;
-                player.PlayerMovementControlable.canMoveUp = canMoveUp;
+                _player.PlayerMovementControlable.canMoveDown = canMoveDown;
+                _player.PlayerMovementControlable.canMoveLeft = canMoveLeft;
+                _player.PlayerMovementControlable.canMoveRight = canMoveRight;
+                _player.PlayerMovementControlable.canMoveUp = canMoveUp;
             }
             else
             {
-                player2d.canCtrl = canMoveDown;
-                player2d.canJump = canMoveUp;
+                _player2d.canCtrl = canMoveDown;
+                _player2d.canJump = canMoveUp;
             }
 
-            PlayerPrefs.SetInt("isGuided" + obstacleAnimName + (player == null ? "2D" : "3D"), 1);
+            PlayerPrefs.SetInt("isGuided" + obstacleAnimName + (_player == null ? "2D" : "3D"), 1);
             isGuided = true;
         }
     }
@@ -96,10 +99,10 @@ public class Obstacle : MonoBehaviour
         {
             timer = 0;
             float slowMotionTime;
-            if (player != null)
-                slowMotionTime = 0.25f / (PlayerMovementNonControlable._speed / 15);
+            if (_player != null)
+                slowMotionTime = 0.25f / (_player.PlayerMovementNonControlable.Speed / 15);
             else
-                slowMotionTime = 0.25f / (PlayerMovementNonControlable2D.speed / -10);
+                slowMotionTime = 0.25f / (_player2d.PlayerMovementNonControlable.speed / -10);
 
             while (timer < slowMotionTime)
             {
@@ -116,36 +119,36 @@ public class Obstacle : MonoBehaviour
         isShowing = false;
         image.enabled = false;
 
-        if (player != null)
+        if (_player != null)
         {
-            player.PlayerMovementControlable.canMoveDown = true;
-            player.PlayerMovementControlable.canMoveLeft = true;
-            player.PlayerMovementControlable.canMoveRight = true;
-            player.PlayerMovementControlable.canMoveUp = true;
+            _player.PlayerMovementControlable.canMoveDown = true;
+            _player.PlayerMovementControlable.canMoveLeft = true;
+            _player.PlayerMovementControlable.canMoveRight = true;
+            _player.PlayerMovementControlable.canMoveUp = true;
         }
         else
         {
-            player2d.canJump = true;
-            player2d.canCtrl = true;
+            _player2d.canJump = true;
+            _player2d.canCtrl = true;
         }
     }
     public static void CantMove()
     {
         cantMoveCollider.enabled = false;
-        if (player != null)
+        if (_player != null)
         {
-            player.PlayerMovementControlable.canMoveDown = false;
-            player.PlayerMovementControlable.canMoveLeft = false;
-            player.PlayerMovementControlable.canMoveRight = false;
-            player.PlayerMovementControlable.canMoveUp = false;
+            _player.PlayerMovementControlable.canMoveDown = false;
+            _player.PlayerMovementControlable.canMoveLeft = false;
+            _player.PlayerMovementControlable.canMoveRight = false;
+            _player.PlayerMovementControlable.canMoveUp = false;
         }
         else
         {
-            player2d.canJump = false;
-            player2d.canCtrl = false;
+            _player2d.canJump = false;
+            _player2d.canCtrl = false;
 
-            if (PlayerController2D.playerState == PlayerState.Ctrl)
-                PlayerController2D.playerState = PlayerState.Run;
+            if (_player2d.PlayerState == PlayerState.Ctrl)
+                _player2d.PlayerState = PlayerState.Run;
 
             //player2d.jump.isJump = false;
         }

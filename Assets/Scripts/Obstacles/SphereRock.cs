@@ -11,7 +11,7 @@ public class SphereRock : MonoBehaviour
     {
         rockRigidbody = GetComponent<Rigidbody>();
         source = GetComponent<AudioSource>();
-        source.volume = SingletonManager.soundVolume;
+        source.volume = SingletonManager.instance.soundVolume;
         OnEnable();
     }
 

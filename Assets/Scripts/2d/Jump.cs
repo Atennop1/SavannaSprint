@@ -12,13 +12,13 @@ public class Jump : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private AudioSource _jumpSound;
 
     public bool IsJump { get; private set; }
-    public static bool CanDust { get; private set; }
+    public bool CanDust { get; private set; }
 
     private Coroutine _jumpCoroutine;
 
     public void OnPointerDown(PointerEventData a)
     {
-        if (PlayerController2D.playerState == PlayerState.Run && !GameOverScript.isGameOver && Time.timeScale != 0 && Player.canJump)
+        if (Player.PlayerState == PlayerState.Run && !Player.GameOver.isGameOver && Time.timeScale != 0 && Player.canJump)
         {
             if (Obstacle.isShowing)
                 Obstacle.StopSlowMotion();
@@ -27,14 +27,14 @@ public class Jump : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             //runCol.SetActive(true);
 
             _playerRigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-            _jumpSound.volume = 0.5f * SingletonManager.soundVolume;
+            _jumpSound.volume = 0.5f * SingletonManager.instance.soundVolume;
             _jumpSound.Play();
 
             IsJump = true;
             CanDust = true;
 
             Player.PlayerMovementNonControlable.RunDust.Stop();
-            PlayerController2D.playerState = PlayerState.Jump;
+            Player.PlayerState = PlayerState.Jump;
             Player.PlayerAnimations.PlayerAnimator.Play("Jump");
 
             if (_jumpCoroutine != null)

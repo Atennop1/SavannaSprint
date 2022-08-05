@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerLose : MonoCache
 {
     [SerializeField] private ParticleSystem _gameOverParticles;
+    [SerializeField] private PlayerController _player;
 
     [Space]
     [SerializeField] private AudioSource _shieldSource;
@@ -21,26 +22,24 @@ public class PlayerLose : MonoCache
     [SerializeField] private Button _respawnCoinsButton;
 
     private Transform _obstacleKiller;
-    private PlayerController _player;
 
     public void Start()
     {
-        _player = PlayerController.instance;
         _respawnButton.onClick.AddListener(delegate { _player.RebornMethod(false); });
         _respawnCoinsButton.onClick.AddListener(delegate { _player.RebornMethod(false); });
     }
     public void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.CompareTag("Lose") || collision.gameObject.CompareTag("RampLose")) && !GameOverScript.isGameOver)
+        if ((collision.gameObject.CompareTag("Lose") || collision.gameObject.CompareTag("RampLose")) && !_player.GameOver.isGameOver)
         {
             _obstacleKiller = collision.gameObject.transform.parent;
             if (collision.gameObject.CompareTag("RampLose"))
                 _obstacleKiller = collision.gameObject.transform.parent.gameObject.transform.parent;
 
-            if (!GameManager.isShield)
+            if (!_player.GameManager.isShield)
             {
-                PlayerController.playerState = PlayerState.Death;
-                GameOverScript.isGameOver = true;
+                _player.PlayerState = PlayerState.Death;
+                _player.GameOver.isGameOver = true;
                 StartCoroutine(Lose());
             }
             else
@@ -60,7 +59,7 @@ public class PlayerLose : MonoCache
         yield return new WaitForSeconds(0.7f);
 
         _player.PlayerAnimations.ShieldAnimator.gameObject.SetActive(false);
-        GameManager.isShield = false;
+        _player.GameManager.isShield = false;
     }
     public IEnumerator Lose()
     {
@@ -69,11 +68,10 @@ public class PlayerLose : MonoCache
         StartCoroutine(_player.PlayerAnimations.Lose());
         StartCoroutine(_player.PlayerMovementNonControlable.Lose());
 
-        if (_player.PlayerMovementControlable._moveHorizontalCoroutine != null)
-            StopCoroutine(_player.PlayerMovementControlable._moveHorizontalCoroutine);
+        _player.PlayerMovementControlable.StopMoveHorizontalCoroutine();
 
         SingletonManager.instance.musicSource.Pause();
-        SingletonManager.canPlay = false;
+        SingletonManager.instance.canPlay = false;
         //_player.PlayerBonuses._magnetParticles.Stop();
         _pauseButton.gameObject.SetActive(false);
 
@@ -81,12 +79,12 @@ public class PlayerLose : MonoCache
 
         _gameOverParticles.Play();
         _gameOverSource.Play();
-        _coinsRebornText.text = (500 * GameManager.lifesCount).ToString();
+        _coinsRebornText.text = (500 * _player.GameManager.lifesCount).ToString();
 
         yield return new WaitForSeconds(0.4f);
 
-        _respawnCoinsButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
-        _respawnButton.interactable = GameManager.allOrangeCoins >= 500 * GameManager.lifesCount;
+        _respawnCoinsButton.interactable = _player.GameManager.allOrangeCoins >= 500 * _player.GameManager.lifesCount;
+        _respawnButton.interactable = _player.GameManager.allOrangeCoins >= 500 * _player.GameManager.lifesCount;
 
         _gameOverPanel.SetActive(true);
     }

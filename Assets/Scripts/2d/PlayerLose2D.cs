@@ -21,19 +21,14 @@ public class PlayerLose2D : MonoCache
     [SerializeField] private GameObject _gameOverPanel;
     [SerializeField] private Text _coinsRebornText;
 
-    private PlayerController2D _player;
+    [SerializeField] private PlayerController2D _player;
     private Transform _obstacleKiller;
-
-    public void Start()
-    {
-        _player = PlayerController2D.instance;
-    }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Lose" && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None)
+        if (collision.gameObject.tag == "Lose" && _player.PlayerState != PlayerState.Death && _player.PlayerState != PlayerState.None)
         {
-            if (!GameManager.isShield)
+            if (!_player.GameManager.isShield)
             {
                 _obstacleKiller = collision.gameObject.transform.parent;
                 StartCoroutine(Lose());
@@ -58,7 +53,7 @@ public class PlayerLose2D : MonoCache
         yield return new WaitForSeconds(0.7f);
 
         _player.PlayerAnimations.ShieldAnimator.gameObject.SetActive(false);
-        GameManager.isShield = false;
+        _player.GameManager.isShield = false;
     }
 
     public IEnumerator Lose()
@@ -68,11 +63,11 @@ public class PlayerLose2D : MonoCache
 
         SingletonManager.instance.musicSource.Pause();
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        PlayerController2D.playerState = PlayerState.Death;
+        _player.PlayerState = PlayerState.Death;
         _player.PlayerAnimations.PlayerAnimator.Play("Lose");
 
-        SingletonManager.canPlay = false;
-        GameOverScript.isGameOver = true;
+        SingletonManager.instance.canPlay = false;
+        _player.GameOver.isGameOver = true;
 
         _pauseButton.gameObject.SetActive(false);
         _magnetParticles.Stop();
@@ -84,17 +79,17 @@ public class PlayerLose2D : MonoCache
 
         yield return new WaitForSeconds(0.2f);
 
-        _respawnCoins.interactable = GameManager.allRedCoins >= 200 * GameManager.lifesCount;
-        _rebornButton.interactable = GameManager.allRedCoins >= 200 * GameManager.lifesCount;
+        _respawnCoins.interactable = _player.GameManager.allRedCoins >= 200 * _player.GameManager.lifesCount;
+        _rebornButton.interactable = _player.GameManager.allRedCoins >= 200 * _player.GameManager.lifesCount;
 
-        _coinsRebornText.text = (200 * GameManager.lifesCount).ToString();
+        _coinsRebornText.text = (200 * _player.GameManager.lifesCount).ToString();
         _gameOverPanel.SetActive(true);
     }
 
     public IEnumerator StartMethod()
     {
         yield return new WaitForSeconds(1.5f);
-        _gameOverSource.volume = SingletonManager.soundVolume;
+        _gameOverSource.volume = SingletonManager.instance.soundVolume;
         _pauseButton.gameObject.SetActive(true);
     }
 

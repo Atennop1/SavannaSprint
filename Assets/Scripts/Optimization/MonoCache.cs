@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MonoCache : MonoBehaviour
 {
-    public static List<MonoCache> allUpdates = new List<MonoCache>(100);
-    private void OnEnable() => allUpdates.Add(this);
-    private void OnDisable() => allUpdates.Remove(this);
-    private void OnDestroy() => allUpdates.Remove(this);
+    public static List<MonoCache> AllUpdates = new List<MonoCache>(100);
+    private void OnEnable() => AllUpdates.Add(this);
+    private void OnDisable() => AllUpdates.Remove(this);
+    private void OnDestroy() => AllUpdates.Remove(this);
     public void Tick() => OnTick();
     public virtual void OnTick() { }
 }

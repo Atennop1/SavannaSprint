@@ -12,12 +12,14 @@ public class UpdateManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
         DontDestroyOnLoad(instance);
     }
+    
     public void Update()
     {
-        for (int i = 0; i < MonoCache.allUpdates.Count; i++)
-            if (MonoCache.allUpdates[i].gameObject.scene == SceneManager.GetActiveScene())
-                MonoCache.allUpdates[i].Tick();
+        for (int i = 0; i < MonoCache.AllUpdates.Count; i++)
+            if (MonoCache.AllUpdates[i].gameObject.scene == SceneManager.GetActiveScene())
+                MonoCache.AllUpdates[i].Tick();
     }
 }

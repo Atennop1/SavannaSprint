@@ -10,6 +10,7 @@ public class GameManager : MonoCache
 {
     [Header("Objects")]
     [SerializeField] private AudioSource selectSource;
+    [SerializeField] private MenuManager _menuManager;
 
     [Space]
     [SerializeField] private HorizontalLayoutGroup rebornLayout;
@@ -32,31 +33,25 @@ public class GameManager : MonoCache
     private bool is3d;
     private bool isFocused = true;
 
-    public static int speedAdderIterations;
-    public static int lifesCount = 1;
-    public static int score = 0;
+    public int speedAdderIterations;
+    public int lifesCount = 1;
+    public int score = 0;
 
-    public static SafeInt maxScore;
-    public static SafeInt allOrangeCoins;
-    public static SafeInt allRedCoins;
+    public SafeInt maxScore;
+    public SafeInt allOrangeCoins;
+    public SafeInt allRedCoins;
 
-    [HideInInspector] public PlayerController player;
-    [HideInInspector] public PlayerController2D player2d;
+    public bool isMagnet;
+    public bool isX2;
+    public bool isShield;
+    public bool isX2Coins;
 
-    public static bool isMagnet;
-    public static bool isX2;
-    public static bool isShield;
-    public static bool isX2Coins;
-
-    void Awake()
+    private void Awake()
     {
-        player = PlayerController.instance;
-        player2d = PlayerController2D.instance;
-
         if (SceneManager.GetActiveScene().name != "Menu")
-            selectSource.volume = 0.5f * SingletonManager.soundVolume;
+            selectSource.volume = 0.5f * SingletonManager.instance.soundVolume;
 
-        if (MenuManager.IsShadows)
+        if (_menuManager != null && _menuManager.IsShadows)
             QualitySettings.shadows = ShadowQuality.HardOnly;
         else
             QualitySettings.shadows = ShadowQuality.Disable;
@@ -67,6 +62,7 @@ public class GameManager : MonoCache
 
         is3d = SceneManager.GetActiveScene().name == "3d World";
     }
+
     public override void OnTick()
     {
         if (is3d)
@@ -86,10 +82,12 @@ public class GameManager : MonoCache
                 rebornLayout.padding.left = -278;
         }
     }
+    
     public void DataResetMethod()
     {
         StartCoroutine(DataReset());
     }
+
     public IEnumerator DataReset()
     {
         lifesCount = 1;
@@ -101,9 +99,6 @@ public class GameManager : MonoCache
         PlayerPrefs.SetFloat("itemSpace2D", 17);
         PlayerPrefs.SetFloat("itemSpace", 30);
 
-        PlayerMovementNonControlable._speed = 15;
-        PlayerMovementNonControlable2D.speed = -10;
-
         yield return new WaitForSeconds(1);
 
         if (SingletonManager.instance != null)
@@ -113,32 +108,33 @@ public class GameManager : MonoCache
         }
         score = 0;
     }
+
     public void QuitToMenu()
     {
         selectSource.Play();
-        GameOverScript.isGameOver = false;
 
-        SceneChanger.levelToLoad = 0;
+        sceneChanger.levelToLoad = 0;
 
         sceneChanger.FadeToLevel();
         StartCoroutine(DataReset());
         Destroy(SingletonManager.instance.gameObject);
     }
+    
     public void Restart()
     {
         selectSource.Play();
-        GameOverScript.isGameOver = false;
 
         if (is3d)
-            SceneChanger.levelToLoad = 2;
+            sceneChanger.levelToLoad = 2;
         else
-            SceneChanger.levelToLoad = 1;
+            sceneChanger.levelToLoad = 1;
 
         sceneChanger.FadeToLevel();
         speedAdderIterations = 0;
         Destroy(SingletonManager.instance.gameObject);
         StartCoroutine(DataReset());
     }
+
     public void Pause()
     {
         if (isFocused)
@@ -149,6 +145,7 @@ public class GameManager : MonoCache
         pauseMenu.SetActive(true);
         SingletonManager.instance.musicSource.Pause();
     }
+
     public void Resume()
     {
         selectSource.Play();
@@ -156,6 +153,7 @@ public class GameManager : MonoCache
         SingletonManager.instance.musicSource.UnPause();
         pauseMenu.SetActive(false);
     }
+
     public void UpdateText()
     {
         PlayerPrefsSafe.SetInt("allOrangeCoins", allOrangeCoins);
@@ -187,30 +185,30 @@ public class GameManager : MonoCache
                 Social.ReportProgress(GPS.achievement_demonic_runner, 101f, (bool success) => { });
         }
     }
+    
     public void OnApplicationPause(bool pause)
     {
-#if Unity_EDITOR
-        if (pause && SceneManager.GetActiveScene().name != "Menu" && !GameOverScript.isGameOver && !Obstacle.isShowing)
-        {
-            if (!is3d)
-            {
-                if (PlayerController.playerState != PlayerState.Changing && PlayerController.playerState != PlayerState.Death && PlayerController.playerState != PlayerState.None)
-                {
-                    isFocused = false;
-                    Pause();
-                }
-            }
-            else
-            {
-                if (PlayerController.playerState != PlayerState.Changing && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None)
-                {
-                    isFocused = false;
-                    Pause();
-                }
-            }
-        }
-#endif
+        // if (pause && SceneManager.GetActiveScene().name != "Menu" && !GameOverScript.isGameOver && !Obstacle.isShowing)
+        // {
+        //     if (!is3d)
+        //     {
+        //         if (_player.playerState != PlayerState.Changing && PlayerController.playerState != PlayerState.Death && PlayerController.playerState != PlayerState.None)
+        //         {
+        //             isFocused = false;
+        //             Pause();
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (PlayerController.playerState != PlayerState.Changing && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None)
+        //         {
+        //             isFocused = false;
+        //             Pause();
+        //         }
+        //     }
+        // }
     }
+
     public void OnApplicationFocus(bool focus)
     {
         OnApplicationPause(!focus);

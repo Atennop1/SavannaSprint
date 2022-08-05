@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlatformGeneration : MonoCache
 {
     [Header("Transforms")]
+    [SerializeField] private Transform _player;
     [SerializeField] private Transform left;
     [SerializeField] private Transform right;
     [SerializeField] private Transform road;
@@ -29,7 +30,6 @@ public class PlatformGeneration : MonoCache
 
     private bool is2d;
     private float spawnPos;
-    private Transform player;
     private List<MeshRenderer> activePlatforms = new List<MeshRenderer>();
 
     private List<GameObject> activeBackgroundsLeft = new List<GameObject>();
@@ -39,12 +39,6 @@ public class PlatformGeneration : MonoCache
     {
         data.Setup();
         is2d = SceneManager.GetActiveScene().name == "2d World";
-
-        if (SceneManager.GetActiveScene().name == "3d World")
-            player = PlayerController.instance.transform;
-        else
-            player = PlayerController2D.instance.transform;
-
 
         SpawnPlatform();
         for (int i = 0; i < startPlatforms; i++)
@@ -59,12 +53,12 @@ public class PlatformGeneration : MonoCache
     }
     public override void OnTick()
     {
-        if (player.position.z > spawnPos - tileLenghtCenter * startPlatforms)
+        if (_player.position.z > spawnPos - tileLenghtCenter * startPlatforms)
         {
             spawnPos += tileLenghtCenter;
             DeletePlatform();
         }
-        if (player.position.z > spawnPosBackground - tileLenghtBackground * startBackgrounds)
+        if (_player.position.z > spawnPosBackground - tileLenghtBackground * startBackgrounds)
         {
             spawnPosBackground += tileLenghtBackground;
             DeleteBackgroundLeft();

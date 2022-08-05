@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class PlayerAnimations2D : MonoCache
 {
+    [SerializeField] private PlayerController2D _player;
+
     [field: SerializeField] public Animator ShieldAnimator { get; private set; }
     [field: SerializeField] public Animator PlayerAnimator { get; private set; }
     
     public override void OnTick()
     {
-        if (PlayerController2D.playerState != PlayerState.Death && !GameOverScript.isGameOver && Time.timeScale != 0)
+        if (_player.PlayerState != PlayerState.Death && !_player.GameOver.isGameOver && Time.timeScale != 0)
         {
-            if ((PlayerController2D.playerState == PlayerState.Run || PlayerController2D.playerState == PlayerState.Jump))
+            if ((_player.PlayerState == PlayerState.Run || _player.PlayerState == PlayerState.Jump))
             {
-                if (PlayerController2D.playerState == PlayerState.Run)
+                if (_player.PlayerState == PlayerState.Run)
                     PlayerAnimator.Play("Run");
                 else
                     PlayerAnimator.Play("Jump");
@@ -22,7 +24,7 @@ public class PlayerAnimations2D : MonoCache
                     ShieldAnimator.SetTrigger("isNotCtrl");
             }
 
-            if (PlayerController2D.playerState == PlayerState.Ctrl)
+            if (_player.PlayerState == PlayerState.Ctrl)
             {
                 PlayerAnimator.Play("Ctrl");
                 if (ShieldAnimator.gameObject.activeInHierarchy)
@@ -38,7 +40,7 @@ public class PlayerAnimations2D : MonoCache
         yield return new WaitForSeconds(1.5f);
 
         PlayerAnimator.Play("Run");
-        if (GameManager.isShield)
+        if (_player.GameManager.isShield)
             ShieldAnimator.gameObject.SetActive(true);
     }
 

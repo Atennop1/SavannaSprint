@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoCache
 {
+    [SerializeField] private PlayerController _player;
+
     [field: SerializeField] public Animator PlayerAnimator { get; private set; }
     [field: SerializeField] public Animator ShieldAnimator { get; private set; }
 
     public override void OnTick()
     {
-        if (PlayerController.playerState != PlayerState.Death)
+        if (_player.PlayerState != PlayerState.Death)
         {
-            if (!GameOverScript.isGameOver && (PlayerController.playerState == PlayerState.Run || PlayerController.playerState == PlayerState.Jump))
+            if (!_player.GameOver.isGameOver && (_player.PlayerState == PlayerState.Run || _player.PlayerState == PlayerState.Jump))
                 if (ShieldAnimator.gameObject.activeInHierarchy)
                     ShieldAnimator.SetTrigger("isNotCtrl");
 
-            if (PlayerController.playerState == PlayerState.Ctrl)
+            if (_player.PlayerState == PlayerState.Ctrl)
                 if (ShieldAnimator.gameObject.activeInHierarchy)
                     ShieldAnimator.SetTrigger("isCtrl");
         }
@@ -23,17 +25,16 @@ public class PlayerAnimations : MonoCache
 
     public void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.tag == "Lose" || collision.gameObject.tag == "RampLose") && !GameOverScript.isGameOver)
-        {
-            if (!GameManager.isShield)
+        if ((collision.gameObject.tag == "Lose" || collision.gameObject.tag == "RampLose") && !_player.GameOver.isGameOver)
+            if (!_player.GameManager.isShield)
                 PlayerAnimator.Play("Lose");
-        }
     }
     
     public IEnumerator Change()
     {
         if (ShieldAnimator.gameObject.activeInHierarchy)
             ShieldAnimator.SetTrigger("crush");
+        
         PlayerAnimator.Play("Lose");
         yield return new WaitForFixedUpdate();
     }
@@ -56,7 +57,7 @@ public class PlayerAnimations : MonoCache
         yield return new WaitForSeconds(1.5f);
         PlayerAnimator.Play("Run");
 
-        if (GameManager.isShield)
+        if (_player.GameManager.isShield)
             ShieldAnimator.gameObject.SetActive(true);
     }
 }

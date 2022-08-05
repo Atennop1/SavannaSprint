@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerBonuses : MonoBehaviour
 {
     [SerializeField] private AudioSource _powerUpSource;
+    [SerializeField] private PlayerController _player;
+    [SerializeField] private PlayerController2D _player2d;
 
     [Space]
     [SerializeField] private Bonus _magnetBonus;
@@ -22,15 +24,6 @@ public class PlayerBonuses : MonoBehaviour
     private Coroutine _magnetCoroutine;
     private Coroutine _x2Coroutine;
     private Coroutine _x2CoinsCoroutine;
-
-    private PlayerController _player;
-    private PlayerController2D _player2d;
-
-    public void Start()
-    {
-        _player = PlayerController.instance;
-        _player2d = PlayerController2D.instance;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -62,7 +55,7 @@ public class PlayerBonuses : MonoBehaviour
         }
         if (other.gameObject.tag == "Shield")
         {
-            GameManager.isShield = true;
+            _player.GameManager.isShield = true;
 
             if (_player)
                 _player.PlayerAnimations.ShieldAnimator.gameObject.SetActive(true);
@@ -77,24 +70,24 @@ public class PlayerBonuses : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
 
-        _powerUpSource.volume = 1 * SingletonManager.soundVolume;
-        if (GameManager.isX2)
+        _powerUpSource.volume = 1 * SingletonManager.instance.soundVolume;
+        if (_player.GameManager.isX2)
             _x2Coroutine = CreateBonusCoroutine(_x2Bonus, _x2Object, null);
-        if (GameManager.isMagnet)
+        if (_player.GameManager.isMagnet)
             _magnetCoroutine = CreateBonusCoroutine(_magnetBonus, _magnetObject, _magnetParticles);
-        if (GameManager.isX2Coins)
-            _x2CoinsCoroutine = _x2CoinsCoroutine = CreateBonusCoroutine(_x2CoinsBonus, _x2CoinsObject, null);
+        if (_player.GameManager.isX2Coins)
+            _x2CoinsCoroutine = CreateBonusCoroutine(_x2CoinsBonus, _x2CoinsObject, null);
     }
     
     public IEnumerator Reborn()
     {
         yield return new WaitForSeconds(1.6f);
 
-        if (GameManager.isX2)
+        if (_player.GameManager.isX2)
             _x2Coroutine = CreateBonusCoroutine(_x2Bonus, _x2Object, null);
-        if (GameManager.isMagnet)
+        if (_player.GameManager.isMagnet)
             _magnetCoroutine = CreateBonusCoroutine(_magnetBonus, _magnetObject, _magnetParticles);
-        if (GameManager.isX2Coins)
+        if (_player.GameManager.isX2Coins)
             _x2CoinsCoroutine = CreateBonusCoroutine(_x2CoinsBonus, _x2CoinsObject, null);
     }
 

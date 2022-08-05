@@ -10,25 +10,27 @@ public class SceneChanger : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
 
     private bool is2d;
-    public static int levelToLoad;
-    private static Animator anim;
-    [HideInInspector] public PlayerController player;
-    [HideInInspector] public PlayerController2D player2d;
+    public int levelToLoad;
+    private Animator anim;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private PlayerController2D player2d;
+
     private void Start()
     {
         is2d = SceneManager.GetActiveScene().name == "2d World";
-        player = PlayerController.instance;
-        player2d = PlayerController2D.instance;
         anim = GetComponent<Animator>();
     }
+
     public void FadeToLevel()
     {
         anim.SetTrigger("fade");
     }
+
     public void OnFadeComplete()
     {
         StartCoroutine(LoadingScreenOnFade());
     }
+
     public void StartAnimation()
     {
         if (SceneManager.GetActiveScene().name != "Menu")
@@ -39,7 +41,8 @@ public class SceneChanger : MonoBehaviour
                 StartCoroutine(player.StartMethod());
         }
     }
-    IEnumerator LoadingScreenOnFade()
+
+    private IEnumerator LoadingScreenOnFade()
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelToLoad);
         loadingScreen.SetActive(true);

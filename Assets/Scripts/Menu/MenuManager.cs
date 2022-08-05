@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Collections;
+using Lean.Localization;
 using UnityEngine;
 using UnityEngine.UI;
 using GooglePlayGames;
@@ -9,64 +9,65 @@ using GooglePlayGames.BasicApi.SavedGame;
 public class MenuManager : MonoCache
 {
     [Header("Localization")]
-    public Lean.Localization.LeanLocalization localization;
+    [SerializeField] private LeanLocalization _localization;
 
     [Header("Shaders")]
-    [SerializeField] private Shader standart;
-    [SerializeField] private Shader diffuse;
+    [SerializeField] private Shader _standart;
+    [SerializeField] private Shader _diffuse;
 
-    [SerializeField] private Material godMaterial;
-    [SerializeField] private Material backgroundMaterial;
+    [SerializeField] private Material _godMaterial;
+    [SerializeField] private Material _backgroundMaterial;
 
     [Header("UI")]
-    [SerializeField] private Toggle shaderToggle;
-    [SerializeField] private Toggle shadowsToggle;
-    [SerializeField] private Toggle fpsToggle;
+    [SerializeField] private Toggle _shaderToggle;
+    [SerializeField] private Toggle _shadowsToggle;
+    [SerializeField] private Toggle _fpsToggle;
 
     [Space]
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider _volumeSlider;
 
     [Space]
-    [SerializeField] private Dropdown roadDropdown;
-    [SerializeField] private Dropdown languageDropdown;
+    [SerializeField] private Dropdown _roadDropdown;
+    [SerializeField] private Dropdown _languageDropdown;
 
     [Header("Source")]
-    [SerializeField] private AudioSource menuMusicSource;
-    [SerializeField] private AudioSource selectSource;
-    [SerializeField] private AudioSource riddleSound;
+    [SerializeField] private AudioSource _menuMusicSource;
+    [SerializeField] private AudioSource _selectSource;
+    [SerializeField] private AudioSource _riddleSound;
 
     [Header("Objects")]
-    [SerializeField] private Text volumeText;
-    [SerializeField] private SceneChanger sceneChanger;
+    [SerializeField] private Text _volumeText;
+    [SerializeField] private SceneChanger _sceneChanger;
+    [SerializeField] private GameManager _gameManager;
 
-    public static bool IsShadows { get; private set; }
-    public static Text highScore;
-    public static Text redCoins;
-    public static Text orangeCoins;
-
-    [Space]
-    [SerializeField] private GameObject ageScreen;
-    [SerializeField] private GameObject riddleObject;
+    public bool IsShadows { get; private set; }
+    [SerializeField] private Text _highScore;
+    [SerializeField] private Text _redCoins;
+    [SerializeField] private Text _orangeCoins;
 
     [Space]
-    [SerializeField] private SkinSystem riddleSkin;
-    [SerializeField] private SkinSystem riddleSkin2d;
+    [SerializeField] private GameObject _ageScreen;
+    [SerializeField] private GameObject _riddleObject;
 
     [Space]
-    [SerializeField] private List<GameObject> pieces;
+    [SerializeField] private SkinSystem _riddleSkin;
+    [SerializeField] private SkinSystem _riddleSkin2d;
 
-    private static bool isSaving;
-    private static Text logText;
-    private static Text outputText;
+    [Space]
+    [SerializeField] private List<GameObject> _pieces;
 
-    private static List<int> toSave;
-    private static List<string> stringsToSave;
+    private bool _isSaving;
+    private Text _logText;
+    private Text _outputText;
 
-    private int shaderIntPP;
-    private int shadowsIntPP;
-    private int fpsIntPP;
+    private List<int> _toSave;
+    private List<string> _stringsToSave;
 
-    private bool canBeep;
+    private int _shaderSettingValue;
+    private int _shadowsSettingValue;
+    private int _fpsSettingValue;
+
+    private bool _canBeep;
 
     public void InitializeGPS()
     {
@@ -74,102 +75,102 @@ public class MenuManager : MonoCache
         Social.localUser.Authenticate((success) => { });
     }
     #region SaveIntoCloud
-    public static void OpenSave(bool saving)
+    public void OpenSave(bool saving)
     {
-        if (logText)
-            logText.text = "";
+        if (_logText)
+            _logText.text = "";
         if(Social.localUser.authenticated)
         {
-            if (logText)
-                logText.text += "User is aunthenticated\n";
-            isSaving = saving;
+            if (_logText)
+                _logText.text += "User is aunthenticated\n";
+            _isSaving = saving;
             ((PlayGamesPlatform)Social.Active).SavedGame.OpenWithAutomaticConflictResolution("SaveFile",
                 DataSource.ReadCacheOrNetwork,
                 ConflictResolutionStrategy.UseLongestPlaytime,
                 SaveGameOpen);
         }
         else
-            if (logText)
-                logText.text += "User isn't aunthenticated\n";
+            if (_logText)
+                _logText.text += "User isn't aunthenticated\n";
     }
-    private static void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata data)
+    private void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata data)
     {
         
         if (status == SavedGameRequestStatus.Success)
         {
-            if (isSaving)
+            if (_isSaving)
             {
-                if (logText)
-                    logText.text += "Status: successfull. Attempting to save...\n";
+                if (_logText)
+                    _logText.text += "Status: successfull. Attempting to save...\n";
                 byte[] myData = System.Text.ASCIIEncoding.ASCII.GetBytes(GetSaveString());
                 SavedGameMetadataUpdate updateForMetadata = new SavedGameMetadataUpdate.Builder().Build();
                 ((PlayGamesPlatform)Social.Active).SavedGame.CommitUpdate(data, updateForMetadata, myData, SaveCallback);
             }
             else
             {
-                if (logText)
-                    logText.text += "Status: successfull. Attempting to load...\n";
+                if (_logText)
+                    _logText.text += "Status: successfull. Attempting to load...\n";
                 ((PlayGamesPlatform)Social.Active).SavedGame.ReadBinaryData(data, LoadCallback);
             }
         }
         else
-            if (logText)
-                logText.text += $"Status: {status.ToString()}.\n";
+            if (_logText)
+                _logText.text += $"Status: {status.ToString()}.\n";
     }
-    public static string GetSaveString()
+    public string GetSaveString()
     {
         string dataToSave = "";
 
-        foreach(int data in toSave)
+        foreach(int data in _toSave)
             dataToSave += data.ToString() + "|";
         dataToSave = dataToSave.Remove(dataToSave.Length - 1);
 
         return dataToSave;
     }
-    public static void LoadSaveString(string cloudData)
+    public void LoadSaveString(string cloudData)
     {
         string[] cloudArray = cloudData.Split('|');
-        for (int i = 0; i < toSave.Count; i++)
+        for (int i = 0; i < _toSave.Count; i++)
         {
-            PlayerPrefsSafe.SetInt(stringsToSave[i], int.Parse(cloudArray[i]));
-            Debug.Log(stringsToSave[i] + ": " + cloudArray[i]);
-            if (cloudArray[i] == "0" && (stringsToSave[i] == "magnet" || stringsToSave[i] == "x2" || stringsToSave[i] == "x2Coins"))
-                PlayerPrefsSafe.SetInt(stringsToSave[i], 1);
+            PlayerPrefsSafe.SetInt(_stringsToSave[i], int.Parse(cloudArray[i]));
+            Debug.Log(_stringsToSave[i] + ": " + cloudArray[i]);
+            if (cloudArray[i] == "0" && (_stringsToSave[i] == "magnet" || _stringsToSave[i] == "x2" || _stringsToSave[i] == "x2Coins"))
+                PlayerPrefsSafe.SetInt(_stringsToSave[i], 1);
         }
 
-        GameManager.maxScore = PlayerPrefsSafe.GetInt("maxScore");
-        GameManager.allOrangeCoins = PlayerPrefsSafe.GetInt("allOrangeCoins");
-        GameManager.allRedCoins = PlayerPrefsSafe.GetInt("allRedCoins");
+        _gameManager.maxScore = PlayerPrefsSafe.GetInt("maxScore");
+        _gameManager.allOrangeCoins = PlayerPrefsSafe.GetInt("allOrangeCoins");
+        _gameManager.allRedCoins = PlayerPrefsSafe.GetInt("allRedCoins");
 
-        highScore.text = "HI " + PlayerPrefsSafe.GetInt("maxScore");
-        redCoins.text = PlayerPrefsSafe.GetInt("allRedCoins").ToString();
-        orangeCoins.text = PlayerPrefsSafe.GetInt("allOrangeCoins").ToString();
+        _highScore.text = "HI " + PlayerPrefsSafe.GetInt("maxScore");
+        _redCoins.text = PlayerPrefsSafe.GetInt("allRedCoins").ToString();
+        _orangeCoins.text = PlayerPrefsSafe.GetInt("allOrangeCoins").ToString();
 
-        if (outputText)
+        if (_outputText)
         {
-            outputText.text = "";
-            outputText.text += "High Score: " + PlayerPrefsSafe.GetInt("maxScore") + "\n";
-            outputText.text += "Orange Coins: " + PlayerPrefsSafe.GetInt("allOrangeCoins") + "\n";
-            outputText.text += "Red Coins: " + PlayerPrefsSafe.GetInt("allRedCoins") + "\n";
-            outputText.text += "Riddle Skin: " + PlayerPrefsSafe.GetInt("isUnlocked3DRiddle") + "\n";
-            outputText.text += "Magnet Level: " + PlayerPrefsSafe.GetInt("magnet") + "\n";
+            _outputText.text = "";
+            _outputText.text += "High Score: " + PlayerPrefsSafe.GetInt("maxScore") + "\n";
+            _outputText.text += "Orange Coins: " + PlayerPrefsSafe.GetInt("allOrangeCoins") + "\n";
+            _outputText.text += "Red Coins: " + PlayerPrefsSafe.GetInt("allRedCoins") + "\n";
+            _outputText.text += "Riddle Skin: " + PlayerPrefsSafe.GetInt("isUnlocked3DRiddle") + "\n";
+            _outputText.text += "Magnet Level: " + PlayerPrefsSafe.GetInt("magnet") + "\n";
         }
     }
-    private static void SaveCallback(SavedGameRequestStatus status, ISavedGameMetadata data)
+    private void SaveCallback(SavedGameRequestStatus status, ISavedGameMetadata data)
     {
         if (status == SavedGameRequestStatus.Success)
-            if (logText)
-                logText.text += "File successfully saved\n";
+            if (_logText)
+                _logText.text += "File successfully saved\n";
         else
-            if (logText)
-                logText.text += "File failed to saved\n";
+            if (_logText)
+                _logText.text += "File failed to saved\n";
     }
-    private static void LoadCallback(SavedGameRequestStatus status, byte[] data)
+    private void LoadCallback(SavedGameRequestStatus status, byte[] data)
     {
         if (status == SavedGameRequestStatus.Success)
         {
-            if (logText)
-                logText.text += "Load successful. Attempting to read data...\n";
+            if (_logText)
+                _logText.text += "Load successful. Attempting to read data...\n";
             string loadedData = System.Text.ASCIIEncoding.ASCII.GetString(data);
             LoadSaveString(loadedData);
         }
@@ -177,7 +178,7 @@ public class MenuManager : MonoCache
     #endregion
     public void Awake()
     {
-        toSave = new List<int> {
+        _toSave = new List<int> {
             PlayerPrefsSafe.GetInt("allOrangeCoins"),
             PlayerPrefsSafe.GetInt("allRedCoins"),
             PlayerPrefsSafe.GetInt("maxScore"),
@@ -209,7 +210,7 @@ public class MenuManager : MonoCache
             PlayerPrefsSafe.GetInt("magnet")
         };
 
-        stringsToSave = new List<string>
+        _stringsToSave = new List<string>
         {
             "allOrangeCoins",
             "allRedCoins",
@@ -242,13 +243,13 @@ public class MenuManager : MonoCache
             "magnet"
         };
 
-        highScore = GameObject.Find("ScoreText").GetComponent<Text>();
-        orangeCoins = GameObject.Find("MenuOrangeCoins").GetComponent<Text>();
-        redCoins = GameObject.Find("MenuRedCoins").GetComponent<Text>();
+        _highScore = GameObject.Find("ScoreText").GetComponent<Text>();
+        _orangeCoins = GameObject.Find("MenuOrangeCoins").GetComponent<Text>();
+        _redCoins = GameObject.Find("MenuRedCoins").GetComponent<Text>();
 
         if (!PlayerPrefsSafe.HasKey("FirstTime"))
         {
-            ageScreen.SetActive(true);
+            _ageScreen.SetActive(true);
             PlayerPrefsSafe.SetInt("FirstTime", 1);
             PlayerPrefs.SetString("ActiveSkin2D", "Default");
             PlayerPrefs.SetString("ActiveSkin3D", "Default");
@@ -269,14 +270,14 @@ public class MenuManager : MonoCache
     {
         if (Social.localUser.authenticated)
         {
-            Social.ReportScore(GameManager.maxScore, GPS.leaderboard_best_runners, (bool success) => { });
-            if (GameManager.maxScore > 0)
+            Social.ReportScore(_gameManager.maxScore, GPS.leaderboard_best_runners, (bool success) => { });
+            if (_gameManager.maxScore > 0)
                 Social.ReportProgress(GPS.achievement_foundation_of_the_foundations, 101f, (bool success) => { });
 
-            if (GameManager.maxScore >= 5000)
+            if (_gameManager.maxScore >= 5000)
                 Social.ReportProgress(GPS.achievement_real_knight, 101f, (bool success) => { });
 
-            if (GameManager.maxScore >= 6666)
+            if (_gameManager.maxScore >= 6666)
                 Social.ReportProgress(GPS.achievement_demonic_runner, 101f, (bool success) => { });
 
             if (PlayerPrefsSafe.HasKey("isUnlocked3DRiddle") && PlayerPrefsSafe.GetInt("isUnlocked3DRiddle") == 1)
@@ -288,56 +289,59 @@ public class MenuManager : MonoCache
 
         if (PlayerPrefs.GetString("Language") == "Russian")
         {
-            languageDropdown.value = 0;
-            localization.CurrentLanguage = "Russian";
+            _languageDropdown.value = 0;
+            _localization.CurrentLanguage = "Russian";
             PlayerPrefs.SetString("Language", "Russian");
         }
         else
         {
-            languageDropdown.value = 1;
-            localization.CurrentLanguage = "English";
+            _languageDropdown.value = 1;
+            _localization.CurrentLanguage = "English";
             PlayerPrefs.SetString("Language", "English");
         }
 
         if (PlayerPrefsSafe.GetInt("isUnlocked3DRiddle") == 1)
         {
-            riddleObject.transform.parent.GetComponent<Button>().interactable = false;
-            riddleObject.SetActive(true);
+            _riddleObject.transform.parent.GetComponent<Button>().interactable = false;
+            _riddleObject.SetActive(true);
 
-            foreach (GameObject piece in pieces)
+            foreach (GameObject piece in _pieces)
                 Destroy(piece);
         }
 
-        if (PlayerPrefs.HasKey("volume")) volumeSlider.value = PlayerPrefs.GetFloat("volume");
-        else volumeSlider.value = 1f;
+        if (PlayerPrefs.HasKey("volume")) _volumeSlider.value = PlayerPrefs.GetFloat("volume");
+        else _volumeSlider.value = 1f;
 
-        if (PlayerPrefs.HasKey("shaderIntPP")) shaderIntPP = PlayerPrefs.GetInt("shaderIntPP");
-        else shaderIntPP = 0;
+        if (PlayerPrefs.HasKey("shaderIntPP")) _shaderSettingValue = PlayerPrefs.GetInt("shaderIntPP");
+        else _shaderSettingValue = 0;
 
-        if (PlayerPrefs.HasKey("shadowsIntPP")) shadowsIntPP = PlayerPrefs.GetInt("shadowsIntPP");
-        else shadowsIntPP = 0;
+        if (PlayerPrefs.HasKey("shadowsIntPP")) _shadowsSettingValue = PlayerPrefs.GetInt("shadowsIntPP");
+        else _shadowsSettingValue = 0;
 
-        if (PlayerPrefs.HasKey("fpsIntPP")) fpsIntPP = PlayerPrefs.GetInt("fpsIntPP");
-        else fpsIntPP = 0;
+        if (PlayerPrefs.HasKey("fpsIntPP")) _fpsSettingValue = PlayerPrefs.GetInt("fpsIntPP");
+        else _fpsSettingValue = 0;
 
-        if (shaderIntPP == 0) shaderToggle.isOn = false;
-        else shaderToggle.isOn = true;
+        if (_shaderSettingValue == 0) _shaderToggle.isOn = false;
+        else _shaderToggle.isOn = true;
 
-        if (shadowsIntPP == 1) shadowsToggle.isOn = true;
-        else shadowsToggle.isOn = false;
+        if (_shadowsSettingValue == 1) _shadowsToggle.isOn = true;
+        else _shadowsToggle.isOn = false;
 
-        if (fpsIntPP == 1) fpsToggle.isOn = true;
-        else fpsToggle.isOn = false;
+        if (_fpsSettingValue == 1) _fpsToggle.isOn = true;
+        else _fpsToggle.isOn = false;
 
         SettingsSet();
 
-        highScore.text = "HI " + PlayerPrefsSafe.GetInt("maxScore");
-        redCoins.text = PlayerPrefsSafe.GetInt("allRedCoins").ToString();
-        orangeCoins.text = PlayerPrefsSafe.GetInt("allOrangeCoins").ToString();
-        GameManager.score = 0;
+        UpdateText();
         InitValues();
-        canBeep = true;
-        GameManager.speedAdderIterations = 0;
+        _canBeep = true;
+    }
+
+    public void UpdateText()
+    {
+        _highScore.text = "HI " + PlayerPrefsSafe.GetInt("maxScore");
+        _redCoins.text = PlayerPrefsSafe.GetInt("allRedCoins").ToString();
+        _orangeCoins.text = PlayerPrefsSafe.GetInt("allOrangeCoins").ToString();
     }
     public void FixedUpdate()
     {
@@ -345,14 +349,14 @@ public class MenuManager : MonoCache
     }
     public void VolumeSetup()
     {
-        SingletonManager.soundVolume = volumeSlider.value;
-        menuMusicSource.volume = 0.15f * SingletonManager.soundVolume;
-        selectSource.volume = 0.5f * SingletonManager.soundVolume;
-        volumeText.text = Mathf.Round(SingletonManager.soundVolume * 100) + "%";
+        SingletonManager.instance.soundVolume = _volumeSlider.value;
+        _menuMusicSource.volume = 0.15f * SingletonManager.instance.soundVolume;
+        _selectSource.volume = 0.5f * SingletonManager.instance.soundVolume;
+        _volumeText.text = Mathf.Round(SingletonManager.instance.soundVolume * 100) + "%";
     }
     public void SelectSoundPlay()
     {
-        selectSource.Play();
+        _selectSource.Play();
     }
     public void DisableObject(GameObject obj)
     {
@@ -365,110 +369,108 @@ public class MenuManager : MonoCache
     public void TwoDButton()
     {
         InitValues();
-        selectSource.Play();
+        _selectSource.Play();
         QualitySettings.shadowDistance = 50;
-        SceneChanger.levelToLoad = 1;
-        sceneChanger.FadeToLevel();
+        _sceneChanger.levelToLoad = 1;
+        _sceneChanger.FadeToLevel();
     }
     public void ThreeDButton()
     {
         InitValues();
-        selectSource.Play();
+        _selectSource.Play();
         QualitySettings.shadowDistance = 70;
-        SceneChanger.levelToLoad = 2;
-        sceneChanger.FadeToLevel();
+        _sceneChanger.levelToLoad = 2;
+        _sceneChanger.FadeToLevel();
     }
     public void InitValues()
     {
-        GameManager.lifesCount = 1;
-        GameManager.isMagnet = false;
-        GameManager.isX2 = false;
-        GameManager.isShield = false;
-        GameManager.isX2Coins = false;
+        _gameManager.lifesCount = 1;
+        _gameManager.isMagnet = false;
+        _gameManager.isX2 = false;
+        _gameManager.isShield = false;
+        _gameManager.isX2Coins = false;
 
-        PlayerMovementNonControlable._speed = 15;
-        PlayerMovementNonControlable2D.speed = -10;
         Time.timeScale = 1;
 
         PlayerPrefs.SetFloat("itemSpace2D", 17);
         PlayerPrefs.SetFloat("itemSpace", 30);
 
         if (PlayerPrefs.HasKey("GraphicsQuality"))
-            roadDropdown.value = PlayerPrefs.GetInt("GraphicsQuality");
+            _roadDropdown.value = PlayerPrefs.GetInt("GraphicsQuality");
         else
         {
-            roadDropdown.value = 2;
+            _roadDropdown.value = 2;
             PlayerPrefs.SetInt("GraphicsQuality", 2);
         }
     }
     void SettingsSet()
     {
-        if (shaderToggle.isOn)
+        if (_shaderToggle.isOn)
         {
-            godMaterial.shader = standart;
-            backgroundMaterial.shader = standart;
-            shaderIntPP = 1;
+            _godMaterial.shader = _standart;
+            _backgroundMaterial.shader = _standart;
+            _shaderSettingValue = 1;
         }
         else
         {
-            godMaterial.shader = diffuse;
-            backgroundMaterial.shader = diffuse;
-            shaderIntPP = 0;
+            _godMaterial.shader = _diffuse;
+            _backgroundMaterial.shader = _diffuse;
+            _shaderSettingValue = 0;
         }
 
-        if (shadowsToggle.isOn)
+        if (_shadowsToggle.isOn)
         {
-            shadowsIntPP = 1;
+            _shadowsSettingValue = 1;
             IsShadows = true;
         }
         else
         {
             IsShadows = false;
-            shadowsIntPP = 0;
+            _shadowsSettingValue = 0;
         }
 
-        if (fpsToggle.isOn)
-            fpsIntPP = 1;
+        if (_fpsToggle.isOn)
+            _fpsSettingValue = 1;
         else
-            fpsIntPP = 0;
+            _fpsSettingValue = 0;
 
-        PlayerPrefs.SetFloat("volume", volumeSlider.value);
-        PlayerPrefs.SetInt("shaderIntPP", shaderIntPP);
-        PlayerPrefs.SetInt("shadowsIntPP", shadowsIntPP);
-        PlayerPrefs.SetInt("fpsIntPP", fpsIntPP);
+        PlayerPrefs.SetFloat("volume", _volumeSlider.value);
+        PlayerPrefs.SetInt("shaderIntPP", _shaderSettingValue);
+        PlayerPrefs.SetInt("shadowsIntPP", _shadowsSettingValue);
+        PlayerPrefs.SetInt("fpsIntPP", _fpsSettingValue);
     }
     public void RiddleButton()
     {
         if (Social.localUser.authenticated)
             Social.ReportProgress(GPS.achievement_how_did_you_find_it, 101f, (bool success) => { });
 
-        riddleObject.SetActive(true);
-        riddleObject.transform.parent.GetComponent<Button>().interactable = false;
+        _riddleObject.SetActive(true);
+        _riddleObject.transform.parent.GetComponent<Button>().interactable = false;
 
         PlayerPrefsSafe.SetInt("isUnlocked3DRiddle", 1);
         PlayerPrefsSafe.SetInt("isUnlocked2DRiddle", 1);
 
-        riddleSound.volume = SingletonManager.soundVolume;
-        riddleObject.GetComponent<Animator>().SetTrigger("Go");
-        riddleSound.Play();
+        _riddleSound.volume = SingletonManager.instance.soundVolume;
+        _riddleObject.GetComponent<Animator>().SetTrigger("Go");
+        _riddleSound.Play();
     }
     public void SetDropdown(int value)
     {
-        if (canBeep)
-            selectSource.Play();
+        if (_canBeep)
+            _selectSource.Play();
 
         PlayerPrefs.SetInt("GraphicsQuality", value);
     }
     public void LanguageChanged(int index)
     {
-        selectSource.Play();
+        _selectSource.Play();
 
-        if (languageDropdown.value == 0)
-            localization.CurrentLanguage = "Russian";
+        if (_languageDropdown.value == 0)
+            _localization.CurrentLanguage = "Russian";
         else
-            localization.CurrentLanguage = "English";
+            _localization.CurrentLanguage = "English";
 
-        PlayerPrefs.SetString("Language", localization.CurrentLanguage);
+        PlayerPrefs.SetString("Language", _localization.CurrentLanguage);
     }
     public void ShowLeaderBoard()
     {

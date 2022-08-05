@@ -12,7 +12,7 @@ public class PlayerMovementNonControlable2D : MonoCache
     [field: SerializeField] public ParticleSystem JumpDust { get; private set; }
 
     private float maxSpeed = -40;
-    public static float speed = -10;
+    public float speed { get; private set; } = -10;
 
     private float _currentScoreSpeed;
     private float _scoreSpeed = 0.2f;
@@ -31,16 +31,16 @@ public class PlayerMovementNonControlable2D : MonoCache
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None && PlayerController2D.playerState != PlayerState.Ctrl)
+        if (collision.gameObject.CompareTag("Road") && _player.PlayerState != PlayerState.Death && _player.PlayerState != PlayerState.None && _player.PlayerState != PlayerState.Ctrl)
         {
             RunDust.Play();
-            if (Jump.CanDust && PlayerController2D.playerState != PlayerState.Run)
-            {
-                JumpDust.Play();
-                //Jump.CanDust = false;
-            }
+            //if (Jump.CanDust && PlayerController2D.playerState != PlayerState.Run)
+            //{
+            //    JumpDust.Play();
+            //    Jump.CanDust = false;
+            //}
 
-            PlayerController2D.playerState = PlayerState.Run;
+            _player.PlayerState = PlayerState.Run;
             
             //if (_player.ctrl.IsClicked)
             //    _player.ctrl.OnPointerDown(null);
@@ -49,7 +49,7 @@ public class PlayerMovementNonControlable2D : MonoCache
 
     public void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Road") && PlayerController2D.playerState == PlayerState.Jump)
+        if (collision.gameObject.CompareTag("Road") && _player.PlayerState == PlayerState.Jump)
             RunDust.Stop();
     }
 
@@ -79,7 +79,7 @@ public class PlayerMovementNonControlable2D : MonoCache
 
         yield return new WaitForSeconds(1.6f);
 
-        GameOverScript.isGameOver = false;
+        _player.GameOver.isGameOver = false;
 
         StartCoroutine(Move());
         StartCoroutine(ScoreAdder());
@@ -101,27 +101,27 @@ public class PlayerMovementNonControlable2D : MonoCache
 
     public IEnumerator ScoreAdder()
     {
-        while (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
+        while (!_player.GameOver.isGameOver && _player.PlayerState != PlayerState.Changing)
         {
-            if (GameManager.isX2)
+            if (_player.GameManager.isX2)
                 yield return new WaitForSeconds(_currentScoreSpeed / 2);
             else
                 yield return new WaitForSeconds(_currentScoreSpeed);
 
-            GameManager.score += 1;
+            _player.GameManager.score += 1;
             _gameManager.UpdateText();
 
-            if (GameManager.score >= 6666 && !PlayerPrefsSafe.HasKey("ActiveSkin2DDemon"))
+            if (_player.GameManager.score >= 6666 && !PlayerPrefsSafe.HasKey("ActiveSkin2DDemon"))
                 PlayerPrefsSafe.SetInt("isUnlocked2DDemon", 1);
 
-            if (GameManager.score >= 5000 && !PlayerPrefsSafe.HasKey("ActiveSkin2DKnight"))
+            if (_player.GameManager.score >= 5000 && !PlayerPrefsSafe.HasKey("ActiveSkin2DKnight"))
                 PlayerPrefsSafe.SetInt("isUnlocked2DKnight", 1);
         }
     }
 
     public IEnumerator Move()
     {
-        while (!GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Changing)
+        while (!_player.GameOver.isGameOver && _player.PlayerState != PlayerState.Changing)
         {
             yield return new WaitForFixedUpdate();
             transform.Translate(transform.forward * speed * Time.deltaTime);
@@ -130,10 +130,10 @@ public class PlayerMovementNonControlable2D : MonoCache
 
     public IEnumerator SpeedAdder()
     {
-        while (maxSpeed < speed && !GameOverScript.isGameOver && PlayerController2D.playerState != PlayerState.Death && PlayerController2D.playerState != PlayerState.None)
+        while (maxSpeed < speed && !_player.GameOver.isGameOver && _player.PlayerState != PlayerState.Death && _player.PlayerState != PlayerState.None)
         {
             yield return new WaitForSeconds(1);
-            GameManager.speedAdderIterations++;
+            _player.GameManager.speedAdderIterations++;
 
             _spawnManager.UpdateValues2D();
             _currentScoreSpeed = -_scoreSpeed * (10 / speed);
