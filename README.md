@@ -1,4 +1,4 @@
-# 3D(?) Runner
+# Safari Sprint: 2D & 3D Giraffic Adventure
 
 ![badge](https://img.shields.io/static/v1?label=Engine&message=Unity&color=brightgreen&style=for-the-badge)
 ![badge](https://img.shields.io/static/v1?label=Language&message=C%23&color=blueviolet&style=for-the-badge)
@@ -10,6 +10,8 @@
 This is the repository for my first game, it's called "3D(?) Runner". This is my first serious creation in Unity, which I made for a very long time and released to the app store. This is a runner game with two modes: 2D and 3D, which differ in gameplay and camera angle. Also in the game there are skins, bonuses, settings and achievements. After a while, the Yodo1 company became interested in the game and we formed a partnership ;)
 
 The repository contains 2 branches: master, which contains the game code as of 07/19/2022, and Redesign, which contains the redesigned code. Redesigned code is still bad, but thanks to him I feel my progress
+
+Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to me difficult to understand and, in principle, somehow uncool. I recently asked ChatGPT to generate a new title and after a couple of attempts it called the game "Safari Sprint: 2D & 3D Giraffic Adventure", which I quite liked ;)
 
 ### Specifics
  - First serious project ever
