@@ -11,7 +11,7 @@ This is the repository for my first game, it's called "Savanna sprint: Dual-Dime
 
 The repository contains 2 branches: master, which contains the game code as of 07/19/2022, and Redesign, which contains the redesigned code. Redesigned code is still bad, but thanks to him I feel my progress
 
-Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to me difficult to understand and, in principle, somehow uncool. I recently asked ChatGPT to generate a new title and after a couple of attempts it called the game "Safari Sprint: 2D & 3D Giraffic Adventure", which I quite liked ;)
+Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to me difficult to understand and, in principle, somehow uncool. I recently asked ChatGPT to generate a new title and after a couple of attempts it called the game "Savanna sprint: Dual-Dimensional Run", which I quite liked ;)
 
 ### Specifics
  - First serious project ever
