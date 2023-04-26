@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Atennop
-  productName: 3D(?) Runner
+  productName: Savanna Sprint
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
@@ -140,6 +140,7 @@ PlayerSettings:
     Others: 1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   bundleVersion: 2.55
 =======
   bundleVersion: 2.7.5
@@ -147,6 +148,9 @@ PlayerSettings:
 =======
   bundleVersion: 2.7.5
 >>>>>>> cee218e (Changed privacy policy)
+=======
+  bundleVersion: 2.75
+>>>>>>> 588408d (Changed game name in menu)
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -177,12 +181,16 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   AndroidBundleVersionCode: 65
   AndroidMinSdkVersion: 19
 =======
 =======
 >>>>>>> cee218e (Changed privacy policy)
   AndroidBundleVersionCode: 78
+=======
+  AndroidBundleVersionCode: 77
+>>>>>>> 588408d (Changed game name in menu)
   AndroidMinSdkVersion: 22
 >>>>>>> cee218e (Changed privacy policy)
   AndroidTargetSdkVersion: 31
