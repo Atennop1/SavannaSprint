@@ -1,4 +1,4 @@
-# Savanna sprint: Dual-Dimensional Run
+# Savanna sprint: Two Worlds
 
 ![badge](https://img.shields.io/static/v1?label=Engine&message=Unity&color=brightgreen&style=for-the-badge)
 ![badge](https://img.shields.io/static/v1?label=Language&message=C%23&color=blueviolet&style=for-the-badge)
@@ -7,7 +7,7 @@
 
 ## About project
 
-This is the repository for my first game, it's called "Savanna sprint: Dual-Dimensional Run". This is my first serious creation in Unity, which I made for a very long time and released to the app store. This is a runner game with two modes: 2D and 3D, which differ in gameplay and camera angle. Also in the game there are skins, bonuses, settings and achievements. After a while, the Yodo1 company became interested in the game and we formed a partnership ;)
+This is the repository for my first game, it's called "Savanna sprint: Two Worlds". This is my first serious creation in Unity, which I made for a very long time and released to the app store. This is a runner game with two modes: 2D and 3D, which differ in gameplay and camera angle. Also in the game there are skins, bonuses, settings and achievements. After a while, the Yodo1 company became interested in the game and we formed a partnership ;)
 
 The repository contains 2 branches: master, which contains the game code as of 07/19/2022, and Redesign, which contains the redesigned code. Redesigned code is still bad, but thanks to him I feel my progress
 
