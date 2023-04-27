@@ -139,7 +139,11 @@ PlayerSettings:
     16:9: 1
     Others: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   bundleVersion: 2.55
+=======
+  bundleVersion: 2.7.5
+>>>>>>> cee218e (Changed privacy policy)
 =======
   bundleVersion: 2.7.5
 >>>>>>> cee218e (Changed privacy policy)
@@ -172,9 +176,12 @@ PlayerSettings:
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
   AndroidBundleVersionCode: 65
   AndroidMinSdkVersion: 19
 =======
+=======
+>>>>>>> cee218e (Changed privacy policy)
   AndroidBundleVersionCode: 78
   AndroidMinSdkVersion: 22
 >>>>>>> cee218e (Changed privacy policy)
