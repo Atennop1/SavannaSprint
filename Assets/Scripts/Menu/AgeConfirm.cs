@@ -21,6 +21,6 @@ public class AgeConfirm : MonoBehaviour
     }
     public void OpenUrlPrivacyPolicy()
     {
-        Application.OpenURL("https://pages.flycricket.io/3d-runner-1/privacy.html");
+        Application.OpenURL("https://doc-hosting.flycricket.io/savanna-sprint-two-worlds-privacy-policy/69a693a6-78ef-4332-9b77-a35defafbc14/privacy");
     }
 }
