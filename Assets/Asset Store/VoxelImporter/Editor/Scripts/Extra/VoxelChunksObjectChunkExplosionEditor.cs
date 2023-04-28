@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
 using UnityEditor.Experimental.SceneManagement;

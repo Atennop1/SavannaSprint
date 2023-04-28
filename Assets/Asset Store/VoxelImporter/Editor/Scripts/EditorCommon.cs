@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
 using UnityEditor.Experimental.SceneManagement;

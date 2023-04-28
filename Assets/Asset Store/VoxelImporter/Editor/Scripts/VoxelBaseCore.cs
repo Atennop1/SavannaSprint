@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
 using UnityEditor.Experimental.SceneManagement;
