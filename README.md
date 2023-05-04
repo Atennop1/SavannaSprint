@@ -30,7 +30,7 @@ The contribution of this project to my development can hardly be overestimated. 
 
 ## Gallery
 
-![image](https://user-images.githubusercontent.com/73060890/229309268-0760f792-9186-4f34-a365-9e4e8ccd5e96.png)
+![image](https://user-images.githubusercontent.com/73060890/236298554-4fe31478-af0a-411e-aab6-a7124ea37c0a.png)
 ![image](https://user-images.githubusercontent.com/73060890/229309303-1afe5e2a-bce6-44f2-a4c4-a7682da3f9eb.png)
 ![image](https://user-images.githubusercontent.com/73060890/229309323-0084c87c-5633-420c-875f-b7fc6177aaba.png)
 ![image](https://user-images.githubusercontent.com/73060890/229309332-0469adbb-4620-4b74-8b57-c31893afbc39.png)
