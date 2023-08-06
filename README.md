@@ -26,7 +26,9 @@ Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to
  
 ## Conclusion
 
-The contribution of this project to my development can hardly be overestimated. Thanks to him, I got acquainted with all the basic things in Unity on practive, thanks to him I understood how advertising works in games, I understood how to upload games to the store, I made myself a developer account. But there were also bad moments. Once I decided to rewrite the code to make it better, but in the end it dragged on for a long time and gave me almost nothing. But I realized that rewriting projects is pure evil. This is my first project, which I perceive as a son <3
+The contribution of this project to my development can hardly be overestimated. Thanks to him, I got acquainted with all the basic things in Unity on practive, thanks to him I understood how advertising works in games, I understood how to upload games to the store, I made myself a developer account. But there were also bad moments. Once I decided to rewrite the code to make it better, but in the end it dragged on for a long time and gave me almost nothing. But I realized that rewriting projects is pure evil
+
+This is my first project, which I perceive as a son and it makes me very sad when someone says bad things about this project, even if it's not criticism but a stupid exclamation like "This game is shit!" :(
 
 ## Gallery
 
@@ -35,4 +37,5 @@ The contribution of this project to my development can hardly be overestimated. 
 ![image](https://user-images.githubusercontent.com/73060890/229309323-0084c87c-5633-420c-875f-b7fc6177aaba.png)
 ![image](https://user-images.githubusercontent.com/73060890/229309332-0469adbb-4620-4b74-8b57-c31893afbc39.png)
 
-Ah yeah, download link: https://play.google.com/store/apps/details?id=com.Atennop.a3DRunner. Please don't rate badly😭
+Ah yeah, download link: https://play.google.com/store/apps/details?id=com.Atennop.a3DRunner
+<br>Please don't rate badly😭
