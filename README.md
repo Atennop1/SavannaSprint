@@ -32,10 +32,9 @@ This is my first project, which I perceive as a son and it makes me very sad whe
 
 ## Gallery
 
-![image](https://user-images.githubusercontent.com/73060890/236298554-4fe31478-af0a-411e-aab6-a7124ea37c0a.png)
-![image](https://user-images.githubusercontent.com/73060890/229309303-1afe5e2a-bce6-44f2-a4c4-a7682da3f9eb.png)
-![image](https://user-images.githubusercontent.com/73060890/229309323-0084c87c-5633-420c-875f-b7fc6177aaba.png)
-![image](https://user-images.githubusercontent.com/73060890/229309332-0469adbb-4620-4b74-8b57-c31893afbc39.png)
+| ![image](https://user-images.githubusercontent.com/73060890/236298554-4fe31478-af0a-411e-aab6-a7124ea37c0a.png) | ![image](https://user-images.githubusercontent.com/73060890/229309303-1afe5e2a-bce6-44f2-a4c4-a7682da3f9eb.png) |
+| --- | --- |
+| ![image](https://user-images.githubusercontent.com/73060890/229309323-0084c87c-5633-420c-875f-b7fc6177aaba.png) | ![image](https://user-images.githubusercontent.com/73060890/229309332-0469adbb-4620-4b74-8b57-c31893afbc39.png) |
 
 Ah yeah, download link: https://play.google.com/store/apps/details?id=com.Atennop.a3DRunner
 <br>Please don't rate badly😭
