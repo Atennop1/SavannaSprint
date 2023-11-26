@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5635334490595586099}
   - component: {fileID: 7853276533432560155}
+  - component: {fileID: 7669352896521816355}
   m_Layer: 0
   m_Name: CantMove
-  m_TagString: GuideCantMove
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +45,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 162.4222, y: 28.940973, z: 300.93146}
   m_Center: {x: 1.4181615, y: 13.970475, z: -157.39925}
+--- !u!114 &7669352896521816355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150871242019867806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac83619b8e0e9074a943d849744d8aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5177162765977141161
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,9 +67,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6508073069980559652}
   - component: {fileID: 6084954162988514242}
+  - component: {fileID: 6856119703469494528}
   m_Layer: 0
   m_Name: Trigger
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,10 +98,22 @@ BoxCollider:
   m_GameObject: {fileID: 5177162765977141161}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 159.45793, y: 24.459595, z: 105.397575}
   m_Center: {x: 0.44536594, y: 11.7297735, z: -76.50074}
+--- !u!114 &6856119703469494528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5177162765977141161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47bbb92f3bdf9d488dea9983e9991ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6202534214266987213
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,9 +127,10 @@ GameObject:
   - component: {fileID: 6202534214266987214}
   - component: {fileID: 6202534214266987215}
   - component: {fileID: 6202534214266987212}
+  - component: {fileID: -2790705450594606762}
   m_Layer: 0
   m_Name: DownRockLOD1
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,13 +212,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ba9d0080a3d54db0918ad80af0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleAnimName: DownRock
-  slowMotionCollider: {fileID: 6084954162988514242}
-  canMoveRight: 0
-  canMoveLeft: 0
-  canMoveUp: 1
-  canMoveDown: 0
-  isGuided: 0
+  _guideAnimationName: DownRock
+  _slowMotionCollider: {fileID: 6084954162988514242}
+  _canMoveRight: 0
+  _canMoveLeft: 0
+  _canMoveUp: 1
+  _canMoveDown: 0
 --- !u!65 &6202534214266987212
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -205,3 +231,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 88.83891, y: 29.277222, z: 35.8046}
   m_Center: {x: 0.40694287, y: 14.638611, z: 0.13568799}
+--- !u!114 &-2790705450594606762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202534214266987213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a2b953a18c6a48b421ebc33a4b772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

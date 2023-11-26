@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2159675150664224530}
   - component: {fileID: -2418468017044152348}
   - component: {fileID: 7784452802321994817}
-  - component: {fileID: -5579836753253847617}
   - component: {fileID: -4122201583195302057}
+  - component: {fileID: -1267465443500507409}
   m_Layer: 10
   m_Name: Coin
   m_TagString: Untagged
@@ -63,19 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bf885456cf17498ccf80844f16173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
---- !u!114 &-5579836753253847617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712012784489917390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd73cb7cfd74add46be6ee94f623d4ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _speed: 0
 --- !u!114 &-4122201583195302057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +74,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec925b22ba6c92d4099ebbc06d9c72d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 40
+--- !u!114 &-1267465443500507409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712012784489917390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc1558fa630a9544b3fdf53c9b70dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4715746036076798064
@@ -102,7 +103,7 @@ GameObject:
   - component: {fileID: 7784609827331689715}
   m_Layer: 0
   m_Name: RedCoin
-  m_TagString: Coin
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

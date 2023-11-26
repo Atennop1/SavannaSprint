@@ -3,17 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - CoinDetector
-  - Road
-  - Lose
-  - Changer
-  - Coin
-  - NotLose
-  - Ramp
-  - RampLose
-  - Shield
-  - GuideCantMove
+  tags: []
   layers:
   - Default
   - TransparentFX

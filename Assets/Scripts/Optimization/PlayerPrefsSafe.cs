@@ -5,60 +5,46 @@ using UnityEngine;
 
 public static class PlayerPrefsSafe
 {
-    private const int salt = 830572948;
+    private const int SALT = 830572948;
 
     public static void SetInt(string key, int value)
     {
-        int salted = value ^ salt;
+        var salted = value ^ SALT;
         PlayerPrefs.SetInt(StringHash(key), salted);
         PlayerPrefs.SetInt(StringHash("_" + key), IntHash(value));
     }
 
-    public static int GetInt(string key)
+    public static int GetInt(string key, int defaultValue = 0)
     {
-        return GetInt(key, 0);
-    }
-
-    public static int GetInt(string key, int defaultValue)
-    {
-        string hashedKey = StringHash(key);
+        var hashedKey = StringHash(key);
         if (!PlayerPrefs.HasKey(hashedKey)) return defaultValue;
 
-        int salted = PlayerPrefs.GetInt(hashedKey);
-        int value = salted ^ salt;
+        var salted = PlayerPrefs.GetInt(hashedKey);
+        var value = salted ^ SALT;
 
-        int loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
-        if (loadedHash != IntHash(value)) return defaultValue;
-
-        return value;
+        var loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
+        return loadedHash != IntHash(value) ? defaultValue : value;
     }
 
     public static void SetFloat(string key, float value)
     {
-        int intValue = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
-
-        int salted = intValue ^ salt;
+        var intValue = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+        var salted = intValue ^ SALT;
+        
         PlayerPrefs.SetInt(StringHash(key), salted);
         PlayerPrefs.SetInt(StringHash("_" + key), IntHash(intValue));
     }
 
-    public static float GetFloat(string key)
+    public static float GetFloat(string key, float defaultValue = 0)
     {
-        return GetFloat(key, 0);
-    }
-
-    public static float GetFloat(string key, float defaultValue)
-    {
-        string hashedKey = StringHash(key);
+        var hashedKey = StringHash(key);
         if (!PlayerPrefs.HasKey(hashedKey)) return defaultValue;
 
-        int salted = PlayerPrefs.GetInt(hashedKey);
-        int value = salted ^ salt;
+        var salted = PlayerPrefs.GetInt(hashedKey);
+        var value = salted ^ SALT;
 
-        int loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
-        if (loadedHash != IntHash(value)) return defaultValue;
-
-        return BitConverter.ToSingle(BitConverter.GetBytes(value), 0);
+        var loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
+        return loadedHash != IntHash(value) ? defaultValue : BitConverter.ToSingle(BitConverter.GetBytes(value), 0);
     }
 
     private static int IntHash(int x)
@@ -72,10 +58,10 @@ public static class PlayerPrefsSafe
     public static string StringHash(string x)
     {
         HashAlgorithm algorithm = SHA256.Create();
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(x));
-        foreach (byte b in bytes) sb.Append(b.ToString("X2"));
+        foreach (var b in bytes) sb.Append(b.ToString("X2"));
 
         return sb.ToString();
     }
@@ -88,13 +74,13 @@ public static class PlayerPrefsSafe
 
     public static bool HasKey(string key)
     {
-        string hashedKey = StringHash(key);
+        var hashedKey = StringHash(key);
         if (!PlayerPrefs.HasKey(hashedKey)) return false;
 
-        int salted = PlayerPrefs.GetInt(hashedKey);
-        int value = salted ^ salt;
+        var salted = PlayerPrefs.GetInt(hashedKey);
+        var value = salted ^ SALT;
 
-        int loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
+        var loadedHash = PlayerPrefs.GetInt(StringHash("_" + key));
 
         return loadedHash == IntHash(value);
     }

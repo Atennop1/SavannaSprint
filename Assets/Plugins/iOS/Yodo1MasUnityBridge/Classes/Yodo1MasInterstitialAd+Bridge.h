@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (Yodo1MasBridgeInterstitialAdConfig *)parse:(id)json;
 
 @property (nonatomic, copy) NSString *adPlacement;
+@property (nonatomic, assign) BOOL autoDelayIfLoadFail;
 
 @end
 

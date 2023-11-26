@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 2370461022148378767}
   - component: {fileID: 791149164671431376}
   - component: {fileID: 158785899477854208}
-  - component: {fileID: 4655547012203864952}
   m_Layer: 10
   m_Name: CoinObject
-  m_TagString: Coin
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4655547012203864952
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726160072082858650}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 9, y: 16, z: 1}
-  m_Center: {x: -2.5, y: 9, z: 1.5}
 --- !u!1 &3150372455695035909
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,8 +92,9 @@ GameObject:
   - component: {fileID: 6815904059197223793}
   - component: {fileID: 8392708370060550617}
   - component: {fileID: 4232822120729394579}
-  - component: {fileID: 6693382658229181826}
   - component: {fileID: 1458169089752151617}
+  - component: {fileID: 399458189023185050}
+  - component: {fileID: -5318049665331664084}
   m_Layer: 10
   m_Name: CoinLOD2
   m_TagString: Untagged
@@ -142,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bf885456cf17498ccf80844f16173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
+  _speed: 0
 --- !u!114 &4232822120729394579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,18 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec925b22ba6c92d4099ebbc06d9c72d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6693382658229181826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3150372455695035909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd73cb7cfd74add46be6ee94f623d4ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _moveSpeed: 40
 --- !u!54 &1458169089752151617
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -183,3 +159,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &399458189023185050
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3150372455695035909}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.44555315, y: 0.8048532, z: 0.038868666}
+  m_Center: {x: 0.0068627186, y: -0.0034300757, z: -0.00078068196}
+--- !u!114 &-5318049665331664084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3150372455695035909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc1558fa630a9544b3fdf53c9b70dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

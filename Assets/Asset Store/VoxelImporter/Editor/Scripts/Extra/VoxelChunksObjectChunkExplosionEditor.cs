@@ -6,10 +6,9 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
-using UnityEditor.Experimental.SceneManagement;
+
 #endif
 
 namespace VoxelImporter
@@ -39,7 +38,7 @@ namespace VoxelImporter
         protected PrefabAssetType prefabType { get { return PrefabUtility.GetPrefabAssetType(explosionObject.gameObject); } }
         protected bool prefabEnable { get { return (prefabType == PrefabAssetType.Regular || prefabType == PrefabAssetType.Variant) || isPrefabEditMode; } }
         protected bool isPrefab { get { return false; } }
-        protected bool isPrefabEditMode { get { return PrefabStageUtility.GetCurrentPrefabStage() != null && PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot != null; } }
+        protected bool isPrefabEditMode { get { return UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot != null; } }
         protected bool isPrefabEditable { get { return EditorCommon.IsComponentEditable(explosionObject); } }
 #else
         protected PrefabType prefabType { get { return PrefabUtility.GetPrefabType(explosionObject.gameObject); } }

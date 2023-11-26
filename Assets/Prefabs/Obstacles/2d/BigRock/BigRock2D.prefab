@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8379203179737972434}
   - component: {fileID: 595939703843679556}
+  - component: {fileID: 8586993620406293225}
   m_Layer: 0
   m_Name: CantMove
-  m_TagString: GuideCantMove
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +45,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 86.76706, y: 28.940973, z: 221.29019}
   m_Center: {x: 1.4491878, y: 13.970475, z: -117.57861}
+--- !u!114 &8586993620406293225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3157239244644452781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac83619b8e0e9074a943d849744d8aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6214035458462233438
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,9 +67,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1194573590523390130}
   - component: {fileID: 5348061870636835765}
+  - component: {fileID: 2952455368322551796}
   m_Layer: 0
   m_Name: Trigger
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,10 +98,22 @@ BoxCollider:
   m_GameObject: {fileID: 6214035458462233438}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 91.114494, y: 24.459595, z: 90.92034}
   m_Center: {x: 2.9778562, y: 11.7297735, z: -69.262085}
+--- !u!114 &2952455368322551796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214035458462233438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47bbb92f3bdf9d488dea9983e9991ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8844476769849832394
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,9 +127,10 @@ GameObject:
   - component: {fileID: 3755225269320801985}
   - component: {fileID: 8966394527921467249}
   - component: {fileID: 5981360643985782652}
+  - component: {fileID: 7634053638276919292}
   m_Layer: 0
   m_Name: BigRock2D
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -198,11 +225,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ba9d0080a3d54db0918ad80af0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePlayerPrefsName: BigRock
-  obstacleAnimName: TapLeft
-  slowMotionCollider: {fileID: 5348061870636835765}
-  canMoveRight: 0
-  canMoveLeft: 0
-  canMoveUp: 0
-  canMoveDown: 1
-  isGuided: 0
+  _guideAnimationName: TapLeft
+  _slowMotionCollider: {fileID: 5348061870636835765}
+  _canMoveRight: 0
+  _canMoveLeft: 0
+  _canMoveUp: 0
+  _canMoveDown: 1
+--- !u!114 &7634053638276919292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8844476769849832394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a2b953a18c6a48b421ebc33a4b772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

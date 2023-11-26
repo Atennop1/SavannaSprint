@@ -10,10 +10,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Globalization;
-using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
-using UnityEditor.Experimental.SceneManagement;
+
 #endif
 
 namespace VoxelImporter
@@ -1649,7 +1648,7 @@ namespace VoxelImporter
             var prefabType = PrefabUtility.GetPrefabAssetType(voxelBase.gameObject);
             if (isPrefabEditMode)
             {
-                var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 #if UNITY_2020_1_OR_NEWER
                 path = prefabStage.assetPath;
 #else
@@ -1916,7 +1915,7 @@ namespace VoxelImporter
                 if (voxelBase.generateMipMaps)
                 {
                     var pixels = tex.GetPixels32();
-                    tex.Resize(tex.width, tex.height, tex.format, true);
+                    tex.Reinitialize(tex.width, tex.height, tex.format, true);
                     tex.SetPixels32(pixels, 0);
                     tex.Apply(true);
                 }
@@ -2384,7 +2383,7 @@ namespace VoxelImporter
                 if (voxelBase.generateMipMaps)
                 {
                     var pixels = tex.GetPixels32();
-                    tex.Resize(tex.width, tex.height, tex.format, true);
+                    tex.Reinitialize(tex.width, tex.height, tex.format, true);
                     tex.SetPixels32(pixels, 0);
                     tex.Apply(true);
                 }
@@ -4716,7 +4715,7 @@ namespace VoxelImporter
         #region Asset
         public bool PrefabAssetReImport { get; set; }
 #if UNITY_2018_3_OR_NEWER
-        public bool isPrefabEditMode { get { return PrefabStageUtility.GetCurrentPrefabStage() != null && PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot != null; } }
+        public bool isPrefabEditMode { get { return UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot != null; } }
         public bool isPrefabEditable { get { return EditorCommon.IsComponentEditable(voxelBase); } }
 #endif
         public void AddObjectToPrefabAsset(UnityEngine.Object obj)
@@ -4728,7 +4727,7 @@ namespace VoxelImporter
             {
                 if (isPrefabEditMode)
                 {
-                    var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                    var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 #if UNITY_2020_1_OR_NEWER
                     var assetPath = prefabStage.assetPath;
 #else
@@ -4776,7 +4775,7 @@ namespace VoxelImporter
             GameObject root = null;
             if (isPrefabEditMode)
             {
-                var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 #if UNITY_2020_1_OR_NEWER
                 var assetPath = prefabStage.assetPath;
 #else

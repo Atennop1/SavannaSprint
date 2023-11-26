@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 9084357078066599800}
   - component: {fileID: 3740636337304012661}
+  - component: {fileID: 1335397403268918758}
   m_Layer: 0
   m_Name: NotLose
-  m_TagString: NotLose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -44,6 +45,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.401207, y: 0.3378449, z: 8.217473}
   m_Center: {x: -2.662921, y: 2.798809, z: 0.40368122}
+--- !u!114 &1335397403268918758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873424794223972015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54470eda66672d3419965c868d087586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2475485633712135786
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,9 +152,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2878633396963585099}
   - component: {fileID: 4543831296807188375}
+  - component: {fileID: 2152371004145121171}
   m_Layer: 0
   m_Name: Ramp
-  m_TagString: Ramp
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -173,6 +187,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 59.55341, y: 77.11339, z: 12.296322}
   m_Center: {x: -0, y: 36.29437, z: 3.89492}
+--- !u!114 &2152371004145121171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4180942981267014903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976a87be9b95ea241ba0e022e800d306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5589672542399240450
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,13 +281,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6397325841891888072}
-  m_LocalRotation: {x: -0.38268343, y: -0, z: -0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -12.799999, z: 88.3}
   m_LocalScale: {x: 1, y: 1.0909088, z: 1.0909091}
   m_Children: []
   m_Father: {fileID: 4376753696522364750}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6079546020678474093
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -273,8 +299,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 62.642693, y: 68.30568, z: 91.29698}
-  m_Center: {x: -0.10386671, y: 41.079544, z: -35.65238}
+  m_Size: {x: 79.14356, y: 31.340984, z: 24.177385}
+  m_Center: {x: 0.2159582, y: 22.597185, z: -33.21071}
 --- !u!114 &965074764194868286
 MonoBehaviour:
   m_ObjectHideFlags: 0

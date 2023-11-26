@@ -9,10 +9,9 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 
 #if UNITY_2018_3_OR_NEWER
-using UnityEditor.Experimental.SceneManagement;
+
 #endif
 
 namespace VoxelImporter
@@ -182,7 +181,7 @@ namespace VoxelImporter
             var prefabType = PrefabUtility.GetPrefabAssetType(comp);
             if (prefabType == PrefabAssetType.NotAPrefab || prefabType == PrefabAssetType.MissingAsset)
                 return true;
-            var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+            var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
             if (prefabStage == null)
                 return false;
             var selectPrefab = PrefabUtility.GetCorrespondingObjectFromSource(comp);

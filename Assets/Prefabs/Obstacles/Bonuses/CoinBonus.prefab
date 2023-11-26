@@ -14,12 +14,11 @@ GameObject:
   - component: {fileID: 8746242559415540011}
   - component: {fileID: 2565299798206850664}
   - component: {fileID: 2785890050241712487}
-  - component: {fileID: 1964178256302467180}
   - component: {fileID: 3801605355874240359}
-  - component: {fileID: 6924554903513835091}
+  - component: {fileID: 3931727625901439481}
   m_Layer: 10
   m_Name: CoinBonus
-  m_TagString: x2Coins
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,19 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bf885456cf17498ccf80844f16173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 150
---- !u!114 &1964178256302467180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6077344023740586586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd73cb7cfd74add46be6ee94f623d4ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _speed: 160
 --- !u!114 &3801605355874240359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec925b22ba6c92d4099ebbc06d9c72d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6924554903513835091
+  _moveSpeed: 40
+--- !u!114 &3931727625901439481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,8 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6077344023740586586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cfb59cd936e6ac469cfa9d1a8e5155c, type: 3}
+  m_Script: {fileID: 11500000, guid: 89d3b23f291149a4293ef7e8141f02f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusType: 1
-  bonusName: x2Coins
+  _type: 1

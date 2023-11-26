@@ -17,6 +17,12 @@
     } else {
         config.adPlacement = @"";
     }
+    
+    if (json[@"autoDelayIfLoadFail"]) {
+        config.autoDelayIfLoadFail = [json[@"autoDelayIfLoadFail"] boolValue];
+    } else {
+        config.autoDelayIfLoadFail = NO;
+    }
 
     return config;
 }

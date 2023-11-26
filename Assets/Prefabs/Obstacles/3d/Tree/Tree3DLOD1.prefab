@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7232987855497980683}
   m_Layer: 0
   m_Name: CantMove
-  m_TagString: GuideCantMove
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,9 +57,10 @@ GameObject:
   - component: {fileID: 8138422872627715699}
   - component: {fileID: 978132332283195526}
   - component: {fileID: 2283273843080265482}
+  - component: {fileID: -7710539718806329980}
   m_Layer: 0
   m_Name: Tree3DLOD1
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -154,14 +155,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ba9d0080a3d54db0918ad80af0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePlayerPrefsName: Tree
-  obstacleAnimName: Tree
-  slowMotionCollider: {fileID: 1016133471073804570}
-  canMoveRight: 0
-  canMoveLeft: 0
-  canMoveUp: 1
-  canMoveDown: 1
-  isGuided: 0
+  _guideAnimationName: Tree
+  _slowMotionCollider: {fileID: 1016133471073804570}
+  _canMoveRight: 0
+  _canMoveLeft: 0
+  _canMoveUp: 1
+  _canMoveDown: 1
+--- !u!114 &-7710539718806329980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094574814032753433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a2b953a18c6a48b421ebc33a4b772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7820466039680172753
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,9 +183,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6319591932889468750}
   - component: {fileID: 1016133471073804570}
+  - component: {fileID: 8224201363066581018}
   m_Layer: 0
   m_Name: Trigger
-  m_TagString: Lose
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +214,19 @@ BoxCollider:
   m_GameObject: {fileID: 7820466039680172753}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 159.45793, y: 24.459595, z: 105.397575}
   m_Center: {x: 0.44536594, y: 11.7297735, z: -76.50074}
+--- !u!114 &8224201363066581018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7820466039680172753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47bbb92f3bdf9d488dea9983e9991ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

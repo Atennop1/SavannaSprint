@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2423992492419258288}
   - component: {fileID: 550489131721895806}
   - component: {fileID: 6693178982369663280}
+  - component: {fileID: 5631414361373000337}
   m_Layer: 0
   m_Name: Road3DLOD2
-  m_TagString: Road
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,3 +96,15 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082284308075597349}
   m_Mesh: {fileID: -8670151273213183110, guid: 2ceb18a47788b384a9fa0d603e271c8a, type: 3}
+--- !u!114 &5631414361373000337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082284308075597349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504ba058cc3808f4e8d4323df8f10238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

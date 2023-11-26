@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4804629435241217029}
   - component: {fileID: 629679110298577256}
   - component: {fileID: 863458579682247576}
+  - component: {fileID: -5542178002199169695}
   m_Layer: 0
   m_Name: RockLOD2
   m_TagString: Lose
@@ -138,14 +139,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0ba9d0080a3d54db0918ad80af0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstaclePlayerPrefsName: Rock
-  obstacleAnimName: Rock
-  slowMotionCollider: {fileID: 7180445914460959518}
-  canMoveRight: 0
-  canMoveLeft: 0
-  canMoveUp: 1
-  canMoveDown: 0
-  isGuided: 0
+  _guideAnimationName: Rock
+  _slowMotionCollider: {fileID: 7180445914460959518}
+  _canMoveRight: 0
+  _canMoveLeft: 0
+  _canMoveUp: 1
+  _canMoveDown: 0
+--- !u!114 &-5542178002199169695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2382624414245636998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a2b953a18c6a48b421ebc33a4b772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5268953791575687183
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9198661749138041783}
   - component: {fileID: 9176757791961891339}
+  - component: {fileID: 1228071113293733055}
   m_Layer: 0
   m_Name: CantMove
   m_TagString: GuideCantMove
@@ -190,6 +202,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40, y: 28.940973, z: 300.93146}
   m_Center: {x: 0, y: 13.970473, z: -157.39925}
+--- !u!114 &1228071113293733055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5268953791575687183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac83619b8e0e9074a943d849744d8aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6682461009637144103
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4314943572653088661}
   - component: {fileID: 7180445914460959518}
+  - component: {fileID: 2276829489342660521}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Lose
@@ -230,7 +255,19 @@ BoxCollider:
   m_GameObject: {fileID: 6682461009637144103}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 40, y: 24.459595, z: 112.26237}
   m_Center: {x: 0, y: 11.7297735, z: -79.93326}
+--- !u!114 &2276829489342660521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682461009637144103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47bbb92f3bdf9d488dea9983e9991ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
