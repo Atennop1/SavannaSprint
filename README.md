@@ -1,4 +1,4 @@
-# Savanna sprint: Two Worlds
+# Savanna Sprint: Two Worlds
 
 ![badge](https://img.shields.io/static/v1?label=Engine&message=Unity&color=brightgreen&style=for-the-badge)
 ![badge](https://img.shields.io/static/v1?label=Language&message=C%23&color=blueviolet&style=for-the-badge)
