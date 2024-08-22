@@ -7,11 +7,11 @@
 
 ## About project
 
-This is the repository for my first game, it's called "Savanna sprint: Two Worlds". This is my first serious creation in Unity, which I made for a very long time and released to the app store. This is a runner game with two modes: 2D and 3D, which differ in gameplay and camera angle. Also in the game there are skins, bonuses, settings and achievements. After a while, the Yodo1 company became interested in the game and we formed a partnership ;)
+This is the repository for my first game, it's called "Savanna Sprint: Two Worlds". This is my first serious creation in Unity, which I made for a very long time and released to the app store. This is a runner game with two modes: 2D and 3D, which differ in gameplay and camera angle. Also in the game there are skins, bonuses, settings and achievements. After a while, the Yodo1 company became interested in the game and we formed a partnership ;)
 
 The repository contains 2 branches: Old, which contains the game code as of 07/19/2022, and master(this branch), which contains the redesigned code. Redesigned code is still bad, but thanks to him I feel my progress
 
-Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to me difficult to understand and, in principle, somehow uncool. I recently asked ChatGPT to generate a new title and after a couple of attempts it called the game "Savanna sprint: Two Worlds", which I quite liked ;)
+Fun fact: initially, the game was called "3D(?) Runner", but this name seemed to me difficult to understand and, in principle, somehow uncool. I recently asked ChatGPT to generate a new title and after a couple of attempts it called the game "Savanna Sprint: Two Worlds", which I quite liked ;)
 
 ### Specifics
  - First serious project ever
@@ -36,5 +36,5 @@ This is my first project, which I perceive as a son and it makes me very sad whe
 | --- | --- |
 | ![image](https://user-images.githubusercontent.com/73060890/229309323-0084c87c-5633-420c-875f-b7fc6177aaba.png) | ![image](https://user-images.githubusercontent.com/73060890/229309332-0469adbb-4620-4b74-8b57-c31893afbc39.png) |
 
-Ah yeah, download link: https://play.google.com/store/apps/details?id=com.Atennop.a3DRunner
+Ah yeah, download link: **https://play.google.com/store/apps/details?id=com.Atennop.a3DRunner**
 <br>Please don't rate badly😭
